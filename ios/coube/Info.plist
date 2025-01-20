@@ -30,6 +30,8 @@
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
+    <key>NSCameraUsageDescription</key>
+    <string>$(PRODUCT_NAME) запрашивает доступ к Камере.</string>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
