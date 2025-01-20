@@ -12,6 +12,6 @@ const moduleResolver = [
 
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
-  plugins: [moduleResolver],
+  plugins: [moduleResolver, 'react-native-reanimated/plugin'],
 
 };
