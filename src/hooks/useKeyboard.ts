@@ -30,6 +30,7 @@ export function useKeyboard() {
     setCoordinates({ start: e.startCoordinates, end: e.endCoordinates });
     setKeyboardHeight(e.endCoordinates.height);
     keyboardHeightSV.value = e.endCoordinates.height;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleKeyboardWillHide: KeyboardEventListener = useCallback((e) => {
     setCoordinates({ start: e.startCoordinates, end: e.endCoordinates });
@@ -55,6 +56,7 @@ export function useKeyboard() {
     return () => {
       subscriptions.forEach((subscription) => subscription.remove());
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

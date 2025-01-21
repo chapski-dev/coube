@@ -1,8 +1,8 @@
-import { FC, ReactElement } from 'react';
+import React, { FC, ReactElement } from 'react';
 import { Modal, StyleSheet,  TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 
-import { Box } from '@src/theme/builders/Box';
 import { useAppTheme } from '@src/theme/theme';
+import { Box } from '../Box';
 
 interface IModalWrapperProps {
   visible: boolean

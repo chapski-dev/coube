@@ -1,4 +1,4 @@
-import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
+import React, { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import { Keyboard, ViewStyle } from 'react-native';
 
 import { useKeyboard } from '@src/hooks/useKeyboard';
