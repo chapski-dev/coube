@@ -8,9 +8,8 @@ import { UnauthorizedStack } from './navigation/stacks/UnauthorizedStack';
 import { useAppColorTheme } from './hooks/useAppColorTheme';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-
 function App(): React.JSX.Element {
-  const isAuth = false;
+  const isAuth = true;
   const { theme } = useAppColorTheme();
 
   return (
