@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-
 export type RootStackParamList = {
   tabs: undefined
   Documents: { carModel: string }
@@ -9,24 +8,29 @@ export type RootStackParamList = {
 }
 
 export type TabsParamList = {
-  orders: undefined
-  transport: undefined
-  finance: undefined
-  notifications: undefined
-  profile: undefined
-}
+  orders: undefined;
+  transport: undefined;
+  finance: undefined;
+  notifications: undefined;
+  profile: undefined;
+};
 
 export type UnauthorizedStackParamList = {
-  launch: undefined
-  intro: undefined
-  login: undefined
-  registration: undefined
-  'registration-user-data': {resident: boolean}
-}
+  launch: undefined;
+  intro: undefined;
+  login: undefined;
+  registration: { step: 'driver_performer_or_invaitetion' | 'residency' };
+  'registration-user-data': { resident: boolean };
+  'otp-verify': { action: 'invite' | 'phone-verify' | 'login' | 'registration' };
+  'pick-country': { handlePick: (val: string) => void };
+  'login-via-phone': undefined
+};
 
-export type AllStackParamList = RootStackParamList & TabsParamList & UnauthorizedStackParamList
+export type AllStackParamList = RootStackParamList &
+  TabsParamList &
+  UnauthorizedStackParamList;
 
-export type AvailableRoutes = keyof AllStackParamList
+export type AvailableRoutes = keyof AllStackParamList;
 
 declare global {
   namespace ReactNavigation {
@@ -34,4 +38,5 @@ declare global {
   }
 }
 
-export type ScreenProps<Screen extends keyof AllStackParamList> = NativeStackScreenProps<AllStackParamList, Screen>
+export type ScreenProps<Screen extends keyof AllStackParamList> =
+  NativeStackScreenProps<AllStackParamList, Screen>;
