@@ -6,10 +6,12 @@ import {
   TextInputProps,
   StyleProp,
   ViewStyle,
+  NativeSyntheticEvent,
+  TextInputFocusEventData,
 } from 'react-native';
 import { Text } from './Text';
 import { useAppTheme } from '@src/theme/theme';
-
+import SearchIcon from '@assets/svg/search.svg'
 interface InputProps extends TextInputProps {
   label?: string;
   prompting?: string;
@@ -19,11 +21,25 @@ interface InputProps extends TextInputProps {
   errorText?: string;
   required?: boolean;
   wrapperStyle?: StyleProp<ViewStyle>
+  type?: 'search' | 'classic'
 }
 
 export const Input = forwardRef<InputProps, InputProps>(
   (
-    { label, prompting, value, onChangeText, error, errorText, required, wrapperStyle, ...props },
+    { 
+      label, 
+      prompting, 
+      value, 
+      onChangeText, 
+      error, 
+      errorText, 
+      required, 
+      wrapperStyle, 
+      onFocus, 
+      onBlur,
+      type,
+      ...props 
+    },
     ref,
   ) => {
     const localRef: React.Ref<TextInput> &
@@ -32,32 +48,48 @@ export const Input = forwardRef<InputProps, InputProps>(
     const [isFocused, setIsFocused] = useState(false);
     const { colors } = useAppTheme();
 
+    const _onFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+      setIsFocused(true);
+      if (onFocus) {
+        onFocus(e)
+      }
+    }
+
+    const _onBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+      setIsFocused(false);
+      if (onBlur) {
+        onBlur(e)
+      }
+    }
+
     return (
-      <View style={[{ gap: 8, flexGrow: 1 }, wrapperStyle]}>
+      <View style={[{ gap: 4, flexGrow: 1 }, wrapperStyle]}>
         {label && <Text style={styles.label}>
           <Text children={label} />
-          {required ? <Text children={'*'} color={colors.red} /> : null}
+          {required ? <Text children='*' color={colors.red} /> : null}
         </Text>
         }
         <View
           style={[
-            styles.inputWrapper,
+            { ...styles.inputWrapper, borderColor: colors.border },
             isFocused && { borderColor: colors.main },
             error && styles.inputError,
           ]}>
+          {type === 'search' && <SearchIcon />}
           <TextInput
             value={value}
             style={styles.input}
             onChangeText={onChangeText}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onFocus={_onFocus}
+            onBlur={_onBlur}
+            placeholderTextColor={colors.border}
             //@ts-ignore
             ref={ref || localRef}
             {...props}
           />
         </View>
         {error && <Text style={styles.errorText} children={errorText} />}
-        {prompting && <Text style={styles.label} children={prompting} />}
+        {prompting && <Text style={{ ...styles.label, color: colors.label }} children={prompting} />}
       </View>
     );
   },
@@ -69,26 +101,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 2,
     borderRadius: 10,
-    borderColor: '#E8ECF0',
-    paddingRight: 10,
+    paddingHorizontal: 10,
     flexGrow: 1,
+    gap: 9,
   },
   input: {
     flexGrow: 1,
     fontSize: 15,
-    paddingLeft: 20,
     height: 50,
-  },
-  inputFocused: {
-    borderColor: '#0090FF',
   },
   inputError: {
     borderColor: 'red',
   },
   label: {
     fontSize: 13,
-    lineHeight: 16,
-    color: '#798391',
   },
   errorText: {
     color: 'red',

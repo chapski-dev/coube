@@ -9,15 +9,10 @@ import {
   TouchableOpacityProps,
 } from 'react-native';
 import { TouchableOpacity as TouchableOpacityGH } from 'react-native-gesture-handler';
-import { pickBy } from 'lodash';
 
 import { useAppTheme } from './theme';
 
 export type colorKeys = keyof ReturnType<typeof useAppTheme>['colors']
-
-export const removeUndefinedOnes = (obj: Record<string, any>): Record<string, any> => {
-  return pickBy(obj, (v) => v !== undefined);
-};
 
 type ThemeProps = {
   lightColorName?: colorKeys
