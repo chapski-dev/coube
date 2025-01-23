@@ -9,6 +9,8 @@ export const DefaultColors = {
   blue: '#639DF4',
   background: '#FAFAFA',
   disabled: '#D7D6D6',
+  border: '#EDEDED',
+  label: '#798391'
 } as const;
 
 export const lightColors = {
