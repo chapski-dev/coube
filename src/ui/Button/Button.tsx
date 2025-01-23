@@ -88,7 +88,7 @@ export const Button: FC<PropsType> = ({
         ]}
         disabled={disabled}
         onPress={onPress}>
-        {loading ? <ActivityIndicator color="white" /> : <Text style={[styles.text, {color: generateTextColor}, textStyle]} children={children} />}
+        {loading ? <ActivityIndicator color="white" /> : <Text style={[styles.text, {color: generateTextColor, fontWeight: 500}, textStyle]} children={children} />}
       </TouchableOpacity>
     </View>
   );

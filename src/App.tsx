@@ -18,7 +18,7 @@ function App(): React.JSX.Element {
       <BottomSheetModalProvider>
         <NavigationContainer onReady={onNavigationReady} theme={theme}>
           <SafeAreaProvider style={{ flex: 1 }}>
-            {isAuth ? <RootStack /> : <UnauthorizedStack />}
+            <RootStack />
           </SafeAreaProvider>
         </NavigationContainer>
       </BottomSheetModalProvider>

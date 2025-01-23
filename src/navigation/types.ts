@@ -21,7 +21,13 @@ export type UnauthorizedStackParamList = {
   'registration-user-data': {resident: boolean}
 }
 
-export type AllStackParamList = RootStackParamList & TabsParamList & UnauthorizedStackParamList
+export type AuthorizedStackParamList = {
+  profile: undefined
+  profileData: undefined
+  identity: undefined
+}
+
+export type AllStackParamList = RootStackParamList & TabsParamList & UnauthorizedStackParamList & AuthorizedStackParamList
 
 export type AvailableRoutes = keyof AllStackParamList
 
