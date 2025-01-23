@@ -1,57 +1,41 @@
 import { Text } from '@src/ui/Text';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image } from 'react-native';
+import { Box } from '@src/ui';
 
 export const IdentityScreen = () => {
 	return (
-		<View>
+		<Box>
 
-			<View style={styles.identityParagraph}>
+			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: '#EDEDED' }}>
 				<Text type='label'>ФИО</Text>
-				<Text type='simple'>СЕРГЕЙ КРЫЛОВ ДМИТРИЕВИЧ</Text>
-			</View>
+				<Text type='bodyBold'>СЕРГЕЙ КРЫЛОВ ДМИТРИЕВИЧ</Text>
+			</Box>
 
-			<View style={styles.identityParagraph}>
+			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: '#EDEDED' }}>
 				<Text type='label'>ИИН</Text>
-				<Text type='simple'>88121155548946</Text>
-			</View>
+				<Text type='bodyBold'>88121155548946</Text>
+			</Box>
 
-			<View style={[styles.identityParagraph, styles.identityParagraphDates]}>
-				<View>
+			<Box px={20} py={10} gap={25} row style={{ borderBottomWidth: 1, borderBottomColor: '#EDEDED' }}>
+				<Box>
 					<Text type='label'>Дата выдачи</Text>
-					<Text type='simple'>12.08.2014</Text>
-				</View>
-				<View>
+					<Text type='bodyBold'>12.08.2014</Text>
+				</Box>
+				<Box>
 					<Text type='label'>Срок действия</Text>
-					<Text type='simple'>12.08.2034</Text>
-				</View>
-			</View>
+					<Text type='bodyBold'>12.08.2034</Text>
+				</Box>
+			</Box>
 
-			<View style={styles.identityParagraph}>
+			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: '#EDEDED' }}>
 				<Text type='label'>Выдан</Text>
-				<Text type='simple'>МИНИСТЕРСТВО ЮСТИЦИИ</Text>
-			</View>
+				<Text type='bodyBold'>МИНИСТЕРСТВО ЮСТИЦИИ</Text>
+			</Box>
 
-			<View style={styles.identityCardWrapper}>
+			<Box pt={20} alignItems='center' >
 				<Image source={require('@assets/png/identityCardPicture.png')} />
-			</View>
+			</Box>
 			
-		</View>
+		</Box>
 	);
 };
-
-const styles = StyleSheet.create({
-	identityParagraph: {
-		paddingHorizontal: 20,
-		paddingVertical: 10,
-		borderBottomWidth: 1,
-		borderBottomColor: '#EDEDED'
-	},
-	identityParagraphDates: {
-		flexDirection: 'row',
-		gap: 25,
-	},
-	identityCardWrapper: {
-		paddingTop: 20,
-		alignItems: 'center',
-	}
-})

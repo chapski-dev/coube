@@ -8,6 +8,8 @@ export const DefaultColors = {
   red: '#EC1B2E',
   blue: '#639DF4',
   grey: '#EDEDED',
+  darkGrey: '#494D4E',
+  black: '#000000',
   background: '#FAFAFA',
   disabled: '#D7D6D6',
 } as const;

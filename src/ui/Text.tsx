@@ -63,17 +63,19 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
   },
-  simple: {
-    fontSize: 16,
-    color: '#000',
-    fontWeight: '500',
-  },
   label: {
     fontSize: 13,
     lineHeight: 16,
     color: '#798391',
   },
-  body: {},
+  bodyBold: {
+    fontSize: 16,
+    color: '#000',
+    fontWeight: '500',
+  },
+  body: {
+    fontSize: 14,
+  },
 });
 
 export {Text};

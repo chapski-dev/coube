@@ -1,64 +1,41 @@
-import { StyleSheet, View } from 'react-native';
-import NoAvatarIcon from '@assets/svg/no-avatar-big.svg'
+import NoAvatarIcon from '@assets/svg/no-avatar.svg'
 import { Button } from '@src/ui/Button/Button';
 import { Text } from '@src/ui/Text';
 import { ScreenProps } from '@src/navigation/types';
+import { Box } from '@src/ui';
 
-export const ProfileDataScreen = ({ navigation }: ScreenProps<'profileData'>) => {
+export const ProfileDataScreen = ({ navigation }: ScreenProps<'profile-data'>) => {
 	return (
-		<View>
-			<View style={styles.photoWrapper}>
-				<NoAvatarIcon />
-				<View style={styles.addPhotoButtonWrapper}>
-					<Button backgroundColor='grey'><Text fontSize={12} color='black'>Добавить фото</Text></Button>
-				</View>
-			</View>
+		<Box>
+			<Box row={true} gap={15} p={20} alignItems='center' >
+				<NoAvatarIcon width={90} height={90} />
+				<Box w={152} >
+					<Button backgroundColor='grey' textColor='black' children='Добавить фото' />
+				</Box>
+			</Box>
 
-			<View style={styles.infoParagraph}>
+			<Box p={15} >
 				<Text type='label'>ФИО</Text>
-				<Text type='simple'>СЕРГЕЙ КРЫЛОВ ДМИТРИЕВИЧ</Text>
-			</View>
+				<Text type='bodyBold'>СЕРГЕЙ КРЫЛОВ ДМИТРИЕВИЧ</Text>
+			</Box>
 
-			<View style={styles.phoneParagraph}>
-				<View>
+			<Box p={15} row={true} justifyContent='space-between' >
+				<Box>
 					<Text type='label'>Телефон</Text>
-					<Text type='simple'>+7 777 777 77 77</Text>
-				</View>
-				<View style={styles.addPhoneButtonWrapper}>
-					<Button type="clear" ><Text fontSize={12}>Добавить телефон</Text></Button>
-				</View>
-			</View>
+					<Text type='bodyBold'>+7 777 777 77 77</Text>
+				</Box>
+				<Box w={119} >
+					<Button type="clear" children='Добавить телефон' />
+				</Box>
+			</Box>
 
-			<View style={styles.infoParagraph}>
+			<Box p={15} >
 				<Text type='label'>ИНН</Text>
-				<Text type='simple'>88121155548946</Text>
-			</View>
+				<Text type='bodyBold'>88121155548946</Text>
+			</Box>
 
-			<Button type='clear' textColor='red'><Text fontSize={12} color='red'>Удалить аккаунт</Text></Button>
+			<Button type='clear' textColor='red' children='Удалить аккаунт' />
 
-		</View>
+		</Box>
 	);
 };
-
-const styles = StyleSheet.create({
-	photoWrapper: {
-		flexDirection: 'row',
-		gap: 15,
-		padding: 20,
-		alignItems: 'center',
-	},
-	addPhotoButtonWrapper: {
-		width: 152,
-	},
-	infoParagraph: {
-		padding: 15,
-	},
-	phoneParagraph: {
-		padding: 15,
-		flexDirection: 'row',
-		justifyContent: 'space-between'
-	},
-	addPhoneButtonWrapper: {
-		width: 119,
-	}
-})

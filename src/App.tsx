@@ -10,7 +10,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 function App(): React.JSX.Element {
-  const isAuth = false;
+  const isAuth = true;
   const { theme } = useAppColorTheme();
 
   return (
@@ -18,7 +18,7 @@ function App(): React.JSX.Element {
       <BottomSheetModalProvider>
         <NavigationContainer onReady={onNavigationReady} theme={theme}>
           <SafeAreaProvider style={{ flex: 1 }}>
-            <RootStack />
+            {isAuth ? <RootStack /> : <UnauthorizedStack />}
           </SafeAreaProvider>
         </NavigationContainer>
       </BottomSheetModalProvider>
