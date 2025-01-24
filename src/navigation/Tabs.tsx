@@ -11,14 +11,16 @@ import NotificationIcon from '../../assets/icon/notification.svg';
 import TransportIcon from '../../assets/icon/transport.svg';
 import FinanceIcon from '../../assets/icon/finance.svg';
 import ProfileIcon from '../../assets/icon/profile.svg';
+import { useAppTheme } from '@src/theme/theme';
 
 const Tab = createBottomTabNavigator<TabsParamList>();
 
 export const Tabs = () => {
+  const { colors } = useAppTheme();
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: '#FAB54D',
+        tabBarActiveTintColor: colors.main,
         tabBarInactiveTintColor: '#494D4E',
         tabBarLabelStyle: {
           color: 'black',
