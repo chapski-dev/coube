@@ -10,6 +10,7 @@ interface IModalWrapperProps {
   justifyContent: ViewStyle['justifyContent']
   closeModal: () => void
   marginHorizontal?: number
+  marginVertical?: number
 }
 
 const styles = StyleSheet.create({
@@ -29,6 +30,7 @@ export const ModalWrapper: FC<IModalWrapperProps> = ({
   children,
   justifyContent,
   marginHorizontal,
+  marginVertical,
 }) => {
   const { colors } = useAppTheme();
 
@@ -45,9 +47,10 @@ export const ModalWrapper: FC<IModalWrapperProps> = ({
           <View style={styles.modalOverlay} />
         </TouchableWithoutFeedback>
         <Box
-          m={24}
-          mr={marginHorizontal || 16}
-          ml={marginHorizontal || 16}
+          mt={marginVertical || 0}
+          mb={marginVertical || 0}
+          mr={marginHorizontal || 0}
+          ml={marginHorizontal || 0}
           borderRadius={25}
           backgroundColor={colors.textDefault}
         >

@@ -1,5 +1,6 @@
 export const DefaultColors = {
   main: '#FAB54D',
+  main_light: '#FAB54D26',
   white: '#FFFFFF',
   textDefault: '#091C21',
   textDefaultReverse: '#FFFFFF',
@@ -12,6 +13,8 @@ export const DefaultColors = {
   black: '#000000',
   background: '#FAFAFA',
   disabled: '#D7D6D6',
+  border: '#EDEDED',
+  label: '#798391',
 } as const;
 
 export const lightColors = {
