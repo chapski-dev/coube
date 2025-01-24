@@ -1,50 +1,42 @@
+import React from 'react'
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Tabs } from '../Tabs';
 import { DocumentsScreen } from '../../screens/DocumentsScreen';
 import { RootStackParamList } from '@src/navigation/types';
-import { Text } from '@src/ui';
 import { TechnicalPassportScreen } from '@src/screens/TechnicalPassportScreen';
 import { PowerOfAttorneyScreen } from '@src/screens/PowerOfAttorneyScreen';
+import { useAppTheme } from '@src/theme/theme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootStack = () => {
+  const { colors } = useAppTheme();
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{
+      headerTintColor: colors.main,
+      headerTitleStyle: { color: colors.text },
+      title: '',
+    }}>
       <Stack.Screen
-        name={'tabs'}
-        options={{ headerShown: false }}
+        name='tabs'
         component={Tabs}
+        options={{headerShown: false}}
       />
       <Stack.Screen
-        name={'Documents'}
+        name='documents'
         component={DocumentsScreen}
-        options={({ route }) => ({
-          headerTintColor: '#FAB54D',
-          headerTitle: route.params.carModel,
-          headerTitleStyle: { color: '#494D4E' },
-          headerTitleAlign: 'center',
-        })}
+        options={({ route }) => ({ headerTitle: route.params.carModel, })}
       />
       <Stack.Screen
-        name={'TechnicalPassport'}
+        name='technical-passport'
         component={TechnicalPassportScreen}
-        options={{
-          headerTintColor: '#FAB54D',
-          headerTitle: 'Техпаспорт',
-          headerTitleStyle: { color: '#494D4E' },
-          headerTitleAlign: 'center',
-        }}
+        options={{ headerTitle: 'Техпаспорт', }}
       />
       <Stack.Screen
-        name={'PowerOfAttorney'}
+        name='power-of-attorney'
         component={PowerOfAttorneyScreen}
-        options={{
-          headerTintColor: '#FAB54D',
-          headerTitle: 'Доверенность',
-          headerTitleStyle: { color: '#494D4E' },
-          headerTitleAlign: 'center',
-        }}
+        options={{ headerTitle: 'Доверенность', }}
       />
     </Stack.Navigator>
   );

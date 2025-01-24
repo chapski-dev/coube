@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 type TextType = keyof typeof styles;
+type Spacing = number
 
 type TextProps = RNTextProps & {
   type?: TextType;
@@ -20,6 +21,20 @@ type TextProps = RNTextProps & {
   uppercase?: boolean;
   lowercase?: boolean;
   capitalize?: boolean;
+  m?: Spacing
+  mx?: Spacing
+  my?: Spacing
+  mt?: Spacing
+  mr?: Spacing
+  mb?: Spacing
+  ml?: Spacing
+  p?: Spacing
+  px?: Spacing
+  py?: Spacing
+  pt?: Spacing
+  pr?: Spacing
+  pb?: Spacing
+  pl?: Spacing
 };
 
 // TODO: add theme colors
@@ -35,6 +50,20 @@ const Text: FC<TextProps> = ({
   uppercase,
   lowercase,
   capitalize,
+  m,
+  mx,
+  my,
+  mt,
+  mr,
+  mb,
+  ml,
+  p,
+  px,
+  py,
+  pt,
+  pr,
+  pb,
+  pl,
   ...rest
 }) => {
   const computedStyle = useMemo(() => {
@@ -49,12 +78,26 @@ const Text: FC<TextProps> = ({
           textAlign,
           fontWeight,
           fontSize,
-          textTransform
+          textTransform,
+          margin: m,
+          marginHorizontal: mx,
+          marginVertical: my,
+          marginTop: mt,
+          marginRight: mr,
+          marginBottom: mb,
+          marginLeft: ml,
+          padding: p,
+          paddingHorizontal: px,
+          paddingVertical: py,
+          paddingTop: pt,
+          paddingRight: pr,
+          paddingBottom: pb,
+          paddingLeft: pl,
         })
       },
       style
     ].flat();
-  }, [capitalize, center, color, fontSize, fontWeight, left, lowercase, right, style, type, uppercase]);
+  }, [capitalize, center, color, fontSize, fontWeight, left, lowercase, m, mb, ml, mr, mt, mx, my, p, pb, pl, pr, pt, px, py, right, style, type, uppercase]);
 
   return <RNText {...rest} style={computedStyle} />;
 };

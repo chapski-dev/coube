@@ -2,9 +2,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   tabs: undefined
-  Documents: { carModel: string }
-  TechnicalPassport: undefined
-  PowerOfAttorney: undefined
+  documents: { carModel: string }
+  'technical-passport': undefined
+  'power-of-attorney': undefined
 }
 
 export type TabsParamList = {
@@ -24,6 +24,8 @@ export type UnauthorizedStackParamList = {
   'otp-verify': { action: 'invite' | 'phone-verify' | 'login' | 'registration' };
   'pick-country': { handlePick: (val: string) => void };
   'login-via-phone': undefined
+  'settings-profile': { resident: boolean };
+  'personal-identifier': { resident: boolean };
 };
 
 export type AllStackParamList = RootStackParamList &

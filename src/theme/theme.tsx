@@ -18,8 +18,8 @@ export const AppLightTheme = {
   fonts: DefaultTheme.fonts,
   dark: false,
   colors: {
-    ...lightColors,
     ...navigationLightColors,
+    ...lightColors,
   },
 } as const;
 
@@ -27,8 +27,8 @@ export const AppDarkTheme = {
   fonts: DefaultTheme.fonts,
   dark: true,
   colors: {
-    ...darkColors,
     ...navigationDarkColors,
+    ...darkColors,
   },
 } as const;
 

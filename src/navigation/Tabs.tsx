@@ -6,11 +6,11 @@ import { MyVehicleScreen } from '@src/screens/MyVehicleScreen';
 import { FinanceScreen } from '@src/screens/FinanceScreen';
 import { NotificationScreen } from '@src/screens/NotificationScreen';
 import { ProfileScreen } from '@src/screens/ProfileScreen';
-import OrderIcon from '../../assets/icon/orders.svg';
-import NotificationIcon from '../../assets/icon/notification.svg';
-import TransportIcon from '../../assets/icon/transport.svg';
-import FinanceIcon from '../../assets/icon/finance.svg';
-import ProfileIcon from '../../assets/icon/profile.svg';
+import OrderIcon from '../../assets/svg/orders.svg';
+import NotificationIcon from '../../assets/svg/notification.svg';
+import TransportIcon from '../../assets/svg/transport.svg';
+import FinanceIcon from '../../assets/svg/finance.svg';
+import ProfileIcon from '../../assets/svg/profile-outline.svg';
 import { useAppTheme } from '@src/theme/theme';
 
 const Tab = createBottomTabNavigator<TabsParamList>();
@@ -21,10 +21,8 @@ export const Tabs = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: colors.main,
-        tabBarInactiveTintColor: '#494D4E',
-        tabBarLabelStyle: {
-          color: 'black',
-        },
+        tabBarInactiveTintColor: colors.text,
+        tabBarLabelStyle: { color: 'black' },
       }}
     >
       <Tab.Screen
