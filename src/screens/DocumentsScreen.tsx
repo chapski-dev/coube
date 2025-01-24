@@ -1,63 +1,37 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '@src/navigation/types';
+import { ScreenProps } from '@src/navigation/types';
 import { Box, Text } from '@src/ui';
-import { TouchableOpacity } from 'react-native';
-import RightArrow from '../../assets/icon/rightArrow.svg';
+import RightArrow from '@assets/svg/arrow-right.svg';
+import { useAppTheme } from '@src/theme/theme';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Documents'>;
 
-export const DocumentsScreen = ({ route, navigation }: Props) => {
-  const navigations = useNavigation();
-  const { carModel } = route.params;
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: carModel,
-    });
-  }, [navigation, carModel]);
-
+export const DocumentsScreen = ({ navigation }: ScreenProps<'documents'>) => {
+  const { colors } = useAppTheme();
   return (
-    <Box>
-      <Text
-        type="h3"
-        color="#494D4E"
-        style={{ paddingHorizontal: 16, paddingVertical: 16 }}
+    <Box pt={16} gap={16}>
+      <Box
+        p={16}
+        alignItems='center'
+        row
+        justifyContent='space-between'
+        onPress={() => navigation.navigate('technical-passport')}
+        backgroundColor={colors.white}
       >
-        {carModel}
-      </Text>
-      <TouchableOpacity
-        style={{
-          paddingVertical: 17,
-          paddingHorizontal: 16,
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-        onPress={() => navigations.navigate('TechnicalPassport')}
-      >
-        <Text type="label" color="#494D4E" fontWeight={500}>
-          Техпаспорт ТС
-        </Text>
+        <Text fontWeight={500} children="Техпаспорт ТС" />
         <RightArrow />
-      </TouchableOpacity>
+      </Box>
 
-      <TouchableOpacity
-        style={{
-          paddingVertical: 17,
-          paddingHorizontal: 16,
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-        onPress={() => navigations.navigate('PowerOfAttorney')}
+      <Box
+        p={16}
+        alignItems='center'
+        row
+        justifyContent='space-between'
+        onPress={() => navigation.navigate('power-of-attorney')}
+        backgroundColor={colors.white}
       >
-        <Text type="label" color="#494D4E" fontWeight={500}>
-          Доверенность на ТС
-        </Text>
+        <Text fontWeight={500} children="Доверенность на ТС" />
         <RightArrow />
-      </TouchableOpacity>
+      </Box>
     </Box>
   );
 };
