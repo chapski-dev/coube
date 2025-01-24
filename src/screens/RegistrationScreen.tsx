@@ -6,20 +6,41 @@ import LogoIcon from '@assets/svg/logo.svg';
 import Select from '@src/ui/Select';
 
 
-const RegistrationScreen = ({ navigation }: ScreenProps<'registration'>) => {
+const RegistrationScreen = ({ navigation, route }: ScreenProps<'registration'>) => {
 
   const { insets } = useAppTheme();
   const [isResident, setIsResident] = useState(true);
+  const [isInvited, setIsInvited] = useState(true);
+
 
   const goAhead = () => {
-    navigation.navigate('registration-user-data', { resident: isResident });
+    if (route.params.step === 'driver_performer_or_invaitetion') {
+      if (isInvited) {
+        navigation.navigate('otp-verify', { action: 'invite' });
+      } else {
+        navigation.navigate('registration', { step: 'residency' });
+      }
+    } else {
+      navigation.navigate('registration-user-data', { resident: isResident });
+    }
   };
+
+
   return (
     <Box pt={insets.top} pr={16} pl={16} flexGrow={1} alignItems="center" gap={24} justifyContent="center">
       <LogoIcon />
       <Box gap={16} w="full">
-        <Select selected={isResident} onPress={() => setIsResident(true)} children="Я Резидент РК" />
-        <Select selected={!isResident} onPress={() => setIsResident(false)} children="Не Резидент РК " />
+        {route.params.step === 'driver_performer_or_invaitetion' ? (
+          <>
+            <Select selected={isInvited} onPress={() => setIsInvited(true)} children="Я получил приглашение" />
+            <Select selected={!isInvited} onPress={() => setIsInvited(false)} children="Я Исполнитель-водитель " />
+          </>
+        ) : (
+          <>
+            <Select selected={isResident} onPress={() => setIsResident(true)} children="Я Резидент РК" />
+            <Select selected={!isResident} onPress={() => setIsResident(false)} children="Не Резидент РК " />
+          </>
+        )}
       </Box>
       <Button children="Далее" onPress={goAhead} />
     </Box>

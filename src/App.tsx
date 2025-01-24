@@ -7,21 +7,23 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { UnauthorizedStack } from './navigation/stacks/UnauthorizedStack';
 import { useAppColorTheme } from './hooks/useAppColorTheme';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
+import { ModalLayout } from './ui/Layouts/ModalLayout';
+import { navigationRef } from './navigation/navigationRef';
 
 function App(): React.JSX.Element {
-  const isAuth = false;
+  const isAuth = true;
   const { theme } = useAppColorTheme();
 
   return (
     <GestureHandlerRootView>
-      <BottomSheetModalProvider>
-        <NavigationContainer onReady={onNavigationReady} theme={theme}>
-          <SafeAreaProvider style={{ flex: 1 }}>
+      <NavigationContainer onReady={onNavigationReady} theme={theme} ref={navigationRef}>
+        <SafeAreaProvider style={{ flex: 1 }}>
+          <BottomSheetModalProvider>
             {isAuth ? <RootStack /> : <UnauthorizedStack />}
-          </SafeAreaProvider>
-        </NavigationContainer>
-      </BottomSheetModalProvider>
+            <ModalLayout />
+          </BottomSheetModalProvider>
+        </SafeAreaProvider>
+      </NavigationContainer>
     </GestureHandlerRootView>
   );
 }

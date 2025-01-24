@@ -17,6 +17,7 @@ export const commonStytle = StyleSheet.create({
   },
   text: {
     fontSize: 15,
+    fontWeight: '500'
   },
 });
 
