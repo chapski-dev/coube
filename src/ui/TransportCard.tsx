@@ -10,32 +10,33 @@ export const TransportCard = () => {
   const navigation = useNavigation();
   const carModel = 'FAW J7';
   const { colors } = useAppTheme();
+
   return (
     <Box>
       <Box row gap={16} py={16} px={16}>
         <Box h={150} borderRadius={12} overflow="hidden">
-          <Image source={require('@assets/png/car.png')}  />
+          <Image source={require('@assets/png/car.png')} />
         </Box>
-        <Box>
+        <Box gap={8}>
           <Text type="h3" children={carModel} />
-          <Box my={8}>
+          <Box>
             <Text type="label" children="Гос. номер:" />
             <Text fontWeight={500} children="123 BOK 02" />
           </Box>
-          <Box my={8}>
+          <Box>
             <Text type="label" children="Грузоподъемность:" />
             <Text fontWeight={500} children={'15.5 т'} />
           </Box>
-          <Box my={8}>
+          <Box>
             <Text type="label" children="Цвет авто:" />
             <Text fontWeight={500} children="Белый" />
           </Box>
-          <Box my={8}>
+          <Box>
             <Text type="label" children="Модель полуприцепа:" />
             <Text fontWeight={500} children="Krone" />
           </Box>
-          <Box my={8}>
-            <Text type="label" children=" Госномер полуприцепа:" />
+          <Box>
+            <Text type="label" children="Госномер полуприцепа:" />
             <Text fontWeight={500} children="123 BOK 02" />
           </Box>
         </Box>
