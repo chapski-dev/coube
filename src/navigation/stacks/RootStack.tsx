@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen } from '@src/screens/Home';
-import { IdentityScreen } from '@src/screens/ProfileScreen/IdentityScreen';
-import { ProfileDataScreen } from '@src/screens/ProfileScreen/ProfileDataScreen';
-import { ProfileScreen } from '@src/screens/ProfileScreen/ProfileScreen';
+import { IdentityScreen } from '@src/screens/IdentityScreen';
+import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
+import { ProfileScreen } from '@src/screens/ProfileScreen';
 import { RootStackParamList } from '../types';
 import React from 'react'
 import { Tabs } from '../Tabs';
@@ -17,16 +17,13 @@ export const RootStack = () => {
   const { colors } = useAppTheme();
   return (
     <Stack.Navigator 
-      initialRouteName="profile"
+      initialRouteName="tabs"
       screenOptions={{
         headerTintColor: colors.main,
         headerTitleStyle: { color: colors.text },
         title: '',
       }}
     >
-      <Stack.Screen options={{ headerShown: true, title: 'Профиль' }} name="profile" component={ProfileScreen} />
-      <Stack.Screen options={{ headerShown: true, title: 'Данные профиля' }} name="profile-data" component={ProfileDataScreen} />
-      <Stack.Screen options={{ headerShown: true, title: 'Удостоверение личности' }} name="identity" component={IdentityScreen} />
       <Stack.Screen
         name='tabs'
         component={Tabs}
@@ -47,6 +44,8 @@ export const RootStack = () => {
         component={PowerOfAttorneyScreen}
         options={{ headerTitle: 'Доверенность', }}
       />
+      <Stack.Screen options={{ headerShown: true, title: 'Данные профиля' }} name="profile-data" component={ProfileDataScreen} />
+      <Stack.Screen options={{ headerShown: true, title: 'Удостоверение личности' }} name="identity" component={IdentityScreen} />
     </Stack.Navigator>
   );
 };
