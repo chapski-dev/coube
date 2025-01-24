@@ -40,7 +40,11 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
 
 
   const handleContinue = (values: ResidentFormValues | NonResidentFormValues) => {
-    navigation.navigate('otp-verify', { action: 'phone-verify' });
+    if(route.params.resident) {
+      navigation.navigate('otp-verify', { action: 'phone-verify',  });
+    } {
+      navigation.navigate('settings-profile', { resident: route.params.resident })
+    }
   };
 
   const onChangeDateValidUntil = useCallback(

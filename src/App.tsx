@@ -8,6 +8,7 @@ import { UnauthorizedStack } from './navigation/stacks/UnauthorizedStack';
 import { useAppColorTheme } from './hooks/useAppColorTheme';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ModalLayout } from './ui/Layouts/ModalLayout';
+import { navigationRef } from './navigation/navigationRef';
 
 
 function App(): React.JSX.Element {
@@ -16,7 +17,7 @@ function App(): React.JSX.Element {
 
   return (
     <GestureHandlerRootView>
-      <NavigationContainer onReady={onNavigationReady} theme={theme}>
+      <NavigationContainer onReady={onNavigationReady} theme={theme} ref={navigationRef}>
         <SafeAreaProvider style={{ flex: 1 }}>
           <BottomSheetModalProvider>
             {isAuth ? <RootStack /> : <UnauthorizedStack />}

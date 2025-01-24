@@ -21,6 +21,8 @@ export type UnauthorizedStackParamList = {
   'otp-verify': { action: 'invite' | 'phone-verify' | 'login' | 'registration' };
   'pick-country': { handlePick: (val: string) => void };
   'login-via-phone': undefined
+  'settings-profile': { resident: boolean };
+  'personal-identifier': { resident: boolean };
 };
 
 export type AllStackParamList = RootStackParamList &
