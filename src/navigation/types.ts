@@ -1,8 +1,11 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
-  tabs: undefined;
-};
+  tabs: undefined
+  Documents: { carModel: string }
+  TechnicalPassport: undefined
+  PowerOfAttorney: undefined
+}
 
 export type TabsParamList = {
   orders: undefined;

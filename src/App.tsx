@@ -10,9 +10,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ModalLayout } from './ui/Layouts/ModalLayout';
 import { navigationRef } from './navigation/navigationRef';
 
-
 function App(): React.JSX.Element {
-  const isAuth = false;
+  const isAuth = true;
   const { theme } = useAppColorTheme();
 
   return (
