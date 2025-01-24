@@ -120,7 +120,14 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     color: '#798391',
   },
-  body: {},
+  body_500: {
+    fontSize: 15,
+    color: '#000',
+    fontWeight: '500',
+  },
+  body: {
+    fontSize: 14,
+  },
 });
 
-export { Text };
+export {Text};

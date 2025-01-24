@@ -2,6 +2,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   tabs: undefined
+  profile: undefined
+  'profile-data': undefined
+  identity: undefined
   documents: { carModel: string }
   'technical-passport': undefined
   'power-of-attorney': undefined
@@ -28,9 +31,7 @@ export type UnauthorizedStackParamList = {
   'personal-identifier': { resident: boolean };
 };
 
-export type AllStackParamList = RootStackParamList &
-  TabsParamList &
-  UnauthorizedStackParamList;
+export type AllStackParamList = RootStackParamList & TabsParamList & UnauthorizedStackParamList 
 
 export type AvailableRoutes = keyof AllStackParamList;
 
