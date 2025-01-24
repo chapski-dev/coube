@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     color: '#798391',
   },
-  bodyBold: {
-    fontSize: 16,
+  body_500: {
+    fontSize: 15,
     color: '#000',
     fontWeight: '500',
   },
