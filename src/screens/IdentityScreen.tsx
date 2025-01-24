@@ -1,3 +1,4 @@
+import React from 'react'
 import { Text } from '@src/ui/Text';
 import { Image } from 'react-native';
 import { Box } from '@src/ui';
@@ -36,7 +37,7 @@ export const IdentityScreen = () => {
 			</Box>
 
 			<Box pt={20} alignItems='center' >
-				<Image source={require('@assets/png/identityCardPicture.png')} />
+				<Image source={require('@assets/png/identity-card-picture.png')} />
 			</Box>
 			
 		</Box>
