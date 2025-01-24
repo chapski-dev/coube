@@ -1,10 +1,9 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import RightArrow from '@assets/svg/arrow-right.svg';
-import { Text } from './Text';
-import { Box } from './Box';
 import { useAppTheme } from '@src/theme/theme';
 import { Image } from 'react-native';
+import { Box, Text } from '@src/ui';
 
 export const TransportCard = () => {
   const navigation = useNavigation();

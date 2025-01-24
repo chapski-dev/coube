@@ -1,4 +1,4 @@
-import { TransportCard } from '@src/ui/TransportCard';
+import { TransportCard } from './components/TransportCard';
 import React from 'react';
 import { View } from 'react-native';
 
