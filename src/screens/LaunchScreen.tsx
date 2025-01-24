@@ -52,8 +52,8 @@ const LaunchScreen = ({ navigation }: ScreenProps<'launch'>) => {
               <Button type="clear" children={t('change_language')} onPress={() => setShowChangeLang(true)} />
             </Box>
             <Text center>
-              <Text children="Продолжая вы соглашаетесь с " />
-              <Text onPress={() => null} children="Пользовательским соглашением" color={colors.main} />
+              <Text children={t('by_continuing_you_agree_to')} />
+              <Text onPress={() => null} children={t('user_agreement')} color={colors.main} />
             </Text>
           </>
         )}

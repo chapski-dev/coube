@@ -12,7 +12,7 @@ import { navigationRef } from './navigation/navigationRef';
 import '@src/translations/i18n';
 
 function App(): React.JSX.Element {
-  const isAuth = true;
+  const isAuth = false;
   const { theme } = useAppColorTheme();
 
   return (

@@ -7,8 +7,10 @@ import { useState } from 'react';
 import { ScreenProps } from '@src/navigation/types';
 import { Box } from '@src/ui';
 import { useAppTheme } from '@src/theme/theme';
+import { useLocalization } from '@src/translations/i18n';
 
 export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
+	const { t } = useLocalization()
 	const isAvatarExist = false
 
 	const [isToggleEnabled, setIsToggleEnabled] = useState(false);
@@ -35,49 +37,49 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
 					<Box backgroundColor={colors.green} borderRadius={35} px={10} py={3} alignItems='center' justifyContent='center' >
 						<Text color={colors.white} fontWeight={700} children='4.5' />
 					</Box>
-					<Text fontSize={10} fontWeight={400} children='Мой рейтинг' />
+					<Text fontSize={10} fontWeight={400} children={t('my_rating')} />
 				</Box>
 
 				<Box backgroundColor={colors.grey} borderRadius={9} justifyContent='center' alignItems='flex-start' gap={3} p={10} w={126} h={72} >
 					<Box backgroundColor={colors.dark_grey} borderRadius={35} px={10} py={3} alignItems='center' justifyContent='center' >
 						<Text color={colors.white} fontWeight={700} children='115' />
 					</Box>
-					<Text fontSize={10} fontWeight={400} children='Перевозок' />
+					<Text fontSize={10} fontWeight={400} children={t('transportations')} />
 				</Box>
 
 				<Box backgroundColor={colors.grey} borderRadius={9} justifyContent='center' alignItems='flex-start' gap={3} p={10} w={126} h={72} >
 					<Box backgroundColor={colors.dark_grey} borderRadius={35} px={10} py={3} alignItems='center' justifyContent='center' >
 						<Text color={colors.white} fontWeight={700} children='351 тыс.' />
 					</Box>
-					<Text fontSize={10} fontWeight={400} children='Пройдено км.' />
+					<Text fontSize={10} fontWeight={400} children={t('traveled_miles')} />
 				</Box>
 			</Box>
 
 			<Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-				<Text type={'body_500'} children='Отчеты' />
+				<Text type={'body_500'} children={t('reports')} />
 				<ArrowIcon />
 			</Box>
 
 			<Box>
 			<Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-					<Text type={'body_500'} children='Удостоверение личности' />
+					<Text type={'body_500'} children={t('identification_card')} />
 					<ArrowIcon onPress={openIdentityData} />
 				</Box>
 
 				<Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-					<Text type={'body_500'} children='Водительское удостоверение' />
+					<Text type={'body_500'} children={t('drivers_licence')} />
 					<ArrowIcon />
 				</Box>
 			</Box>
 
 			<Box>
 				<Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-					<Text type={'body_500'} children='Язык приложения' />
+					<Text type={'body_500'} children={t('apps_language')} />
 					<ArrowIcon />
 				</Box>
 
 				<Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-					<Text type={'body_500'} children='Push-уведомления' />
+					<Text type={'body_500'} children={t('push_notifications')}  />
 					<Switch 
 						trackColor={{false: colors.grey, true: colors.main}}
 						thumbColor={colors.white}

@@ -1,10 +1,13 @@
 import { ScreenProps } from '@src/navigation/types'
+import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Input, Text } from '@src/ui'
 import { phoneMask } from '@src/utils';
 import React, { useState } from 'react'
 import { useMaskedInputProps } from 'react-native-mask-input';
 
 const LoginViaPhoneScreen = ({ navigation, route }: ScreenProps<'login-via-phone'>) => {
+  const { t } = useLocalization()
+
   const handleSubmit = () => {
     navigation.navigate('otp-verify', { action: 'login' })
   };
@@ -18,8 +21,8 @@ const LoginViaPhoneScreen = ({ navigation, route }: ScreenProps<'login-via-phone
   return (
     <Box pr={16} pl={16} gap={24} pt={54} >
       <Box alignItems='center' justifyContent='center'>
-        <Text center type='h2' children="Введите номер телефона" />
-        <Text center children="И мы пришлем код для авторизации" />
+        <Text center type='h2' children={t('enter_phone_number')} />
+        <Text center children={t('and_well_send_you_an_authorization_code')} />
       </Box>
       <Input label='Введите телефон' required {...maskedInputProps} placeholder='+7' />
       <Button children="Далее" onPress={handleSubmit} />

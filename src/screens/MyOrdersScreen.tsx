@@ -1,10 +1,13 @@
+import { useLocalization } from '@src/translations/i18n';
 import React from 'react';
 import { Text, View } from 'react-native';
 
 export const MyOrdersScreen = () => {
+  const { t } = useLocalization()
+
   return (
     <View>
-      <Text>MyOrdersScreen</Text>
+      <Text children={t('my_orders_page')} />
     </View>
   );
 };

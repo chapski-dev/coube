@@ -8,6 +8,7 @@ import { modal } from '@src/ui/Layouts/ModalLayout';
 import { useMaskedInputProps } from 'react-native-mask-input';
 import { phoneMask } from '@src/utils';
 import DatePicker from '@src/ui/DatePicker';
+import { useLocalization } from '@src/translations/i18n';
 
 interface ResidentFormValues {
   phone: string;
@@ -28,6 +29,8 @@ interface NonResidentFormValues {
 }
 
 const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-user-data'>) => {
+  const { t } = useLocalization()
+
   const { insets, colors } = useAppTheme();
 
   const form = useForm<ResidentFormValues | NonResidentFormValues>({
@@ -77,8 +80,8 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
       return (
         <>
           <Box alignItems="center" mb={60}>
-            <Text type="h1" children="Регистрация" />
-            <Text fontSize={18} children="Введите номер телефона и ИИН" />
+            <Text type="h1" children={t('registration')} />
+            <Text fontSize={18} children={t('enter_your_phone_number_and_iin')} />
           </Box>
 
           <Box w="full" mb={24} gap={16}>
@@ -91,8 +94,8 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
       return (
         <>
           <Box alignItems="center" mb={16}>
-            <Text type="h1" children="Регистрация" />
-            <Text fontSize={18} children="Введите данные для регистрации" />
+            <Text type="h1" children={t('registration')} />
+            <Text fontSize={18} children={t('enter_your_registration_details')} />
           </Box>
           <Box w="full" mb={24} gap={8}>
             <Controller
@@ -137,7 +140,7 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
                 const handlePickCitizenship = () => navigation.navigate('pick-country', { handlePick: onChange });
                 return (
                   <Box mb={24} gap={4} onPress={handlePickCitizenship}>
-                    <Text children="Гражданство" />
+                    <Text children={t('citizenship')} />
                     <Box
                       borderWidth={2}
                       pl={8}
@@ -149,7 +152,7 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
                     >
                       <Text
                         color={value ? colors.textDefault : colors.disabled}
-                        children={value ? value : "Выберите страну"}
+                        children={value ? value : t('choose_a_country')} 
                       />
                     </Box>
                   </Box>
@@ -158,7 +161,7 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
               }}
             />
             <Box gap={8}>
-              <Text type="h3" children="Данные паспорта" />
+              <Text type="h3" children={t('passport_data')} />
               <Box w="full" row gap={8}>
                 <Controller
                   control={form.control}

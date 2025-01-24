@@ -4,10 +4,13 @@ import { OtpInput, OtpInputProps, OtpInputRef } from 'react-native-otp-entry'
 import { useAppTheme } from '@src/theme/theme'
 import { isIOS } from '@src/vars/platform'
 import { ScreenProps } from '@src/navigation/types'
+import { useLocalization } from '@src/translations/i18n'
 
 const OTP_PASSWORD_LENGTH = 4;
 
 const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
+  const { t } = useLocalization()
+
   const action = route.params.action;
   const { colors } = useAppTheme()
   const otpInput = useRef<OtpInputRef>(null)
@@ -63,11 +66,16 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
     <Box p={16} pt={54} gap={54} alignItems='center'>
       {action !== 'invite' ? (
         <>
-          <Text type='h2' children="Подтвердите номер" />
-          <Text children="Мы отправили на номер +7 777 777 77 77 код для подтверждения. Введите его ниже" />
+          <Text type='h2' children={t('confirm_the_number')} />
+          <Box>
+            <Text children={t('we_sent_it_to_a_number')} />
+            <Text children="+7 777 777 77 77" />
+            <Text children={t('confirmation_code_enter_it_below')} />
+          </Box>
+          
         </>
       ) : (
-        <Text type='h2' children="Введите код приглашения" />
+        <Text type='h2' children={t('enter_the_invitation_code')} />
       )}
       <OtpInput
         autoFocus
