@@ -10,29 +10,29 @@ export const IdentityScreen = () => {
 		<Box>
 
 			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}` }}>
-				<Text type='label'>ФИО</Text>
-				<Text type='body_500'>СЕРГЕЙ КРЫЛОВ ДМИТРИЕВИЧ</Text>
+				<Text type='label' children='ФИО' />
+				<Text type='body_500' children='СЕРГЕЙ КРЫЛОВ ДМИТРИЕВИЧ' />
 			</Box>
 
 			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}`  }}>
-				<Text type='label'>ИИН</Text>
-				<Text type='body_500'>88121155548946</Text>
+				<Text type='label' children='ИИН' />
+				<Text type='body_500' children='88121155548946' />
 			</Box>
 
 			<Box px={20} py={10} gap={25} row style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}`  }}>
 				<Box>
-					<Text type='label'>Дата выдачи</Text>
-					<Text type='body_500'>12.08.2014</Text>
+					<Text type='label' children='Дата выдачи' />
+					<Text type='body_500' children='12.08.2014' />
 				</Box>
 				<Box>
-					<Text type='label'>Срок действия</Text>
-					<Text type='body_500'>12.08.2034</Text>
+					<Text type='label' children='Срок действия' />
+					<Text type='body_500' children='12.08.2034' />
 				</Box>
 			</Box>
 
 			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}`  }}>
-				<Text type='label'>Выдан</Text>
-				<Text type='body_500'>МИНИСТЕРСТВО ЮСТИЦИИ</Text>
+				<Text type='label' children='Выдан' />
+				<Text type='body_500' children='МИНИСТЕРСТВО ЮСТИЦИИ' />
 			</Box>
 
 			<Box pt={20} alignItems='center' >

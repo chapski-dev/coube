@@ -2,7 +2,7 @@ import { Button } from '@src/ui/Button/Button';
 import { Text } from '@src/ui/Text';
 import { Switch } from 'react-native';
 import NoAvatarIcon from '@assets/svg/no-avatar.svg'
-import ArrowIcon from '@assets/svg/arrow.svg'
+import ArrowIcon from '@assets/svg/arrow-right.svg'
 import { useState } from 'react';
 import { ScreenProps } from '@src/navigation/types';
 import { Box } from '@src/ui';
@@ -25,7 +25,7 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
 			<Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
 				<Box row alignItems='center' gap={15} >
 					{isAvatarExist ? <NoAvatarIcon /> : <NoAvatarIcon />}
-					<Text type='body_500' fontSize={18} >Сергей</Text>
+					<Text type='body_500' fontSize={18} children='Сергей' />
 				</Box>
 				<ArrowIcon onPress={openProfileData} />
 			</Box>
@@ -33,54 +33,54 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
 			<Box row w='full' gap={5} px={15} >
 				<Box backgroundColor={colors.grey} borderRadius={9} justifyContent='center' alignItems='flex-start' gap={3} p={10} w={126} h={72} >
 					<Box backgroundColor={colors.green} borderRadius={35} px={10} py={3} alignItems='center' justifyContent='center' >
-						<Text color='white' fontWeight={700}>4.5</Text> 
+						<Text color={colors.white} fontWeight={700} children='4.5' />
 					</Box>
-					<Text fontSize={10} fontWeight={400}>Мой рейтинг</Text>
+					<Text fontSize={10} fontWeight={400} children='Мой рейтинг' />
 				</Box>
 
 				<Box backgroundColor={colors.grey} borderRadius={9} justifyContent='center' alignItems='flex-start' gap={3} p={10} w={126} h={72} >
 					<Box backgroundColor={colors.dark_grey} borderRadius={35} px={10} py={3} alignItems='center' justifyContent='center' >
-						<Text color='white' fontWeight={700}>115</Text> 
+						<Text color={colors.white} fontWeight={700} children='115' />
 					</Box>
-					<Text fontSize={10} fontWeight={400}>Перевозок</Text>
+					<Text fontSize={10} fontWeight={400} children='Перевозок' />
 				</Box>
 
 				<Box backgroundColor={colors.grey} borderRadius={9} justifyContent='center' alignItems='flex-start' gap={3} p={10} w={126} h={72} >
 					<Box backgroundColor={colors.dark_grey} borderRadius={35} px={10} py={3} alignItems='center' justifyContent='center' >
-						<Text color='white' fontWeight={700}>351 тыс.</Text>
+						<Text color={colors.white} fontWeight={700} children='351 тыс.' />
 					</Box>
-					<Text fontSize={10} fontWeight={400}>Пройдено км.</Text>
+					<Text fontSize={10} fontWeight={400} children='Пройдено км.' />
 				</Box>
 			</Box>
 
 			<Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-				<Text type={'body_500'} >Отчеты</Text>
+				<Text type={'body_500'} children='Отчеты' />
 				<ArrowIcon />
 			</Box>
 
 			<Box>
 			<Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-					<Text type={'body_500'} >Удостоверение личности</Text>
+					<Text type={'body_500'} children='Удостоверение личности' />
 					<ArrowIcon onPress={openIdentityData} />
 				</Box>
 
 				<Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-					<Text type={'body_500'} >Водительское удостоверение</Text>
+					<Text type={'body_500'} children='Водительское удостоверение' />
 					<ArrowIcon />
 				</Box>
 			</Box>
 
 			<Box>
 				<Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-					<Text type={'body_500'} >Язык приложения</Text>
+					<Text type={'body_500'} children='Язык приложения' />
 					<ArrowIcon />
 				</Box>
 
 				<Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-					<Text type={'body_500'} >Push-уведомления</Text>
+					<Text type={'body_500'} children='Push-уведомления' />
 					<Switch 
-						trackColor={{false: `${colors.grey}`, true: `${colors.main}`}}
-						thumbColor={'white'}
+						trackColor={{false: colors.grey, true: colors.main}}
+						thumbColor={colors.white}
 						onValueChange={toggleSwitch}
 						value={isToggleEnabled}
 					/>
