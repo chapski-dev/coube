@@ -1,0 +1,16 @@
+
+{
+  "continue": "Продолжить",
+  "confirm": "Подтвердить",
+  "cancel": "Отменить",
+  "change": "Изменить",
+  "add": "Добавить",
+
+  "orders_for_cargo_transportation_quickly_and_conveniently": "Заказы на грузоперевозку быстро и удобно",
+  "continue_in_language": "Продолжить на {{language}}",
+  "languages": {
+    "ru-RU": "русском",
+    "kk-KZ": "казахском"
+  },
+  "change_language": "Сменить язык"
+}

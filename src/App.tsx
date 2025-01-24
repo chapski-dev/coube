@@ -9,6 +9,7 @@ import { useAppColorTheme } from './hooks/useAppColorTheme';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ModalLayout } from './ui/Layouts/ModalLayout';
 import { navigationRef } from './navigation/navigationRef';
+import '@src/translations/i18n';
 
 function App(): React.JSX.Element {
   const isAuth = true;
@@ -19,7 +20,7 @@ function App(): React.JSX.Element {
       <NavigationContainer onReady={onNavigationReady} theme={theme} ref={navigationRef}>
         <SafeAreaProvider style={{ flex: 1 }}>
           <BottomSheetModalProvider>
-            {isAuth ? <RootStack /> : <UnauthorizedStack />}
+            {!isAuth ? <RootStack /> : <UnauthorizedStack />}
             <ModalLayout />
           </BottomSheetModalProvider>
         </SafeAreaProvider>
