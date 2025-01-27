@@ -1,8 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from '@src/screens/Home';
 import { IdentityScreen } from '@src/screens/IdentityScreen';
 import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
-import { ProfileScreen } from '@src/screens/ProfileScreen';
 import { RootStackParamList } from '../types';
 import React from 'react'
 import { Tabs } from '../Tabs';
