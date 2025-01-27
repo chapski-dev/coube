@@ -1,10 +1,13 @@
 import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme'
+import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Text } from '@src/ui'
 import React from 'react'
 
 const SettingsProfileScreen = ({ navigation, route }: ScreenProps<'settings-profile'>) => {
   const { colors } = useAppTheme();
+
+  const { t } = useLocalization()
 
   const goToPersonalIdScreen = () => {
     navigation.navigate('personal-identifier', { resident: route.params.resident })
@@ -19,27 +22,27 @@ const SettingsProfileScreen = ({ navigation, route }: ScreenProps<'settings-prof
 
         <Box gap={16} mb={31}>
           <Box gap={4}>
-            <Text fontSize={12} color={colors.label} children="ФИО" />
+            <Text fontSize={12} color={colors.label} children={t('full_name')} />
             <Text fontWeight='700' uppercase children="Сергей Крылов дмитриевич" />
           </Box>
           <Box gap={4}>
-            <Text fontSize={12} color={colors.label} children="Телефон" />
+            <Text fontSize={12} color={colors.label} children={t('phone')} />
             <Box row justifyContent='space-between' w='full' >
               <Text fontWeight='700' uppercase children="+7 777 777 77 77" />
               <Box onPress={() => null}>
-                <Text color={colors.main} children="Добавить телефон" />
+                <Text color={colors.main} children={t('add_phone_number')} />
               </Box>
             </Box>
           </Box>
           <Box gap={4}>
             {route.params.resident ? (
               <>
-                <Text fontSize={12} color={colors.label} children="ИИН" />
+                <Text fontSize={12} color={colors.label} children={t('iin')} />
                 <Text fontWeight='700' children="88121155548946" />
               </>
             ) : (
               <>
-                <Text fontSize={12} color={colors.label} children="Номер паспорта" />
+                <Text fontSize={12} color={colors.label} children={t('passport_number')} />
                 <Text fontWeight='700' children="88121155548946" />
               </>
             )}
@@ -56,15 +59,15 @@ const SettingsProfileScreen = ({ navigation, route }: ScreenProps<'settings-prof
         mb={16}
       >
         {route.params.resident ?
-          <Text children="Удостоверение личности" /> :
-          <Text children="Паспорт" />}
+          <Text children={t('identification_card')} /> :
+          <Text children={t('passport')} />}
         <Text children='>' />
       </Box>
       <Box gap={16}>
         <Box backgroundColor='#A1A1A11A' p={8} pr={16} pl={16}>
           <Text
             center
-            children="Для корректного использования приложения необходимо добавить водительское удостоверение, хотите сделать это сейчас?"
+            children={t('you_need_to_add_a_drivers_license_to_use_the_app_correctly_want_to_do_it_now')}
           />
         </Box>
         <Box gap={16} pl={16} pr={16}>

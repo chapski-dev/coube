@@ -3,36 +3,38 @@ import { Text } from '@src/ui/Text';
 import { Image } from 'react-native';
 import { Box } from '@src/ui';
 import { useAppTheme } from '@src/theme/theme';
+import { useLocalization } from '@src/translations/i18n';
 
 export const IdentityScreen = () => {
+	const { t } = useLocalization()
 	const {colors} = useAppTheme()
 
 	return (
 		<Box>
 
 			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}` }}>
-				<Text type='label' children='ФИО' />
+				<Text type='label' children={t('full_name')} />
 				<Text type='body_500' children='СЕРГЕЙ КРЫЛОВ ДМИТРИЕВИЧ' />
 			</Box>
 
 			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}`  }}>
-				<Text type='label' children='ИИН' />
+				<Text type='label' children={t('iin')} />
 				<Text type='body_500' children='88121155548946' />
 			</Box>
 
 			<Box px={20} py={10} gap={25} row style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}`  }}>
 				<Box>
-					<Text type='label' children='Дата выдачи' />
+					<Text type='label' children={t('date_of_issue')} />
 					<Text type='body_500' children='12.08.2014' />
 				</Box>
 				<Box>
-					<Text type='label' children='Срок действия' />
+					<Text type='label' children={t('validity_period')} />
 					<Text type='body_500' children='12.08.2034' />
 				</Box>
 			</Box>
 
 			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}`  }}>
-				<Text type='label' children='Выдан' />
+				<Text type='label' children={t('issued')} />
 				<Text type='body_500' children='МИНИСТЕРСТВО ЮСТИЦИИ' />
 			</Box>
 
