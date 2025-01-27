@@ -1,9 +1,10 @@
 import React from 'react';
-import { ScreenProps } from '@src/navigation/types';
-import { Box, Text } from '@src/ui';
 import RightArrow from '@assets/svg/arrow-right.svg';
+
+import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
+import { Box, Text } from '@src/ui';
 
 
 export const DocumentsScreen = ({ navigation }: ScreenProps<'documents'>) => {

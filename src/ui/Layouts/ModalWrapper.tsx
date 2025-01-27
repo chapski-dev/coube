@@ -1,7 +1,8 @@
 import React, { FC, ReactElement } from 'react';
-import { Modal, StyleSheet,  TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
+import { Modal, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 
 import { useAppTheme } from '@src/theme/theme';
+
 import { Box } from '../Box';
 
 interface IModalWrapperProps {
@@ -15,12 +16,12 @@ interface IModalWrapperProps {
 
 const styles = StyleSheet.create({
   modalOverlay: {
-    position: 'absolute',
-    top: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     bottom: 0,
     left: 0,
+    position: 'absolute',
     right: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    top: 0,
   },
 });
 

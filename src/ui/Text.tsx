@@ -1,4 +1,3 @@
-import { removeUndefinedOnes } from '@src/utils';
 import React, { FC, useMemo } from 'react';
 import {
   StyleSheet,
@@ -6,6 +5,8 @@ import {
   TextProps as RNTextProps,
   TextStyle,
 } from 'react-native';
+
+import { removeUndefinedOnes } from '@src/utils';
 
 type TextType = keyof typeof styles;
 type Spacing = number
@@ -75,24 +76,24 @@ const Text: FC<TextProps> = ({
       {
         ...removeUndefinedOnes({
           color,
-          textAlign,
-          fontWeight,
           fontSize,
-          textTransform,
+          fontWeight,
           margin: m,
-          marginHorizontal: mx,
-          marginVertical: my,
-          marginTop: mt,
-          marginRight: mr,
           marginBottom: mb,
+          marginHorizontal: mx,
           marginLeft: ml,
+          marginRight: mr,
+          marginTop: mt,
+          marginVertical: my,
           padding: p,
-          paddingHorizontal: px,
-          paddingVertical: py,
-          paddingTop: pt,
-          paddingRight: pr,
           paddingBottom: pb,
+          paddingHorizontal: px,
           paddingLeft: pl,
+          paddingRight: pr,
+          paddingTop: pt,
+          paddingVertical: py,
+          textAlign,
+          textTransform,
         })
       },
       style
@@ -103,6 +104,14 @@ const Text: FC<TextProps> = ({
 };
 
 const styles = StyleSheet.create({
+  body: {
+    fontSize: 14,
+  },
+  body_500: {
+    color: '#000',
+    fontSize: 15,
+    fontWeight: '500',
+  },
   h1: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -116,17 +125,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   label: {
+    color: '#798391',
     fontSize: 13,
     lineHeight: 16,
-    color: '#798391',
-  },
-  body_500: {
-    fontSize: 15,
-    color: '#000',
-    fontWeight: '500',
-  },
-  body: {
-    fontSize: 14,
   },
 });
 

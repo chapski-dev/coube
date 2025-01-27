@@ -1,8 +1,9 @@
+import React, { useState } from 'react';
+import LogoIcon from '@assets/svg/logo.svg';
+
 import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { Box, Button } from '@src/ui';
-import React, { useState } from 'react';
-import LogoIcon from '@assets/svg/logo.svg';
 import Select from '@src/ui/Select';
 
 
@@ -27,18 +28,42 @@ const RegistrationScreen = ({ navigation, route }: ScreenProps<'registration'>) 
 
 
   return (
-    <Box pt={insets.top} pr={16} pl={16} flexGrow={1} alignItems="center" gap={24} justifyContent="center">
+    <Box
+      pt={insets.top}
+      pr={16}
+      pl={16}
+      flexGrow={1}
+      alignItems="center"
+      gap={24}
+      justifyContent="center"
+    >
       <LogoIcon />
       <Box gap={16} w="full">
         {route.params.step === 'driver_performer_or_invaitetion' ? (
           <>
-            <Select selected={isInvited} onPress={() => setIsInvited(true)} children="Я получил приглашение" />
-            <Select selected={!isInvited} onPress={() => setIsInvited(false)} children="Я Исполнитель-водитель " />
+            <Select
+              selected={isInvited}
+              onPress={() => setIsInvited(true)}
+              children="Я получил приглашение"
+            />
+            <Select
+              selected={!isInvited}
+              onPress={() => setIsInvited(false)}
+              children="Я Исполнитель-водитель "
+            />
           </>
         ) : (
           <>
-            <Select selected={isResident} onPress={() => setIsResident(true)} children="Я Резидент РК" />
-            <Select selected={!isResident} onPress={() => setIsResident(false)} children="Не Резидент РК " />
+            <Select
+              selected={isResident}
+              onPress={() => setIsResident(true)}
+              children="Я Резидент РК"
+            />
+            <Select
+              selected={!isResident}
+              onPress={() => setIsResident(false)}
+              children="Не Резидент РК "
+            />
           </>
         )}
       </Box>

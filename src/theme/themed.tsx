@@ -1,12 +1,11 @@
 import { FC, ForwardedRef, forwardRef, useMemo } from 'react';
 import {
-  View as DefaultView,
-  ViewProps as DefaultViewProps,
   Pressable,
-
   TouchableHighlight,
   TouchableOpacity,
   TouchableOpacityProps,
+  View as DefaultView,
+  ViewProps as DefaultViewProps,
 } from 'react-native';
 import { TouchableOpacity as TouchableOpacityGH } from 'react-native-gesture-handler';
 

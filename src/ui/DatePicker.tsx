@@ -1,10 +1,12 @@
 import React, { FC } from 'react'
+import MonthPicker, { EventTypes } from 'react-native-month-year-picker'
+import CalendarIcon from '@assets/svg/calendar.svg'
+
+import { useAppTheme } from '@src/theme/theme'
+
+import { modal } from './Layouts/ModalLayout'
 import { Box } from './Box'
 import { Text } from './Text'
-import MonthPicker, { EventTypes } from 'react-native-month-year-picker'
-import { modal } from './Layouts/ModalLayout'
-import { useAppTheme } from '@src/theme/theme'
-import CalendarIcon from '@assets/svg/calendar.svg'
 
 type DatePickerProps = {
   label: string,

@@ -1,9 +1,10 @@
 import React from 'react'
-import { Text } from '@src/ui/Text';
 import { Image } from 'react-native';
-import { Box } from '@src/ui';
+
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
+import { Box } from '@src/ui';
+import { Text } from '@src/ui/Text';
 
 export const IdentityScreen = () => {
 	const { t } = useLocalization()
@@ -12,17 +13,17 @@ export const IdentityScreen = () => {
 	return (
 		<Box>
 
-			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}` }}>
+			<Box px={20} py={10} style={{ borderBottomColor: `${colors.grey}`, borderBottomWidth: 1 }}>
 				<Text type='label' children={t('full_name')} />
 				<Text type='body_500' children='СЕРГЕЙ КРЫЛОВ ДМИТРИЕВИЧ' />
 			</Box>
 
-			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}`  }}>
+			<Box px={20} py={10} style={{ borderBottomColor: `${colors.grey}`, borderBottomWidth: 1 }}>
 				<Text type='label' children={t('iin')} />
 				<Text type='body_500' children='88121155548946' />
 			</Box>
 
-			<Box px={20} py={10} gap={25} row style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}`  }}>
+			<Box px={20} py={10} gap={25} row style={{ borderBottomColor: `${colors.grey}`, borderBottomWidth: 1 }}>
 				<Box>
 					<Text type='label' children={t('date_of_issue')} />
 					<Text type='body_500' children='12.08.2014' />
@@ -33,7 +34,7 @@ export const IdentityScreen = () => {
 				</Box>
 			</Box>
 
-			<Box px={20} py={10} style={{ borderBottomWidth: 1, borderBottomColor: `${colors.grey}`  }}>
+			<Box px={20} py={10} style={{ borderBottomColor: `${colors.grey}`, borderBottomWidth: 1 }}>
 				<Text type='label' children={t('issued')} />
 				<Text type='body_500' children='МИНИСТЕРСТВО ЮСТИЦИИ' />
 			</Box>

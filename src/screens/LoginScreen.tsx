@@ -1,9 +1,10 @@
 import React from 'react';
-import { ScreenProps } from '@src/navigation/types';
-import { Box, Button, Text } from '@src/ui';
-import { useAppTheme } from '@src/theme/theme';
 import LogoIcon from '@assets/svg/logo.svg';
+
+import { ScreenProps } from '@src/navigation/types';
+import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
+import { Box, Button, Text } from '@src/ui';
 
 
 const LoginScreen = ({ navigation }: ScreenProps<'login'>) => {

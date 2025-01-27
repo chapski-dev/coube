@@ -1,17 +1,18 @@
-import { ScreenProps } from '@src/navigation/types'
-import { useAppTheme } from '@src/theme/theme'
-import { Box, Input, Text } from '@src/ui'
 import React, { useState } from 'react'
 import { FlatList } from 'react-native'
 
+import { ScreenProps } from '@src/navigation/types'
+import { useAppTheme } from '@src/theme/theme'
+import { Box, Input, Text } from '@src/ui'
+
 
 const countries = [
-  { title: "Россия", value: 'Russia' },
-  { title: "Узбекистан", value: 'Uzbekistan' },
-  { title: "Киргизия", value: 'Kirgiziya' },
-  { title: "Грузия", value: 'Грузия' },
-  { title: "Украина", value: 'Украина' },
-  { title: "Беларусь", value: 'Беларусь' },
+  { title: 'Россия', value: 'Russia' },
+  { title: 'Узбекистан', value: 'Uzbekistan' },
+  { title: 'Киргизия', value: 'Kirgiziya' },
+  { title: 'Грузия', value: 'Грузия' },
+  { title: 'Украина', value: 'Украина' },
+  { title: 'Беларусь', value: 'Беларусь' },
 ];
 
 const PickCountryScreen = ({ navigation, route }: ScreenProps<'pick-country'>) => {
@@ -33,14 +34,14 @@ const PickCountryScreen = ({ navigation, route }: ScreenProps<'pick-country'>) =
 
 
   return (
-    <Box flexGrow={1} pt={insets.top} pl={16} pr={16}  gap={24}>
+    <Box flexGrow={1} pt={insets.top} pl={16} pr={16} gap={24}>
       <Box>
         <Input type='search' value={searchInputVal} onChangeText={handleFilter} placeholder='Введите название страны' />
       </Box>
       <FlatList
         data={filtredCountry}
         keyExtractor={(i) => i.title}
-        contentContainerStyle={{ gap: 15, width: '100%', paddingBottom: insets.bottom }}
+        contentContainerStyle={{ gap: 15, paddingBottom: insets.bottom, width: '100%' }}
         renderItem={({ item }) => (
           <Box onPress={handlePick(item.title)} h={36} justifyContent='center'>
             <Text children={item.title} />

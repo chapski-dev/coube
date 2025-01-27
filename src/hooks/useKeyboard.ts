@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import { EmitterSubscription, Keyboard, KeyboardEventListener, KeyboardMetrics } from 'react-native';
-import { useSharedValue } from 'react-native-reanimated';
 import { NativeEventSubscription } from 'react-native/Libraries/EventEmitter/RCTNativeAppEventEmitter';
+import { useSharedValue } from 'react-native-reanimated';
 
 const emptyCoordinates = Object.freeze({
+  height: 0,
   screenX: 0,
   screenY: 0,
   width: 0,
-  height: 0,
 });
 const initialValue = {
-  start: emptyCoordinates,
   end: emptyCoordinates,
+  start: emptyCoordinates,
 };
 export function useKeyboard() {
   const [shown, setShown] = useState(false);
@@ -23,22 +23,22 @@ export function useKeyboard() {
   const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
 
   const handleKeyboardWillShow: KeyboardEventListener = useCallback((e) => {
-    setCoordinates({ start: e.startCoordinates, end: e.endCoordinates });
+    setCoordinates({ end: e.endCoordinates, start: e.startCoordinates });
   }, []);
   const handleKeyboardDidShow: KeyboardEventListener = useCallback((e) => {
     setShown(true);
-    setCoordinates({ start: e.startCoordinates, end: e.endCoordinates });
+    setCoordinates({ end: e.endCoordinates, start: e.startCoordinates });
     setKeyboardHeight(e.endCoordinates.height);
     keyboardHeightSV.value = e.endCoordinates.height;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleKeyboardWillHide: KeyboardEventListener = useCallback((e) => {
-    setCoordinates({ start: e.startCoordinates, end: e.endCoordinates });
+    setCoordinates({ end: e.endCoordinates, start: e.startCoordinates });
   }, []);
   const handleKeyboardDidHide: KeyboardEventListener = useCallback((e) => {
     setShown(false);
     if (e) {
-      setCoordinates({ start: e.startCoordinates, end: e.endCoordinates });
+      setCoordinates({ end: e.endCoordinates, start: e.startCoordinates });
     } else {
       setCoordinates(initialValue);
       setKeyboardHeight(0);
@@ -60,9 +60,9 @@ export function useKeyboard() {
   }, []);
 
   return {
-    keyboardHeightSV,
-    keyboardShown: shown,
     coordinates,
     keyboardHeight,
+    keyboardHeightSV,
+    keyboardShown: shown,
   };
 }

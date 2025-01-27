@@ -1,10 +1,11 @@
-import { Box, Button, Text } from '@src/ui'
 import React, { useMemo, useRef, useState } from 'react'
 import { OtpInput, OtpInputProps, OtpInputRef } from 'react-native-otp-entry'
-import { useAppTheme } from '@src/theme/theme'
-import { isIOS } from '@src/vars/platform'
+
 import { ScreenProps } from '@src/navigation/types'
+import { useAppTheme } from '@src/theme/theme'
 import { useLocalization } from '@src/translations/i18n'
+import { Box, Button, Text } from '@src/ui'
+import { isIOS } from '@src/vars/platform'
 
 const OTP_PASSWORD_LENGTH = 4;
 
@@ -42,22 +43,22 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
 
   const theme: OtpInputProps['theme'] = useMemo(
     () => ({
-      containerStyle: { width: 'auto', gap: 12 },
-      pinCodeTextStyle: { color: colors.textDefault, fontSize: 24 },
+      containerStyle: { gap: 12, width: 'auto' },
+      focusedPinCodeContainerOutlineStyle: notMatch
+        ? { borderColor: colors.red, borderRadius: 16, borderWidth: 1 }
+        : { borderColor: colors.main, borderRadius: 16, borderWidth: 1 },
+      focusedPinCodeContainerStyle: {
+        borderColor: colors.border,
+        borderRadius: 15,
+        borderWidth: 1,
+      },
       pinCodeContainerStyle: {
+        borderColor: colors.border,
         borderRadius: 15,
         borderWidth: 1,
         width: 47,
-        borderColor: colors.border,
       },
-      focusedPinCodeContainerStyle: {
-        borderColor: colors.border,
-        borderWidth: 1,
-        borderRadius: 15,
-      },
-      focusedPinCodeContainerOutlineStyle: notMatch
-        ? { borderColor: colors.red, borderWidth: 1, borderRadius: 16 }
-        : { borderColor: colors.main, borderWidth: 1, borderRadius: 16 },
+      pinCodeTextStyle: { color: colors.textDefault, fontSize: 24 },
     }),
     [colors, notMatch],
   )

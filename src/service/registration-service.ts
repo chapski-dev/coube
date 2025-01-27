@@ -8,22 +8,22 @@ export const registrationService = () => {
   let _citizenship = '';
 
 
-  const setPhone = (phone: string) => {_phone  = phone;};
-  const setIin = (iin: string) => {_iin  = iin;};
-  const setFirstName = (firstName: string) => {_firstName  = firstName;};
-  const setSurname = (surname: string) => {_surname  = surname;};
-  const setMiddleName = (middleName: string) => {_middleName  = middleName;};
+  const setPhone = (phone: string) => {_phone = phone;};
+  const setIin = (iin: string) => {_iin = iin;};
+  const setFirstName = (firstName: string) => {_firstName = firstName;};
+  const setSurname = (surname: string) => {_surname = surname;};
+  const setMiddleName = (middleName: string) => {_middleName = middleName;};
 
-  const setPasportIssuedBy = (pasportIssuedBy: string) => {_pasportIssuedBy  = pasportIssuedBy;};
+  const setPasportIssuedBy = (pasportIssuedBy: string) => {_pasportIssuedBy = pasportIssuedBy;};
 
   const getUserData = () => ({
-    phone: _phone,
-    iin: _iin,
-    firstName: _firstName,
-    surname: _surname,
-    middleName: _middleName,
     citizenship: _citizenship,
+    firstName: _firstName,
+    iin: _iin,
+    middleName: _middleName,
     pasportIssuedBy: _pasportIssuedBy,
+    phone: _phone,
+    surname: _surname,
   });
 
   const wipeData = () => {
@@ -37,13 +37,13 @@ export const registrationService = () => {
   };
 
   return {
-    setPhone,
-    setIin,
+    getUserData,
     setFirstName,
-    setSurname,
+    setIin,
     setMiddleName,
     setPasportIssuedBy,
-    getUserData,
+    setPhone,
+    setSurname,
     wipeData,
   };
 };
