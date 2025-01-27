@@ -13,32 +13,6 @@ export enum OrderStatus {
   NewTransport = 'Назначен новый транспорт',
 }
 
-const getStatusIcon = (status: OrderStatus) => {
-  const iconProps = { py: 6, px: 6, borderRadius: 4 };
-  switch (status) {
-    case OrderStatus.OrderAccepted:
-      return (
-        <Box backgroundColor={'#81CC20'} {...iconProps}>
-          <Orders color={'#fff'} />
-        </Box>
-      );
-    case OrderStatus.NewOrder:
-      return (
-        <Box backgroundColor={'#639DF4'} {...iconProps}>
-          <Orders color={'#fff'} />
-        </Box>
-      );
-    case OrderStatus.NewTransport:
-      return (
-        <Box backgroundColor={'#639DF4'} {...iconProps}>
-          <Transport color={'#fff'} />
-        </Box>
-      );
-    default:
-      return null;
-  }
-};
-
 type OrderData =
   | { status: OrderStatus; orderNumber: string }
   | { status: OrderStatus; carModel?: string; stateNumber?: string };
@@ -56,6 +30,32 @@ const DATA: OrderData[] = [
 export const NotificationScreen = () => {
   const { colors } = useAppTheme();
   const today = format(new Date(), 'dd MMMM', { locale: ru });
+
+  const getStatusIcon = (status: OrderStatus) => {
+    const iconProps = { py: 6, px: 6, borderRadius: 4 };
+    switch (status) {
+      case OrderStatus.OrderAccepted:
+        return (
+          <Box backgroundColor={colors.green} {...iconProps}>
+            <Orders color={colors.white} />
+          </Box>
+        );
+      case OrderStatus.NewOrder:
+        return (
+          <Box backgroundColor={colors.blue} {...iconProps}>
+            <Orders color={colors.white} />
+          </Box>
+        );
+      case OrderStatus.NewTransport:
+        return (
+          <Box backgroundColor={colors.blue} {...iconProps}>
+            <Transport color={colors.white} />
+          </Box>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <SectionList
