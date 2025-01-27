@@ -1,9 +1,10 @@
 
 import React, { useEffect } from 'react'
+
 import { ScreenProps } from '@src/navigation/types'
-import { Box, Button, Text } from '@src/ui'
 import { useAppTheme } from '@src/theme/theme'
 import { useLocalization } from '@src/translations/i18n'
+import { Box, Button, Text } from '@src/ui'
 
 
 const PersonalIdentifier = ({ navigation, route }: ScreenProps<'personal-identifier'>) => {
@@ -14,8 +15,8 @@ const PersonalIdentifier = ({ navigation, route }: ScreenProps<'personal-identif
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: !resident ? "Паспорт" : "Удостоверение личности",
-      headerBackButtonDisplayMode: 'minimal'
+      headerBackButtonDisplayMode: 'minimal',
+      headerTitle: !resident ? 'Паспорт' : 'Удостоверение личности'
     })
 
   }, [navigation, resident])

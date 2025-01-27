@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Box, Button, Text } from '@src/ui';
-import { ScreenProps } from '@src/navigation/types';
-
 import LogoIcon from '@assets/svg/logo.svg';
+
+import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { saveLanguageAsyncStorage, useLocalization } from '@src/translations/i18n';
 import { AppLangEnum } from '@src/translations/types';
+import { Box, Button, Text } from '@src/ui';
 
 const LaunchScreen = ({ navigation }: ScreenProps<'launch'>) => {
   const { insets, colors } = useAppTheme();

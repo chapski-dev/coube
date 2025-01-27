@@ -2,6 +2,7 @@ import React, { FC, ReactElement, useCallback, useEffect, useState } from 'react
 import { Keyboard, ViewStyle } from 'react-native';
 
 import { useKeyboard } from '@src/hooks/useKeyboard';
+
 import { ModalWrapper } from './ModalWrapper';
 
 export interface IModalParams {
@@ -15,8 +16,8 @@ let closeModalRef: (() => void) | undefined;
 
 export const modal = () => {
   return {
-    setupModal: setupModalRef,
     closeModal: closeModalRef,
+    setupModal: setupModalRef,
   };
 };
 
@@ -26,7 +27,7 @@ export const ModalLayout: FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [_modalVisible, _setModalVisible] = useState(false);
 
-  const [modal, setModal] = useState<IModalParams>({
+  const [modalState, setModal] = useState<IModalParams>({
     element: null,
     justifyContent: 'flex-end',
   });
@@ -60,10 +61,10 @@ export const ModalLayout: FC = () => {
     <ModalWrapper
       closeModal={closeModal}
       visible={_modalVisible}
-      justifyContent={modal.justifyContent}
-      marginHorizontal={modal.marginHorizontal}
+      justifyContent={modalState.justifyContent}
+      marginHorizontal={modalState.marginHorizontal}
     >
-      {modal.element}
+      {modalState.element}
     </ModalWrapper>
   );
 };

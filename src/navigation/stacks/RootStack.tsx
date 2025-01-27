@@ -1,15 +1,15 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from '@src/screens/Home';
-import { IdentityScreen } from '@src/screens/IdentityScreen';
-import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
-import { ProfileScreen } from '@src/screens/ProfileScreen';
-import { RootStackParamList } from '../types';
 import React from 'react'
-import { Tabs } from '../Tabs';
-import { DocumentsScreen } from '../../screens/DocumentsScreen';
-import { TechnicalPassportScreen } from '@src/screens/TechnicalPassportScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { IdentityScreen } from '@src/screens/IdentityScreen';
 import { PowerOfAttorneyScreen } from '@src/screens/PowerOfAttorneyScreen';
+import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
+import { TechnicalPassportScreen } from '@src/screens/TechnicalPassportScreen';
 import { useAppTheme } from '@src/theme/theme';
+
+import { DocumentsScreen } from '../../screens/DocumentsScreen';
+import { Tabs } from '../Tabs';
+import { RootStackParamList } from '../types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

@@ -1,8 +1,9 @@
+import React from 'react'
+
 import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme'
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Text } from '@src/ui'
-import React from 'react'
 
 const SettingsProfileScreen = ({ navigation, route }: ScreenProps<'settings-profile'>) => {
   const { colors } = useAppTheme();
@@ -17,7 +18,12 @@ const SettingsProfileScreen = ({ navigation, route }: ScreenProps<'settings-prof
       <Box pl={16} pr={16} pt={25}>
         <Box gap={12} justifyContent='center' alignItems='center' mb={12}>
           <Box w={90} h={90} backgroundColor={colors.green} borderRadius={50} />
-          <Button textColor='main' type='clear' wrapperStyle={{ width: 150 }} children="Добавить фото" />
+          <Button
+            textColor='main'
+            type='clear'
+            wrapperStyle={{ width: 150 }}
+            children="Добавить фото"
+          />
         </Box>
 
         <Box gap={16} mb={31}>

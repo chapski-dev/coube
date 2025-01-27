@@ -1,16 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export const commonStytle = StyleSheet.create({
-  wrapper: {
-    width: '100%',
-    alignItems: 'center',
-  },
   button: {
-    width: '100%',
-    height: 48,
-    justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 12,
+    height: 48,
+    justifyContent: 'center',
+    width: '100%',
   },
   buttonDisabled: {
     opacity: 0.5,
@@ -18,6 +14,10 @@ export const commonStytle = StyleSheet.create({
   text: {
     fontSize: 15,
     fontWeight: '500'
+  },
+  wrapper: {
+    alignItems: 'center',
+    width: '100%',
   },
 });
 
@@ -38,8 +38,8 @@ export const filledStyle = StyleSheet.create({
 
 export const outlineStyle = StyleSheet.create({
   button: {
-    borderWidth: 1,
-    borderColor: '#000',
     backgroundColor: 'transparent',
+    borderColor: '#000',
+    borderWidth: 1,
   },
 });

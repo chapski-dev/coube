@@ -1,5 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type AsyncStorageValue = string | null | undefined
 
@@ -33,7 +33,7 @@ export function createStorage(key: string) {
     return () => unsubscribe(cb);
   };
 
-  return { getItem, setItem, removeItem, subscribe };
+  return { getItem, removeItem, setItem, subscribe };
 }
 
 /**

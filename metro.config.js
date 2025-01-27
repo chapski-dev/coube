@@ -14,14 +14,14 @@ const { assetExts, sourceExts } = defaultConfig.resolver;
 const { wrapWithReanimatedMetroConfig } = require('react-native-reanimated/metro-config');
 
 const svgConfig = {
+  resolver: {
+    assetExts: assetExts.filter((ext) => ext !== 'svg'),
+    sourceExts: [...sourceExts, 'svg'],
+  },
   transformer: {
     babelTransformerPath: require.resolve(
       'react-native-svg-transformer/react-native'
     ),
-  },
-  resolver: {
-    assetExts: assetExts.filter((ext) => ext !== 'svg'),
-    sourceExts: [...sourceExts, 'svg'],
   },
 };
 
