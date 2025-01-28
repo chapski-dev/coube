@@ -8,6 +8,9 @@ export type RootStackParamList = {
   documents: { carModel: string }
   'technical-passport': undefined
   'power-of-attorney': undefined
+  InvoiceForGoods: undefined
+  InvoiceSent: undefined
+  OrderAccepted: undefined
 }
 
 export type TabsParamList = {

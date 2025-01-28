@@ -15,6 +15,8 @@ export const DefaultColors = {
   textDefaultReverse: '#FFFFFF',
   textSecondary: '#979797',
   white: '#FFFFFF',
+  invoice_icon: '#D9D9D9',
+  invoice_text: '#393226',
 } as const;
 
 export const lightColors = {
