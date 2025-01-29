@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import LogoIcon from '@assets/svg/logo.svg';
 
 import { ScreenProps } from '@src/navigation/types';
+import registrationService from '@src/service/registration-service';
 import { useAppTheme } from '@src/theme/theme';
 import { Box, Button } from '@src/ui';
 import Select from '@src/ui/Select';
@@ -10,19 +11,27 @@ import Select from '@src/ui/Select';
 const RegistrationScreen = ({ navigation, route }: ScreenProps<'registration'>) => {
 
   const { insets } = useAppTheme();
-  const [isResident, setIsResident] = useState(true);
+  const [isResident, setIsResident] = useState(registrationService.getIsRezident());
+  
   const [isInvited, setIsInvited] = useState(true);
 
-
+  const handleSetIsResident = (val: boolean) => () => {
+    setIsResident(val)
+    registrationService.setIsRezident(val)
+  }
+  
   const goAhead = () => {
     if (route.params.step === 'driver_performer_or_invaitetion') {
       if (isInvited) {
         navigation.navigate('otp-verify', { action: 'invite' });
+        return
       } else {
         navigation.navigate('registration', { step: 'residency' });
+        return
       }
     } else {
-      navigation.navigate('registration-user-data', { resident: isResident });
+      navigation.navigate('registration-user-data');
+      return
     }
   };
 
@@ -56,12 +65,12 @@ const RegistrationScreen = ({ navigation, route }: ScreenProps<'registration'>) 
           <>
             <Select
               selected={isResident}
-              onPress={() => setIsResident(true)}
+              onPress={handleSetIsResident(true)}
               children="Я Резидент РК"
             />
             <Select
               selected={!isResident}
-              onPress={() => setIsResident(false)}
+              onPress={handleSetIsResident(false)}
               children="Не Резидент РК "
             />
           </>

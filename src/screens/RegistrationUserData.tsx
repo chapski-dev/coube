@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useMaskedInputProps } from 'react-native-mask-input';
 
 import { ScreenProps } from '@src/navigation/types';
+import registrationService from '@src/service/registration-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import DatePicker, { Box, Button, Input, Text } from '@src/ui';
@@ -41,12 +42,15 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
   const [dateValidUntil, setDateValidUntil] = useState(new Date());
   const [dateIssued, setDateIssued] = useState(new Date());
 
-
+  const isResident = registrationService.getIsRezident()
+  
   const handleContinue = (values: ResidentFormValues | NonResidentFormValues) => {
-    if (route.params.resident) {
-      navigation.navigate('otp-verify', { action: 'phone-verify', });
+    if (isResident) {
+      navigation.navigate('otp-verify', { action: 'phone-verify' });
+      return
     } {
-      navigation.navigate('settings-profile', { resident: route.params.resident })
+      navigation.navigate('settings-profile')
+      return
     }
   };
 
@@ -75,8 +79,9 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
     value: form.watch().phone,
   });
 
+
   const renderContent = () => {
-    if (route.params.resident) {
+    if (isResident) {
       return (
         <>
           <Box alignItems="center" mb={60}>
