@@ -4,6 +4,7 @@ import ArrowIcon from '@assets/svg/arrow-right.svg'
 import NoAvatarIcon from '@assets/svg/no-avatar.svg'
 
 import { ScreenProps } from '@src/navigation/types';
+import app from '@src/service/app';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Text } from '@src/ui';
@@ -137,7 +138,7 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
         </Box>
       </Box>
 
-      <Button backgroundColor='white' textColor='red' children='Выйти' />
+      <Button backgroundColor='white' textColor='red' children='Выйти' onPress={app.logout} />
 
       <Button type='clear' textColor='textSecondary' children='Удалить аккаунт' />
 

@@ -22,3 +22,7 @@ export const phoneMask = [
 export const removeUndefinedOnes = (obj: Record<string, any>): Record<string, any> => {
   return pickBy(obj, (v) => v !== undefined)
 }
+
+export const wait = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
