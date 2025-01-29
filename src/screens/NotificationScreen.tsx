@@ -1,11 +1,12 @@
-import { useAppTheme } from '@src/theme/theme';
-import { Box, Text } from '@src/ui';
 import React from 'react';
 import { SectionList } from 'react-native';
 import Orders from '@assets/svg/orders.svg';
 import Transport from '@assets/svg/transport.svg';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+
+import { useAppTheme } from '@src/theme/theme';
+import { Box, Text } from '@src/ui';
 
 export enum OrderStatus {
   OrderAccepted = 'Заказ принят!',
@@ -18,12 +19,12 @@ type OrderData =
   | { status: OrderStatus; carModel?: string; stateNumber?: string };
 
 const DATA: OrderData[] = [
-  { status: OrderStatus.OrderAccepted, orderNumber: '№ 15-020342' },
-  { status: OrderStatus.NewOrder, orderNumber: '№ 15-020342' },
+  { orderNumber: '№ 15-020342', status: OrderStatus.OrderAccepted },
+  { orderNumber: '№ 15-020342', status: OrderStatus.NewOrder },
   {
-    status: OrderStatus.NewTransport,
     carModel: 'FAW J7',
     stateNumber: '123 BOK 02',
+    status: OrderStatus.NewTransport,
   },
 ];
 
@@ -32,7 +33,7 @@ export const NotificationScreen = () => {
   const today = format(new Date(), 'dd MMMM', { locale: ru });
 
   const getStatusIcon = (status: OrderStatus) => {
-    const iconProps = { py: 6, px: 6, borderRadius: 4 };
+    const iconProps = { borderRadius: 4, px: 6, py: 6 };
     switch (status) {
       case OrderStatus.OrderAccepted:
         return (
@@ -59,7 +60,7 @@ export const NotificationScreen = () => {
 
   return (
     <SectionList
-      sections={[{ title: today, data: DATA }]}
+      sections={[{ data: DATA, title: today }]}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({ item }) => (
         <Box
@@ -98,6 +99,11 @@ export const NotificationScreen = () => {
           <Text type="label" color={colors.dark_grey} children={title} />
         </Box>
       )}
+      contentContainerStyle={{flexGrow: 1}}
+      ListEmptyComponent={
+        <Box flex={1} justifyContent='center' alignItems='center'>
+          <Text children="У вас пока нет уведомлений" />
+        </Box>}
     />
   );
 };
