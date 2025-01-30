@@ -4,9 +4,9 @@ import WaybillIcon from '@assets/svg/sheet.svg';
 import React from 'react';
 import { useAppTheme } from '@src/theme/theme';
 
-export const GoodsListSentScreen = ({
+export const InvoiseForGoodsSentScreen = ({
   navigation,
-}: ScreenProps<'goods-list-sent'>) => {
+}: ScreenProps<'invoise-for-goods-sent'>) => {
   const { colors } = useAppTheme();
   return (
     <Box px={16} py={45} alignItems="center" flex={1} gap={27}>
