@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-
 import SosModal from '@src/components/SosModal';
 import SwipeButton from '@src/components/SwipeButton';
 import { useLocalization } from '@src/translations/i18n';
