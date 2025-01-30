@@ -10,8 +10,8 @@ import { useAppTheme } from '@src/theme/theme';
 import { DocumentsScreen } from '../../screens/DocumentsScreen';
 import { Tabs } from '../Tabs';
 import { RootStackParamList } from '../types';
-import { ScreenInvoiceForGoods } from '@src/screens/ScreenInvoiceForGoods';
-import { InvoiceSentScreen } from '@src/screens/InvoiceSentScreen';
+import { GoodsListSentScreen } from '@src/screens/GoodsListSentScreen';
+import { ListSentScreen } from '@src/screens/ListSentScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -48,14 +48,14 @@ export const RootStack = () => {
       />
       <Stack.Screen
         name="invoice-for-goods"
-        component={ScreenInvoiceForGoods}
+        component={GoodsListSentScreen}
         options={{
           headerTitle: 'Накладная на товар',
         }}
       />
       <Stack.Screen
         name="invoice-sent"
-        component={InvoiceSentScreen}
+        component={ListSentScreen}
         options={{
           headerTitle: 'Накладная на товар',
         }}

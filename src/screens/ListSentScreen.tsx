@@ -4,9 +4,7 @@ import WaybillIcon from '@assets/svg/waydill.svg';
 import React from 'react';
 import { useAppTheme } from '@src/theme/theme';
 
-export const InvoiceSentScreen = ({
-  navigation,
-}: ScreenProps<'invoice-sent'>) => {
+export const ListSentScreen = ({ navigation }: ScreenProps<'invoice-sent'>) => {
   const { colors } = useAppTheme();
   return (
     <Box
@@ -19,18 +17,8 @@ export const InvoiceSentScreen = ({
       <Box gap={27} alignItems="center">
         <WaybillIcon color={colors.main} />
         <Box gap={4}>
-          <Text
-            type="h2"
-            color={colors.invoice_text}
-            center
-            children={'Накладная на товар отправлена!'}
-          />
-          <Text
-            type="h3"
-            center
-            color={colors.dark_grey}
-            children={'Погрузка груза завершена!'}
-          />
+          <Text type="h2" center children={'Накладная на товар отправлена!'} />
+          <Text type="h3" center children={'Погрузка груза завершена!'} />
         </Box>
       </Box>
       <Box
@@ -40,7 +28,7 @@ export const InvoiceSentScreen = ({
         borderColor={colors.border}
         style={{ borderTopWidth: 1 }}
       >
-        <Button children={'Перейти к заказу'} backgroundColor="main" />
+        <Button children={'Перейти к заказу'} />
       </Box>
     </Box>
   );
