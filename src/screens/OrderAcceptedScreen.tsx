@@ -26,8 +26,9 @@ export const OrderAcceptedScreen = ({
       <Box row>
         <Text children={'Номер заказа: 15-020342 '} />
       </Box>
-      <Box maxWidth={'60%'} mb={16} alignItems="center">
-        <Text center children={'Дата и время погрузки: 12.07.2024, 15:40'} />
+      <Box mb={16} alignItems="center">
+        <Text center children={'Дата и время погрузки:'} />
+        <Text center children={' 12.07.2024, 15:40'} />
       </Box>
       <Button children={'Отлично !'} backgroundColor="green" />
     </Box>

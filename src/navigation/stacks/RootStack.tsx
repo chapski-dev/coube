@@ -47,14 +47,14 @@ export const RootStack = () => {
         options={{ headerTitle: 'Доверенность' }}
       />
       <Stack.Screen
-        name="invoice-for-goods"
+        name="goods-list-sent"
         component={GoodsListSentScreen}
         options={{
           headerTitle: 'Накладная на товар',
         }}
       />
       <Stack.Screen
-        name="invoice-sent"
+        name="list-sent"
         component={ListSentScreen}
         options={{
           headerTitle: 'Накладная на товар',

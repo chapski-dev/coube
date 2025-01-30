@@ -1,12 +1,12 @@
 import { ScreenProps } from '@src/navigation/types';
 import { Box, Button, Text } from '@src/ui';
-import WaybillIcon from '@assets/svg/waydill.svg';
+import WaybillIcon from '@assets/svg/sheet.svg';
 import React from 'react';
 import { useAppTheme } from '@src/theme/theme';
 
 export const GoodsListSentScreen = ({
   navigation,
-}: ScreenProps<'invoice-for-goods'>) => {
+}: ScreenProps<'goods-list-sent'>) => {
   const { colors } = useAppTheme();
   return (
     <Box px={16} py={45} alignItems="center" flex={1} gap={27}>

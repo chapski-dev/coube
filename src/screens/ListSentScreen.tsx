@@ -1,10 +1,10 @@
 import { ScreenProps } from '@src/navigation/types';
 import { Box, Button, Text } from '@src/ui';
-import WaybillIcon from '@assets/svg/waydill.svg';
+import WaybillIcon from '@assets/svg/sheet.svg';
 import React from 'react';
 import { useAppTheme } from '@src/theme/theme';
 
-export const ListSentScreen = ({ navigation }: ScreenProps<'invoice-sent'>) => {
+export const ListSentScreen = ({ navigation }: ScreenProps<'list-sent'>) => {
   const { colors } = useAppTheme();
   return (
     <Box

@@ -43,8 +43,7 @@ function App(): React.JSX.Element {
 const Content = () => {
   const { authState } = useAuth();
 
-  // return authState === AuthState.ready ? <RootStack /> : <UnauthorizedStack />
-  return <RootStack />;
+  return authState === AuthState.ready ? <RootStack /> : <UnauthorizedStack />;
 };
 
 export default App;
