@@ -47,30 +47,26 @@ export const RootStack = () => {
         options={{ headerTitle: 'Доверенность' }}
       />
       <Stack.Screen
-        name="InvoiceForGoods"
+        name="invoice-for-goods"
         component={ScreenInvoiceForGoods}
         options={{
           headerTitle: 'Накладная на товар',
-          headerTitleAlign: 'center',
-          headerTitleStyle: { color: colors.dark_grey },
         }}
       />
       <Stack.Screen
-        name="InvoiceSent"
+        name="invoice-sent"
         component={InvoiceSentScreen}
         options={{
           headerTitle: 'Накладная на товар',
-          headerTitleAlign: 'center',
-          headerTitleStyle: { color: colors.dark_grey },
         }}
       />
       <Stack.Screen
-        options={{ headerShown: true, title: 'Данные профиля' }}
+        options={{ headerTitle: 'Данные профиля' }}
         name="profile-data"
         component={ProfileDataScreen}
       />
       <Stack.Screen
-        options={{ headerShown: true, title: 'Удостоверение личности' }}
+        options={{ headerTitle: 'Удостоверение личности' }}
         name="identity"
         component={IdentityScreen}
       />

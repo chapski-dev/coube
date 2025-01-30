@@ -6,11 +6,11 @@ import { ScreenProps } from '@src/navigation/types';
 
 export const ScreenOrderAccepted = ({
   navigation,
-}: ScreenProps<'OrderAccepted'>) => {
+}: ScreenProps<'order-accepted'>) => {
   const { colors } = useAppTheme();
 
   return (
-    <Box px={16} justifyContent="center" alignItems="center" flex={1} gap={8}>
+    <Box px={16} flex={1} justifyContent="center" alignItems="center" gap={8}>
       <Box
         borderRadius={9}
         backgroundColor={colors.green}
@@ -31,12 +31,7 @@ export const ScreenOrderAccepted = ({
         <Text color={colors.dark_grey} children={'Дата и время погрузки:'} />
         <Text color={colors.dark_grey} children={'12.07.2024, 15:40'} />
       </Box>
-      <Button
-        children={'Отлично !'}
-        type="filled"
-        backgroundColor="green"
-        textColor="white"
-      />
+      <Button children={'Отлично !'} backgroundColor="green" />
     </Box>
   );
 };

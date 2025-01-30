@@ -23,8 +23,6 @@ export const AppLightTheme = {
   colors: {
     ...navigationLightColors,
     ...lightColors,
-    customYellow: '#FAB54D26',
-    customGrey: '#494D4E',
   },
   dark: false,
   fonts: DefaultTheme.fonts,
