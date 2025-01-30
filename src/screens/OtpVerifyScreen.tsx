@@ -1,59 +1,83 @@
 import React, { useMemo, useRef, useState } from 'react'
+import { ActivityIndicator } from 'react-native'
 import { OtpInput, OtpInputProps, OtpInputRef } from 'react-native-otp-entry'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { ScreenProps } from '@src/navigation/types'
+import { dispatchAuth } from '@src/providers/auth'
+import { AuthActionType } from '@src/providers/reducers/authReducer'
 import { useAppTheme } from '@src/theme/theme'
 import { useLocalization } from '@src/translations/i18n'
 import { Box, Button, Text } from '@src/ui'
+import { wait } from '@src/utils'
+import { ASYNC_STORAGE_KEYS } from '@src/vars/async_storage_keys'
 import { isIOS } from '@src/vars/platform'
 
 const OTP_PASSWORD_LENGTH = 4;
 
 const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
+  const { colors } = useAppTheme()
   const { t } = useLocalization()
 
   const action = route.params.action;
-  const { colors } = useAppTheme()
+
   const otpInput = useRef<OtpInputRef>(null)
 
   const [notMatch, setNotMatch] = useState(false)
   const [disabled, setDisabled] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-
+    dispatchAuth?.({ type: AuthActionType.setReady })
+    await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.AUTH_STATE, AuthActionType.setReady)
   }
+
 
   const handleInputChanges = async (text: string) => {
     try {
       if (text.length === OTP_PASSWORD_LENGTH) {
         setDisabled(true)
+        await wait(300)
+        setLoading(true)
+        await wait(1000)
         if (action === 'login') {
-          await handleLogin();
+          if (text === '5555') {
+            await handleLogin();
+            return
+          } else {
+            throw new Error('Не верно введен код!')
+          }
+        }
+        if (action === 'phone-verify') {
+          navigation.replace('settings-profile')
           return
         }
         navigation.replace('registration', { step: 'residency' })
+        return
       }
     } catch (e) {
       setNotMatch(true)
       setDisabled(false)
       otpInput.current?.setValue('')
       isIOS && otpInput.current?.focus()
+    } finally {
+      setLoading(false)
     }
   }
 
   const theme: OtpInputProps['theme'] = useMemo(
     () => ({
       containerStyle: { gap: 12, width: 'auto' },
-      focusedPinCodeContainerOutlineStyle: notMatch
+      filledPinCodeContainerStyle: notMatch
         ? { borderColor: colors.red, borderRadius: 16, borderWidth: 1 }
         : { borderColor: colors.main, borderRadius: 16, borderWidth: 1 },
       focusedPinCodeContainerStyle: {
-        borderColor: colors.border,
+        borderColor: notMatch ? colors.red : colors.border,
         borderRadius: 15,
         borderWidth: 1,
       },
       pinCodeContainerStyle: {
-        borderColor: colors.border,
+        borderColor: notMatch ? colors.red : colors.border,
         borderRadius: 15,
         borderWidth: 1,
         width: 47,
@@ -64,34 +88,36 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
   )
 
   return (
-    <Box p={16} pt={54} gap={54} alignItems='center'>
-      {action !== 'invite' ? (
-        <>
-          <Text type='h2' children={t('confirm_the_number')} />
-          <Box>
-            <Text children={t('we_sent_it_to_a_number')} />
-            <Text children="+7 777 777 77 77" />
-            <Text children={t('confirmation_code_enter_it_below')} />
-          </Box>
-          
-        </>
-      ) : (
-        <Text type='h2' children={t('enter_the_invitation_code')} />
-      )}
-      <OtpInput
-        autoFocus
-        ref={otpInput}
-        disabled={disabled}
-        theme={theme}
-        numberOfDigits={OTP_PASSWORD_LENGTH}
-        onTextChange={handleInputChanges}
-        focusColor={colors.main}
-      />
-      <Box gap={16} w='full'>
-        <Button children="Подтвердить" onPress={() => null} />
-        {action === 'phone-verify' && <Button children="Не пришел смс код" type='clear' onPress={() => null} />}
+    <>
+      <Box p={16} pt={54} gap={54} alignItems='center'>
+        {action !== 'invite' ? (
+          <>
+            <Text type='h2' children={t('confirm_the_number')} />
+            <Box>
+              <Text children={t('we_sent_it_to_a_number')} />
+              <Text children="+7 777 777 77 77" />
+              <Text children={t('confirmation_code_enter_it_below')} />
+            </Box>
+
+          </>
+        ) : (
+          <Text type='h2' children={t('enter_the_invitation_code')} />
+        )}
+        {loading ? <ActivityIndicator color={colors.main} /> : (
+          <OtpInput
+            autoFocus
+            ref={otpInput}
+            disabled={disabled}
+            theme={theme}
+            numberOfDigits={OTP_PASSWORD_LENGTH}
+            onTextChange={handleInputChanges}
+            focusColor={colors.main}
+          />
+        )}
+        {action === 'phone-verify' &&
+          <Button children="Не пришел смс код" type='clear' onPress={() => null} />}
       </Box>
-    </Box>
+    </>
   )
 }
 

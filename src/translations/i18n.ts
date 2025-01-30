@@ -19,6 +19,24 @@ export const resources = {
 } as const
 
 
+export const LANGUAGE_LIST: {
+  lang: AppLangEnum;
+  title: string;
+  flag: string;
+}[] = [
+  {
+    flag: '🇰🇿',
+    lang: AppLangEnum.KZ,
+    title: 'kazakh',
+  },
+  {
+    flag: '🇷🇺',
+    lang: AppLangEnum.RU,
+    title: 'russian',
+  },
+];
+
+
 type TFunctionOptions = Parameters<TFunction>[1]
 
 export const useLocalization = useTranslation as (...p: Parameters<typeof useTranslation>) => Omit<

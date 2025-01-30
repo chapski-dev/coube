@@ -1,14 +1,12 @@
 import NoAvatarIcon from '@assets/svg/no-avatar.svg'
 
 import { ScreenProps } from '@src/navigation/types';
-import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box , Button , Text } from '@src/ui';
 
 export const ProfileDataScreen = ({ navigation }: ScreenProps<'profile-data'>) => {
   const { t } = useLocalization()
 
-  const { colors } = useAppTheme()
 
   return (
     <Box>
