@@ -67,7 +67,7 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
       {action !== 'invite' ? (
         <>
           <Text type='h2' children={t('confirm_the_number')} />
-          <Box>
+          <Box row>
             <Text children={t('we_sent_it_to_a_number')} />
             <Text children="+7 777 777 77 77" />
             <Text children={t('confirmation_code_enter_it_below')} />
@@ -87,8 +87,8 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
         focusColor={colors.main}
       />
       <Box gap={16} w='full'>
-        <Button children="Подтвердить" onPress={() => null} />
-        {action === 'phone-verify' && <Button children="Не пришел смс код" type='clear' onPress={() => null} />}
+        <Button children={t('confirm')} onPress={() => null} />
+        {action === 'phone-verify' && <Button children={t('sms-code-failed-to-arrive')} type='clear' onPress={() => null} />}
       </Box>
     </Box>
   )

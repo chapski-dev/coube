@@ -10,6 +10,7 @@ export const DefaultColors = {
   blue: '#639DF4',
   grey: '#EDEDED',
   dark_grey: '#494D4E',
+  light_grey: '#EEEEEE',
   black: '#000000',
   background: '#FAFAFA',
   disabled: '#D7D6D6',

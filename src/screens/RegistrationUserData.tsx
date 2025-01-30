@@ -85,8 +85,8 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
           </Box>
 
           <Box w="full" mb={24} gap={16}>
-            <Input label="Введите телефон" required placeholder="+7" />
-            <Input label="Введите ИИН" required placeholder="____________" />
+            <Input label={t('enter-phone')} required placeholder="+7" />
+            <Input label={t('enter-iin')} required placeholder="____________" />
           </Box>
         </>
       );
@@ -167,7 +167,7 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
                   control={form.control}
                   name='pasportNumber'
                   render={({ field: { value, onBlur, onChange } }) => (
-                    <Input label="Номер паспорта" value={value} onChangeText={onChange} onBlur={onBlur} />
+                    <Input label={t('passport-number')} value={value} onChangeText={onChange} onBlur={onBlur} />
                   )}
                 />
                 <Controller
@@ -177,7 +177,7 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
                     <DatePicker
                       date={dateIssued}
                       onChangeDate={onChangeDateIssued}
-                      label='Дата выдачи'
+                      label={t('data-issue')}
                       inputValue={value}
                     />
                   )}
@@ -187,7 +187,7 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
                 control={form.control}
                 name='pasportIssuedBy'
                 render={({ field: { value, onBlur, onChange } }) => (
-                  <Input label="Кем выдан" value={value} onChangeText={onChange} onBlur={onBlur} />
+                  <Input label={t('given-by-who')} value={value} onChangeText={onChange} onBlur={onBlur} />
                 )}
               />
               <Controller
@@ -197,7 +197,7 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
                   <DatePicker
                     date={dateValidUntil}
                     onChangeDate={onChangeDateValidUntil}
-                    label='Действителен до'
+                    label={t('valid-until')}
                     inputValue={value}
                   />
                 )}
@@ -218,7 +218,7 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
         paddingBottom: insets.bottom,
       }}>
         {renderContent()}
-        <Button children="Далее" onPress={form.handleSubmit(handleContinue)} />
+        <Button children={t('next')} onPress={form.handleSubmit(handleContinue)} />
       </KeyboardAwareScrollView>
     </>
   );

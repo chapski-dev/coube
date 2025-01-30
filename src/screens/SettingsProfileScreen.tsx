@@ -17,7 +17,7 @@ const SettingsProfileScreen = ({ navigation, route }: ScreenProps<'settings-prof
       <Box pl={16} pr={16} pt={25}>
         <Box gap={12} justifyContent='center' alignItems='center' mb={12}>
           <Box w={90} h={90} backgroundColor={colors.green} borderRadius={50} />
-          <Button textColor='main' type='clear' wrapperStyle={{ width: 150 }} children="Добавить фото" />
+          <Button textColor='main' type='clear' wrapperStyle={{ width: 150 }} children={t('add-photo')} />
         </Box>
 
         <Box gap={16} mb={31}>
@@ -71,8 +71,8 @@ const SettingsProfileScreen = ({ navigation, route }: ScreenProps<'settings-prof
           />
         </Box>
         <Box gap={16} pl={16} pr={16}>
-          <Button children="Добавить" />
-          <Button children="Позже" type='clear' />
+          <Button children={t('add')} />
+          <Button children={t('later')} type='clear' />
         </Box>
       </Box>
     </>

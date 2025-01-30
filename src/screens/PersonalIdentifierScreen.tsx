@@ -14,7 +14,7 @@ const PersonalIdentifier = ({ navigation, route }: ScreenProps<'personal-identif
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: !resident ? "Паспорт" : "Удостоверение личности",
+      headerTitle: !resident ? t('passport')  : t('identification_card'),
       headerBackButtonDisplayMode: 'minimal'
     })
 
@@ -56,7 +56,7 @@ const PersonalIdentifier = ({ navigation, route }: ScreenProps<'personal-identif
           <Text fontWeight='700' uppercase children="МВД РК" />
         </Box>
       </Box>
-      <Button children="Загрузить фото" onPress={() => null} backgroundColor='main_light' textColor='textDefault' />
+      <Button children={t('upload-photo')} onPress={() => null} backgroundColor='main_light' textColor='textDefault' />
     </Box>
   )
 }

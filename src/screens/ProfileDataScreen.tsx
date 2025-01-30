@@ -16,7 +16,7 @@ export const ProfileDataScreen = ({ navigation }: ScreenProps<'profile-data'>) =
 			<Box row gap={15} p={20} alignItems='center' >
 				<NoAvatarIcon width={90} height={90} />
 				<Box w={152} >
-					<Button backgroundColor='grey' textColor='black' children='Добавить фото' />
+					<Button backgroundColor='grey' textColor='black' children={t('add-photo')}  />
 				</Box>
 			</Box>
 
@@ -40,7 +40,7 @@ export const ProfileDataScreen = ({ navigation }: ScreenProps<'profile-data'>) =
 				<Text type='body_500' children='88121155548946' />
 			</Box>
 
-			<Button type='clear' textColor='red' children='Удалить аккаунт' />
+			<Button type='clear' textColor='red' children={t('delete-account')}/>
 
 		</Box>
 	);

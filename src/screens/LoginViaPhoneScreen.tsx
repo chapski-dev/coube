@@ -24,8 +24,8 @@ const LoginViaPhoneScreen = ({ navigation, route }: ScreenProps<'login-via-phone
         <Text center type='h2' children={t('enter_phone_number')} />
         <Text center children={t('and_well_send_you_an_authorization_code')} />
       </Box>
-      <Input label='Введите телефон' required {...maskedInputProps} placeholder='+7' />
-      <Button children="Далее" onPress={handleSubmit} />
+      <Input label={t('enter-your-phone')} required {...maskedInputProps} placeholder='+7' />
+      <Button children={t('next')}onPress={handleSubmit} />
     </Box>
   )
 }

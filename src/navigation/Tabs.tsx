@@ -1,7 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TabsParamList } from './types';
-import { MyOrdersScreen } from '@src/screens/MyOrdersScreen';
 import { MyVehicleScreen } from '@src/screens/MyVehicleScreen/MyVehicleScreen';
 import { FinanceScreen } from '@src/screens/FinanceScreen';
 import { NotificationScreen } from '@src/screens/NotificationScreen';
@@ -12,10 +11,13 @@ import TransportIcon from '../../assets/svg/transport.svg';
 import FinanceIcon from '../../assets/svg/finance.svg';
 import ProfileIcon from '../../assets/svg/profile-outline.svg';
 import { useAppTheme } from '@src/theme/theme';
+import { MyOrdersScreen } from '@src/screens/MyOrdersScreen/MyOrdersScreen';
+import { useLocalization } from '@src/translations/i18n';
 
 const Tab = createBottomTabNavigator<TabsParamList>();
 
 export const Tabs = () => {
+  const { t } = useLocalization()
   const { colors } = useAppTheme();
   return (
     <Tab.Navigator
@@ -30,7 +32,7 @@ export const Tabs = () => {
         component={MyOrdersScreen}
         options={{
           tabBarIcon: ({ color }) => <OrderIcon color={color} />,
-          title: 'Мои заказы',
+          title: t('my-orders'),
           headerTitleAlign: 'center',
         }}
       />
@@ -39,7 +41,7 @@ export const Tabs = () => {
         component={MyVehicleScreen}
         options={{
           tabBarIcon: ({ color }) => <TransportIcon color={color} />,
-          title: 'Мои ТС',
+          title: t('my-vehicles'),
           headerTitleAlign: 'center',
         }}
       />
@@ -48,7 +50,7 @@ export const Tabs = () => {
         component={FinanceScreen}
         options={{
           tabBarIcon: ({ color }) => <FinanceIcon color={color} />,
-          title: 'Финансы',
+          title: t('finances'),
           headerTitleAlign: 'center',
         }}
       />
@@ -57,7 +59,7 @@ export const Tabs = () => {
         component={NotificationScreen}
         options={{
           tabBarIcon: ({ color }) => <NotificationIcon color={color} />,
-          title: 'Уведомление',
+          title: t('notification'),
           headerTitleAlign: 'center',
         }}
       />
@@ -66,8 +68,8 @@ export const Tabs = () => {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ color }) => <ProfileIcon color={color} />,
-          tabBarLabel: 'Профиль',
-          title: 'Профиль',
+          tabBarLabel: t('profile'),
+          title: t('profile'),
           headerTitleAlign: 'center',
         }}
       />

@@ -30,7 +30,7 @@ const Select = ({
       w="full"
       >
       <Box w={15} h={15} borderColor={colors.grey} borderWidth={1} alignItems='center' justifyContent='center' borderRadius={5} >
-        {/* <TickIcon color={selected ? colors.main : colors.disabled} width={15} height={15} /> */}
+        {selected && <Box w={5} h={5} backgroundColor={colors.main} borderRadius={1} />}
       </Box>
       <Text color='black' fontWeight={400} children={children} />
     </Box>

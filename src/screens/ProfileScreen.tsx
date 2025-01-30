@@ -89,9 +89,9 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
 				</Box>
 			</Box>
 
-			<Button backgroundColor='white' textColor='red' children='Выйти' />
+			<Button backgroundColor='white' textColor='red' children={t('exit')} />
 
-			<Button type='clear' textColor='textSecondary' children='Удалить аккаунт' />
+			<Button type='clear' textColor='textSecondary' children={t('delete-account')} />
 
 		</Box>
 	);

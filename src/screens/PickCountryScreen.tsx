@@ -1,5 +1,6 @@
 import { ScreenProps } from '@src/navigation/types'
 import { useAppTheme } from '@src/theme/theme'
+import { useLocalization } from '@src/translations/i18n'
 import { Box, Input, Text } from '@src/ui'
 import React, { useState } from 'react'
 import { FlatList } from 'react-native'
@@ -15,6 +16,7 @@ const countries = [
 ];
 
 const PickCountryScreen = ({ navigation, route }: ScreenProps<'pick-country'>) => {
+  const { t } = useLocalization()
   const { insets } = useAppTheme();
   
   const handlePick = (value: string) => () => {
@@ -35,7 +37,7 @@ const PickCountryScreen = ({ navigation, route }: ScreenProps<'pick-country'>) =
   return (
     <Box flexGrow={1} pt={insets.top} pl={16} pr={16}  gap={24}>
       <Box>
-        <Input type='search' value={searchInputVal} onChangeText={handleFilter} placeholder='Введите название страны' />
+        <Input type='search' value={searchInputVal} onChangeText={handleFilter} placeholder={t('enter-country-name')} />
       </Box>
       <FlatList
         data={filtredCountry}

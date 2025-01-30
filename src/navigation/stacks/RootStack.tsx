@@ -10,6 +10,11 @@ import { DocumentsScreen } from '../../screens/DocumentsScreen';
 import { TechnicalPassportScreen } from '@src/screens/TechnicalPassportScreen';
 import { PowerOfAttorneyScreen } from '@src/screens/PowerOfAttorneyScreen';
 import { useAppTheme } from '@src/theme/theme';
+import { SearchForNewOrder } from '@src/screens/SearchForOrdersScreen/SearchForNewOrderScreen';
+import { FiltersForOrdersScreen } from '@src/screens/FiltersForOrdersScreen';
+import { FromWhereScreen } from '@src/screens/FromWhereScreen';
+import { TransportationDetailsScreen } from '@src/screens/TransportationsDetailsScreen/TransportationDetailsScreen';
+import { CounterOfferScreen } from '@src/screens/CounterOfferScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -44,8 +49,13 @@ export const RootStack = () => {
         component={PowerOfAttorneyScreen}
         options={{ headerTitle: 'Доверенность', }}
       />
-      <Stack.Screen options={{ headerShown: true, title: 'Данные профиля' }} name="profile-data" component={ProfileDataScreen} />
-      <Stack.Screen options={{ headerShown: true, title: 'Удостоверение личности' }} name="identity" component={IdentityScreen} />
+      <Stack.Screen options={{ title: 'Данные профиля' }} name="profile-data" component={ProfileDataScreen} />
+      <Stack.Screen options={{ title: 'Удостоверение личности' }} name="identity" component={IdentityScreen} />
+      <Stack.Screen options={{ title: 'Поиск заказа' }} name="search-for-new-order" component={SearchForNewOrder} />
+      <Stack.Screen options={{ title: 'Фильтры' }} name="filters-for-orders" component={FiltersForOrdersScreen} />
+      <Stack.Screen options={{ title: 'Откуда' }} name="from-where" component={FromWhereScreen} />
+      <Stack.Screen options={{ title: '' }} name="transportation-details" component={TransportationDetailsScreen} />
+      <Stack.Screen options={{ title: 'Контроффер' }} name="counter-offer" component={CounterOfferScreen} />
     </Stack.Navigator>
   );
 };

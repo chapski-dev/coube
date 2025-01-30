@@ -28,9 +28,9 @@ const LoginViaPhoneScreen = ({ navigation, route }: ScreenProps<'login-via-phone
       </Box>
       <Box gap={16}>
         <Input label='Email' required {...maskedInputProps} />
-        <Input label='Пароль' required {...maskedInputProps} />
+        <Input label={t('password')} required {...maskedInputProps} />
       </Box>
-      <Button children="Далее" onPress={handleSubmit} />
+      <Button children={t('next')} onPress={handleSubmit} />
     </Box>
   )
 }

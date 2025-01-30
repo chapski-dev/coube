@@ -22,6 +22,7 @@ interface InputProps extends TextInputProps {
   required?: boolean;
   wrapperStyle?: StyleProp<ViewStyle>
   type?: 'search' | 'classic'
+  color?: string
 }
 
 export const Input = forwardRef<InputProps, InputProps>(

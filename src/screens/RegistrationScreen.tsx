@@ -4,9 +4,11 @@ import { Box, Button } from '@src/ui';
 import React, { useState } from 'react';
 import LogoIcon from '@assets/svg/logo.svg';
 import Select from '@src/ui/Select';
+import { useLocalization } from '@src/translations/i18n';
 
 
 const RegistrationScreen = ({ navigation, route }: ScreenProps<'registration'>) => {
+  const { t } = useLocalization()
 
   const { insets } = useAppTheme();
   const [isResident, setIsResident] = useState(true);
@@ -32,17 +34,17 @@ const RegistrationScreen = ({ navigation, route }: ScreenProps<'registration'>) 
       <Box gap={16} w="full">
         {route.params.step === 'driver_performer_or_invaitetion' ? (
           <>
-            <Select selected={isInvited} onPress={() => setIsInvited(true)} children="Я получил приглашение" />
-            <Select selected={!isInvited} onPress={() => setIsInvited(false)} children="Я Исполнитель-водитель " />
+            <Select selected={isInvited} onPress={() => setIsInvited(true)} children={t('i-got-an-invintaion')}  />
+            <Select selected={!isInvited} onPress={() => setIsInvited(false)} children={t('im-the-executive-driver')}  />
           </>
         ) : (
           <>
-            <Select selected={isResident} onPress={() => setIsResident(true)} children="Я Резидент РК" />
-            <Select selected={!isResident} onPress={() => setIsResident(false)} children="Не Резидент РК " />
+            <Select selected={isResident} onPress={() => setIsResident(true)} children={t('im-resident-of-rk')} />
+            <Select selected={!isResident} onPress={() => setIsResident(false)} children={t('im-not-resident-of-rk')} />
           </>
         )}
       </Box>
-      <Button children="Далее" onPress={goAhead} />
+      <Button children={t('next')} onPress={goAhead} />
     </Box>
   );
 };
