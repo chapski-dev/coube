@@ -1,47 +1,80 @@
+import { useRef, useState } from 'react';
+import { Image } from 'react-native';
+import { ImagePickerResponse } from 'react-native-image-picker';
 import NoAvatarIcon from '@assets/svg/no-avatar.svg'
-import { Button } from '@src/ui/Button/Button';
-import { Text } from '@src/ui/Text';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+
 import { ScreenProps } from '@src/navigation/types';
-import { Box } from '@src/ui';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
+import { Box, Button, Text } from '@src/ui';
+import ImagePickerModal from '@src/widgets/ImagePickerModal';
 
 export const ProfileDataScreen = ({ navigation }: ScreenProps<'profile-data'>) => {
-	const { t } = useLocalization()
+  const { t } = useLocalization()
+  const { colors } = useAppTheme();
+  const [pickerResponse, setPickerResponse] = useState<ImagePickerResponse | null>(null);
+  const uri = pickerResponse?.assets && pickerResponse.assets[0].uri;
+  const modal = useRef<BottomSheetModal>(null);
+  const modalClose = () => modal?.current?.forceClose();
+  const modalOpen = () => modal?.current?.present();
 
-	const {colors} = useAppTheme()
 
-	return (
-		<Box>
-			<Box row gap={15} p={20} alignItems='center' >
-				<NoAvatarIcon width={90} height={90} />
-				<Box w={152} >
-					<Button backgroundColor='grey' textColor='black' children={t('add-photo')}  />
-				</Box>
-			</Box>
+  return (
+    <>
+      <Box px={16} gap={24} pt={24}>
+        <Box row gap={15} alignItems='center' >
+          {pickerResponse?.assets ?
+            <Image style={{ borderRadius: 50, height: 90, width: 90 }} source={{ uri }} /> :
+            <Box w={90} h={90} backgroundColor={colors.disabled} borderRadius={50} >
+              <NoAvatarIcon width={90} height={90} />
+            </Box>
+          }
 
-			<Box p={15} >
-				<Text type='label' children={t('full_name')} />
-				<Text type='body_500' uppercase children='СЕРГЕЙ КРЫЛОВ ДМИТРИЕВИЧ' />
-			</Box>
+          <Box w={152} >
+            <Button
+              backgroundColor='grey'
+              textColor='black'
+              children='Добавить фото'
+              onPress={modalOpen}
+            />
+          </Box>
+        </Box>
 
-			<Box p={15} row justifyContent='space-between' >
-				<Box>
-					<Text type='label' children={t('phone')} />
-					<Text type='body_500' children='+7 777 777 77 77' />
-				</Box>
-				<Box w={119} >
-					<Button type="clear" children='Добавить телефон' />
-				</Box>
-			</Box>
+        <Box gap={16}>
+          <Box>
+            <Text type='label' children={t('full_name')} />
+            <Text type='body_500' uppercase children='СЕРГЕЙ КРЫЛОВ ДМИТРИЕВИЧ' />
+          </Box>
 
-			<Box p={15} >
-				<Text type='label' children={t('iin')} />
-				<Text type='body_500' children='88121155548946' />
-			</Box>
+          <Box row justifyContent='space-between' >
+            <Box flex={1}>
+              <Text type='label' children={t('phone')} />
+              <Text type='body_500' children='+7 777 777 77 77' />
+            </Box>
+            <Button
+              wrapperStyle={{ flex: 1 }}
+              type="clear"
+              children={t('add_phone_number')}
+              textStyle={{ fontSize: 14 }}
+              textColor='dark_grey'
+            />
+          </Box>
 
-			<Button type='clear' textColor='red' children={t('delete-account')}/>
+          <Box>
+            <Text type='label' children={t('iin')} />
+            <Text type='body_500' children='88121155548946' />
+          </Box>
+        </Box>
 
-		</Box>
-	);
+        <Button type='clear' textColor='red' children='Удалить аккаунт' />
+      </Box>
+
+      <ImagePickerModal
+        ref={modal}
+        modalClose={modalClose}
+        setPickerResponse={setPickerResponse}
+      />
+    </>
+  );
 };

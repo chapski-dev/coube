@@ -1,6 +1,7 @@
 // import { useColorScheme } from 'react-native';
 import { AppDarkTheme, AppLightTheme } from '@src/theme/theme';
 import { ASYNC_STORAGE_KEYS } from '@src/vars/async_storage_keys';
+
 import { useCustomAsyncStorage } from './useAsyncStorage';
 
 export const useAppColorTheme = () => {
@@ -25,5 +26,5 @@ export const useAppColorTheme = () => {
     }
   }
 
-  return { theme, appThemeKey };
+  return { appThemeKey, theme };
 };

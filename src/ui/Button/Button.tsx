@@ -1,5 +1,3 @@
-import { AppLightTheme, useAppTheme } from '@src/theme/theme';
-import { merge } from 'lodash';
 import React, { FC, useMemo } from 'react';
 import {
   ActivityIndicator,
@@ -11,6 +9,10 @@ import {
   ViewProps,
   ViewStyle,
 } from 'react-native';
+import { merge } from 'lodash';
+
+import { AppLightTheme, useAppTheme } from '@src/theme/theme';
+
 import { clearStyle, commonStytle, filledStyle, outlineStyle } from './Button.styles';
 
 type ButtonType = keyof typeof typeStyle;

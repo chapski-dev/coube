@@ -1,17 +1,20 @@
 import React, { forwardRef, useRef, useState } from 'react';
 import {
-  View,
-  TextInput,
-  StyleSheet,
-  TextInputProps,
-  StyleProp,
-  ViewStyle,
   NativeSyntheticEvent,
+  StyleProp,
+  StyleSheet,
+  TextInput,
   TextInputFocusEventData,
+  TextInputProps,
+  View,
+  ViewStyle,
 } from 'react-native';
-import { Text } from './Text';
-import { useAppTheme } from '@src/theme/theme';
 import SearchIcon from '@assets/svg/search.svg'
+
+import { useAppTheme } from '@src/theme/theme';
+
+import { Text } from './Text';
+
 interface InputProps extends TextInputProps {
   label?: string;
   prompting?: string;
@@ -27,19 +30,19 @@ interface InputProps extends TextInputProps {
 
 export const Input = forwardRef<InputProps, InputProps>(
   (
-    { 
-      label, 
-      prompting, 
-      value, 
-      onChangeText, 
-      error, 
-      errorText, 
-      required, 
-      wrapperStyle, 
-      onFocus, 
+    {
+      label,
+      prompting,
+      value,
+      onChangeText,
+      error,
+      errorText,
+      required,
+      wrapperStyle,
+      onFocus,
       onBlur,
       type,
-      ...props 
+      ...props
     },
     ref,
   ) => {
@@ -64,7 +67,7 @@ export const Input = forwardRef<InputProps, InputProps>(
     }
 
     return (
-      <View style={[{ gap: 4, flexGrow: 1 }, wrapperStyle]}>
+      <View style={[{ flexGrow: 1, gap: 4 }, wrapperStyle]}>
         {label && <Text style={styles.label}>
           <Text children={label} />
           {required ? <Text children='*' color={colors.red} /> : null}
@@ -90,21 +93,19 @@ export const Input = forwardRef<InputProps, InputProps>(
           />
         </View>
         {error && <Text style={styles.errorText} children={errorText} />}
-        {prompting && <Text style={{ ...styles.label, color: colors.label }} children={prompting} />}
+        {prompting &&
+          <Text
+            style={{ ...styles.label, color: colors.label }}
+            children={prompting}
+          />}
       </View>
     );
   },
 );
 
 const styles = StyleSheet.create({
-  inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    flexGrow: 1,
-    gap: 9,
+  errorText: {
+    color: 'red',
   },
   input: {
     flexGrow: 1,
@@ -114,10 +115,16 @@ const styles = StyleSheet.create({
   inputError: {
     borderColor: 'red',
   },
+  inputWrapper: {
+    alignItems: 'center',
+    borderRadius: 10,
+    borderWidth: 2,
+    flexDirection: 'row',
+    flexGrow: 1,
+    gap: 9,
+    paddingHorizontal: 10,
+  },
   label: {
     fontSize: 13,
-  },
-  errorText: {
-    color: 'red',
   },
 });

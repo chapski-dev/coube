@@ -1,8 +1,10 @@
 import React from 'react';
-import { Text } from './Text';
-import { Box } from './Box';
 import TickIcon from '@assets/svg/tick-fill.svg';
+
 import { useAppTheme } from '@src/theme/theme';
+
+import { Box } from './Box';
+import { Text } from './Text';
 
 interface SelectProps {
   selected?: boolean;
@@ -30,7 +32,7 @@ const Select = ({
       w="full"
       >
       <Box w={15} h={15} borderColor={colors.grey} borderWidth={1} alignItems='center' justifyContent='center' borderRadius={5} >
-        {/* <TickIcon color={selected ? colors.main : colors.disabled} width={15} height={15} /> */}
+        <TickIcon color={selected ? colors.main : colors.disabled} width={15} height={15} />
       </Box>
       <Text color='black' fontWeight={400} children={children} />
     </Box>

@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProps } from '@gorhom/bottom-sheet';
+
 import { useAppTheme } from '@src/theme/theme';
 
 type TBottomSlideModalProps = BottomSheetModalProps;

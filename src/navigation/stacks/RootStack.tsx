@@ -1,14 +1,10 @@
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from '@src/screens/Home';
+
 import { IdentityScreen } from '@src/screens/IdentityScreen';
-import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
-import { ProfileScreen } from '@src/screens/ProfileScreen';
-import { RootStackParamList } from '../types';
-import React from 'react'
-import { Tabs } from '../Tabs';
-import { DocumentsScreen } from '../../screens/DocumentsScreen';
-import { TechnicalPassportScreen } from '@src/screens/TechnicalPassportScreen';
 import { PowerOfAttorneyScreen } from '@src/screens/PowerOfAttorneyScreen';
+import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
+import { TechnicalPassportScreen } from '@src/screens/TechnicalPassportScreen';
 import { useAppTheme } from '@src/theme/theme';
 import { SearchForNewOrder } from '@src/screens/SearchForOrdersScreen/SearchForNewOrderScreen';
 import { FiltersForOrdersScreen } from '@src/screens/FiltersForOrdersScreen';
@@ -17,13 +13,19 @@ import { TransportationDetailsScreen } from '@src/screens/TransportationsDetails
 import { CounterOfferScreen } from '@src/screens/CounterOfferScreen';
 import { useLocalization } from '@src/translations/i18n';
 
+import { DocumentsScreen } from '../../screens/DocumentsScreen';
+import { Tabs } from '../Tabs';
+import { RootStackParamList } from '../types';
+import { InvoiseForGoodsSentScreen } from '@src/screens/InvoiseForGoodsSentScreen';
+import { InvoiceSentScreen } from '@src/screens/InvoiceSentScreen';
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootStack = () => {
   const { t } = useLocalization()
   const { colors } = useAppTheme();
   return (
-    <Stack.Navigator 
+    <Stack.Navigator
       initialRouteName="tabs"
       screenOptions={{
         headerTintColor: colors.main,
@@ -32,22 +34,22 @@ export const RootStack = () => {
       }}
     >
       <Stack.Screen
-        name='tabs'
+        name="tabs"
         component={Tabs}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name='documents'
+        name="documents"
         component={DocumentsScreen}
-        options={({ route }) => ({ headerTitle: route.params.carModel, })}
+        options={({ route }) => ({ headerTitle: route.params.carModel })}
       />
       <Stack.Screen
-        name='technical-passport'
+        name="technical-passport"
         component={TechnicalPassportScreen}
         options={{ headerTitle: t('technical-passport'), }}
       />
       <Stack.Screen
-        name='power-of-attorney'
+        name="power-of-attorney"
         component={PowerOfAttorneyScreen}
         options={{ headerTitle: t('power-of-attorney'), }}
       />

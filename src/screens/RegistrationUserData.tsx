@@ -1,14 +1,15 @@
-import { ScreenProps } from '@src/navigation/types';
-import { useAppTheme } from '@src/theme/theme';
-import { Box, Button, Input, Text } from '@src/ui';
 import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { modal } from '@src/ui/Layouts/ModalLayout';
 import { useMaskedInputProps } from 'react-native-mask-input';
-import { phoneMask } from '@src/utils';
-import DatePicker from '@src/ui/DatePicker';
+
+import { ScreenProps } from '@src/navigation/types';
+import registrationService from '@src/service/registration-service';
+import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
+import DatePicker, { Box, Button, Input, Text } from '@src/ui';
+import { modal } from '@src/ui/Layouts/ModalLayout';
+import { phoneMask } from '@src/utils/masks';
 
 interface ResidentFormValues {
   phone: string;
@@ -41,12 +42,15 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
   const [dateValidUntil, setDateValidUntil] = useState(new Date());
   const [dateIssued, setDateIssued] = useState(new Date());
 
-
+  const isResident = registrationService.getIsRezident()
+  
   const handleContinue = (values: ResidentFormValues | NonResidentFormValues) => {
-    if(route.params.resident) {
-      navigation.navigate('otp-verify', { action: 'phone-verify',  });
+    if (isResident) {
+      navigation.navigate('otp-verify', { action: 'phone-verify' });
+      return
     } {
-      navigation.navigate('settings-profile', { resident: route.params.resident })
+      navigation.navigate('settings-profile')
+      return
     }
   };
 
@@ -75,8 +79,9 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
     value: form.watch().phone,
   });
 
+
   const renderContent = () => {
-    if (route.params.resident) {
+    if (isResident) {
       return (
         <>
           <Box alignItems="center" mb={60}>
@@ -152,7 +157,7 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
                     >
                       <Text
                         color={value ? colors.textDefault : colors.disabled}
-                        children={value ? value : t('choose_a_country')} 
+                        children={value ? value : t('choose_a_country')}
                       />
                     </Box>
                   </Box>
@@ -211,12 +216,13 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
 
   return (
     <>
-      <KeyboardAwareScrollView contentContainerStyle={{
-        flexGrow: 1,
-        paddingHorizontal: 16,
-        alignItems: 'center',
-        paddingBottom: insets.bottom,
-      }}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{
+          alignItems: 'center',
+          flexGrow: 1,
+          paddingBottom: insets.bottom,
+          paddingHorizontal: 16,
+        }}>
         {renderContent()}
         <Button children={t('next')} onPress={form.handleSubmit(handleContinue)} />
       </KeyboardAwareScrollView>

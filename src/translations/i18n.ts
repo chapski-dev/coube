@@ -1,13 +1,13 @@
-import i18n, { TFunction } from 'i18next';
 import { initReactI18next, useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n, { TFunction } from 'i18next';
+
+import { ASYNC_STORAGE_KEYS } from '@src/vars/async_storage_keys';
 
 import kzTranslation from './kk-KZ.json';
-import ruTranslation from './ru-RU.json';
-
-import { AppLangEnum } from './types';
 import RNLanguageDetector from './LanguageDetector';
-import { ASYNC_STORAGE_KEYS } from '@src/vars/async_storage_keys';
+import ruTranslation from './ru-RU.json';
+import { AppLangEnum } from './types';
 
 export const resources = {
   [AppLangEnum.KZ]: {
@@ -17,6 +17,24 @@ export const resources = {
     translation: ruTranslation,
   },
 } as const
+
+
+export const LANGUAGE_LIST: {
+  lang: AppLangEnum;
+  title: string;
+  flag: string;
+}[] = [
+  {
+    flag: '🇰🇿',
+    lang: AppLangEnum.KZ,
+    title: 'kazakh',
+  },
+  {
+    flag: '🇷🇺',
+    lang: AppLangEnum.RU,
+    title: 'russian',
+  },
+];
 
 
 type TFunctionOptions = Parameters<TFunction>[1]
@@ -42,8 +60,8 @@ export const saveLanguageAsyncStorage = async (language: AppLangEnum) => {
     .init({
       defaultNS: undefined,
       fallbackLng: AppLangEnum.RU,
-      ns: [],
       lng: (await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.CURRENT_LANG)) || AppLangEnum.RU,
+      ns: [],
       parseMissingKeyHandler: (key) => `[MISSING KEY] ${key}`,
       resources,
     });

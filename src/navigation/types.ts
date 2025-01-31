@@ -15,6 +15,9 @@ export type RootStackParamList = {
   'from-where': undefined
   'transportation-details': TransportationDetailsParams
   'counter-offer': undefined
+  'invoise-for-goods-sent': undefined
+  'invoice-sent': undefined
+  'order-accepted': undefined
 }
 
 export type TabsParamList = {
@@ -30,12 +33,17 @@ export type UnauthorizedStackParamList = {
   intro: undefined;
   login: undefined;
   registration: { step: 'driver_performer_or_invaitetion' | 'residency' };
-  'registration-user-data': { resident: boolean };
-  'otp-verify': { action: 'invite' | 'phone-verify' | 'login' | 'registration' };
+  'registration-user-data': undefined;
+  'otp-verify': { 
+    action: 'invite' | 'phone-verify' | 'login' | 'registration', 
+    resident?: boolean 
+  };
   'pick-country': { handlePick: (val: string) => void };
   'login-via-phone': undefined
-  'settings-profile': { resident: boolean };
-  'personal-identifier': { resident: boolean };
+  'settings-profile': undefined;
+  'personal-identifier': undefined;
+  'registration-finished': undefined
+  'add-drivers-license': undefined;
 };
 
 export type AllStackParamList = RootStackParamList & TabsParamList & UnauthorizedStackParamList 

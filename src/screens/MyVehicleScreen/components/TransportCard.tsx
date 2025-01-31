@@ -1,8 +1,9 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
-import RightArrow from '@assets/svg/arrow-right.svg';
-import { useAppTheme } from '@src/theme/theme';
 import { Image } from 'react-native';
+import RightArrow from '@assets/svg/arrow-right.svg';
+import { useNavigation } from '@react-navigation/native';
+
+import { useAppTheme } from '@src/theme/theme';
 import { Box, Text } from '@src/ui';
 import { useLocalization } from '@src/translations/i18n';
 

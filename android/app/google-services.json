@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "910060702722",
+    "project_id": "coube-delivery-kz",
+    "storage_bucket": "coube-delivery-kz.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910060702722:android:08a91ea8b224539a40ab1b",
+        "android_client_info": {
+          "package_name": "com.coube"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCupztT_WDgcsFfYvvxvZFlVhPaSUvr_zA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
