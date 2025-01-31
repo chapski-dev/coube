@@ -1,7 +1,6 @@
 import { useAppTheme } from "@src/theme/theme";
 import { Box, Button, Text } from "@src/ui";
-import DarkCircle from '@assets/svg/dark-circle.svg'
-import RedCircle from '@assets/svg/red-circle.svg'
+import Circle from '@assets/svg/circle.svg'
 import { FC } from "react";
 import { useLocalization } from "@src/translations/i18n";
 import { RouteObjectType } from "@src/screens/TransportationsDetailsScreen/TransportationDetailsScreen";
@@ -12,11 +11,11 @@ type OrderPropsTypes = {
 	rating?: string
 	cargoName?: string
 	category?: string[]
-	routeInfromation: RouteObjectType[]
+	transportationRoute: RouteObjectType[]
 	cargoWeight?: string
 }
 
-export const OrderForSearchForOrderScreen: FC<OrderPropsTypes> = ({ openTransportationDetails, companyName, rating, cargoName, category, routeInfromation, cargoWeight }) => {
+export const OrderForSearchForOrderScreen: FC<OrderPropsTypes> = ({ openTransportationDetails, companyName, rating, cargoName, category, transportationRoute, cargoWeight }) => {
 	const { t } = useLocalization()
 	const {colors} = useAppTheme()
 
@@ -47,13 +46,13 @@ export const OrderForSearchForOrderScreen: FC<OrderPropsTypes> = ({ openTranspor
 
 			
 			<Box row gap={10} alignItems="center" >
-				<DarkCircle />
-				<Text children={routeInfromation[0].loadingPoint} />
+				<Circle color='dark_grey' />
+				<Text children={transportationRoute[0].loadingPoint} />
 			</Box>
 
 			<Box row gap={10} alignItems="center" >
-				<RedCircle />
-				<Text children={routeInfromation[routeInfromation.length-1].loadingPoint} />
+				<Circle color='red' />
+				<Text children={transportationRoute[transportationRoute.length-1].loadingPoint} />
 			</Box>
 
 			<Text color="black" fontSize={18} fontWeight={900} children={cargoWeight} />

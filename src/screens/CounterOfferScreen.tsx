@@ -42,7 +42,7 @@ export const CounterOfferScreen = () => {
 				</Box>
 			</Box>
 
-			<Button textStyle={{fontSize: 18}} children={t('send-counteroffer')} />
+			<Button children={t('send-counteroffer')} />
 		</Box>
 	);
 };

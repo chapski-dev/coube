@@ -1,13 +1,14 @@
 import { Box, Text } from "@src/ui";
 import { Order } from "./components/Order";
 import { useAppTheme } from "@src/theme/theme";
-import Magnifier from '@assets/svg/magnifier.svg'
+import Search from '@assets/svg/search.svg'
 import Arrow from '@assets/svg/arrow-right.svg'
 import { ScreenProps } from '@src/navigation/types';
 import { useState } from "react"
 import {OrderStatusEnum} from './components/OrderStatus'
 import { TransportationDetailsParams } from "../TransportationsDetailsScreen/TransportationDetailsScreen";
 import { useLocalization } from "@src/translations/i18n";
+import { transportationRouteData } from "@src/mocks/order-details";
 
 export const MyOrdersScreen = ({ navigation }: ScreenProps<'my-orders-screen'>) => {
 	const { t } = useLocalization()
@@ -31,8 +32,8 @@ export const MyOrdersScreen = ({ navigation }: ScreenProps<'my-orders-screen'>) 
 			</Box>
 
 			<Box row justifyContent="space-between" px={10} py={20} alignItems="center" backgroundColor={colors.white} >
-				<Box row gap={10} >
-					<Magnifier />
+				<Box row gap={10} alignItems="center" >
+					<Search />
 					<Text type="body_500" children={t('new-orders-search')} />
 				</Box>
 				<Arrow onPress={openSearchForNewOrder} />
@@ -48,40 +49,7 @@ export const MyOrdersScreen = ({ navigation }: ScreenProps<'my-orders-screen'>) 
 						cargoWeight: '15 tonn',
 						cargoVolume: '3000 м3',
 						additionalCargoInformation: 'Транспортные средства, используемые для перевозки продуктов',
-						routeInfromation: [
-							{
-								placeType: 'load',
-								loadingPoint: 'г. Алматы, улица Желтоксан, 12А',
-								dateAndPlaceOfUnloading: '18.07.2024, 15:40',
-								cargoWeight: '10 тонн',
-								cargoVolume: '2000 м3',
-								loadingMethod: 'Ручной'
-							},
-							{
-								placeType: 'unload',
-								loadingPoint: 'г. Астана, улица Пушкина, 10',
-								dateAndPlaceOfUnloading: '20.07.2024, 15:40',
-								cargoWeight: '5 тонн',
-								cargoVolume: '500 м3',
-								loadingMethod: 'Ручной'
-							},
-							{
-								placeType: 'unload',
-								loadingPoint: 'г. Москва, улица Ленина, 10',
-								dateAndPlaceOfUnloading: '25.07.2024, 15:40',
-								cargoWeight: '2 тонн',
-								cargoVolume: '300 м3',
-								loadingMethod: 'Ручной'
-							},
-							{
-								placeType: 'unload',
-								loadingPoint: 'г. Минск, улица Ленина, 10',
-								dateAndPlaceOfUnloading: '27.07.2024, 15:40',
-								cargoWeight: '3 тонн',
-								cargoVolume: '400 м3',
-								loadingMethod: 'Ручной'
-							}
-						],
+						transportationRoute: transportationRouteData,
 						movingService: '2',
 						documents: '№2233411-Артем.pdf'
 					})} 
@@ -89,40 +57,7 @@ export const MyOrdersScreen = ({ navigation }: ScreenProps<'my-orders-screen'>) 
 					orderNumber='15-020342'
 					distance='884 км'
 					cargoName='Медицинское оборудование'
-					routeInfromation={[
-						{
-							placeType: 'load',
-							loadingPoint: 'г. Алматы, улица Желтоксан, 12А',
-							dateAndPlaceOfUnloading: '18.07.2024, 15:40',
-							cargoWeight: '10 тонн',
-							cargoVolume: '2000 м3',
-							loadingMethod: 'Ручной'
-						},
-						{
-							placeType: 'unload',
-							loadingPoint: 'г. Астана, улица Пушкина, 10',
-							dateAndPlaceOfUnloading: '20.07.2024, 15:40',
-							cargoWeight: '5 тонн',
-							cargoVolume: '500 м3',
-							loadingMethod: 'Ручной'
-						},
-						{
-							placeType: 'unload',
-							loadingPoint: 'г. Москва, улица Ленина, 10',
-							dateAndPlaceOfUnloading: '25.07.2024, 15:40',
-							cargoWeight: '2 тонн',
-							cargoVolume: '300 м3',
-							loadingMethod: 'Ручной'
-						},
-						{
-							placeType: 'unload',
-							loadingPoint: 'г. Минск, улица Ленина, 10',
-							dateAndPlaceOfUnloading: '27.07.2024, 15:40',
-							cargoWeight: '3 тонн',
-							cargoVolume: '400 м3',
-							loadingMethod: 'Ручной'
-						}
-					]}
+					transportationRoute={transportationRouteData}
 					transportationPeriod='12.07.2024-30.07.2024'
 				/>
 			</Box>

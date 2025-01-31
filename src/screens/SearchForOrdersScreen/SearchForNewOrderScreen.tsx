@@ -7,6 +7,7 @@ import Filter from '@assets/svg/filter.svg'
 import { Image } from "react-native";
 import { TransportationDetailsParams } from "../TransportationsDetailsScreen/TransportationDetailsScreen";
 import { useLocalization } from "@src/translations/i18n";
+import { transportationRouteData } from "@src/mocks/order-details";
 
 export const SearchForNewOrder = ({ navigation }: ScreenProps<'search-for-new-order'>) => {
 	const { t } = useLocalization()
@@ -44,40 +45,7 @@ export const SearchForNewOrder = ({ navigation }: ScreenProps<'search-for-new-or
 					cargoWeight: '15 tonn',
 					cargoVolume: '3000 м3',
 					additionalCargoInformation: 'Транспортные средства, используемые для перевозки продуктов',
-					routeInfromation: [
-						{
-							placeType: 'load',
-							loadingPoint: 'г. Алматы, улица Желтоксан, 12А',
-							dateAndPlaceOfUnloading: '18.07.2024, 15:40',
-							cargoWeight: '10 тонн',
-							cargoVolume: '2000 м3',
-							loadingMethod: 'Ручной'
-						},
-						{
-							placeType: 'unload',
-							loadingPoint: 'г. Астана, улица Пушкина, 10',
-							dateAndPlaceOfUnloading: '20.07.2024, 15:40',
-							cargoWeight: '5 тонн',
-							cargoVolume: '500 м3',
-							loadingMethod: 'Ручной'
-						},
-						{
-							placeType: 'unload',
-							loadingPoint: 'г. Москва, улица Ленина, 10',
-							dateAndPlaceOfUnloading: '25.07.2024, 15:40',
-							cargoWeight: '2 тонн',
-							cargoVolume: '300 м3',
-							loadingMethod: 'Ручной'
-						},
-						{
-							placeType: 'unload',
-							loadingPoint: 'г. Минск, улица Ленина, 10',
-							dateAndPlaceOfUnloading: '27.07.2024, 15:40',
-							cargoWeight: '3 тонн',
-							cargoVolume: '400 м3',
-							loadingMethod: 'Ручной'
-						}
-					],
+					transportationRoute: transportationRouteData,
 					movingService: '2',
 					documents: '№2233411-Артем.pdf'
 				})} 
@@ -85,40 +53,7 @@ export const SearchForNewOrder = ({ navigation }: ScreenProps<'search-for-new-or
 				rating='4.9'
 				cargoName='Медицинское оборудование'
 				category={['Бытовая техника', '15 тонн', 'Полуприцеп', 'Полуприцеп', '12.07.2024-30.07.2024']}
-				routeInfromation={[
-					{
-						placeType: 'load',
-						loadingPoint: 'г. Алматы, улица Желтоксан, 12А',
-						dateAndPlaceOfUnloading: '18.07.2024, 15:40',
-						cargoWeight: '10 тонн',
-						cargoVolume: '2000 м3',
-						loadingMethod: 'Ручной'
-					},
-					{
-						placeType: 'unload',
-						loadingPoint: 'г. Астана, улица Пушкина, 10',
-						dateAndPlaceOfUnloading: '20.07.2024, 15:40',
-						cargoWeight: '5 тонн',
-						cargoVolume: '500 м3',
-						loadingMethod: 'Ручной'
-					},
-					{
-						placeType: 'unload',
-						loadingPoint: 'г. Москва, улица Ленина, 10',
-						dateAndPlaceOfUnloading: '25.07.2024, 15:40',
-						cargoWeight: '2 тонн',
-						cargoVolume: '300 м3',
-						loadingMethod: 'Ручной'
-					},
-					{
-						placeType: 'unload',
-						loadingPoint: 'г. Минск, улица Ленина, 10',
-						dateAndPlaceOfUnloading: '27.07.2024, 15:40',
-						cargoWeight: '3 тонн',
-						cargoVolume: '400 м3',
-						loadingMethod: 'Ручной'
-					}
-				]}
+				transportationRoute={transportationRouteData}
 				cargoWeight='1 000 000 T'
 			/>
 

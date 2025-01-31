@@ -163,5 +163,11 @@
   "my-vehicles": "Мои ТС",
   "finances": "Финансы",
   "notification": "Уведомление",
-  "profile": "Профиль"
+  "profile": "Профиль",
+  "technical-passport": "Тех паспорт",
+  "power-of-attorney": "Доверенность",
+  "profile-data": "Данные профиля",
+  "identity": "Удостоверение личности",
+  "search-for-order": "Поиск заказа",
+  "counter-offer": "Контроффер"
 }

@@ -13,7 +13,7 @@ export const FromWhereScreen = ({ navigation }: ScreenProps<'from-where'>) => {
 	return (
 		<Box p={15}>
 
-			<Input placeholder={t('city')} value={inputValue} onChangeText={(text) => {setInputValue(text)}} color={colors.grey} />
+			<Input placeholder={t('city')} type="search" value={inputValue} onChangeText={(text) => {setInputValue(text)}} color={colors.grey} />
 
 			<Button type='clear' buttonStyle={{ alignItems: 'flex-start', paddingLeft: 15 }} children={t('whole-kazakstan')} />
 			<Button type='clear' buttonStyle={{ alignItems: 'flex-start', paddingLeft: 15 }} children={t('astana')} />

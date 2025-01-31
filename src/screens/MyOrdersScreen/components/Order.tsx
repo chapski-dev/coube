@@ -1,10 +1,8 @@
 import { useAppTheme } from "@src/theme/theme";
 import { Box, Button, Text } from "@src/ui";
 import { Image } from "react-native";
-import DarkCircle from '@assets/svg/dark-circle.svg'
-import RedCircle from '@assets/svg/red-circle.svg'
+import Circle from '@assets/svg/circle.svg'
 import ThreeDots from '@assets/svg/three-dots.svg'
-import { ScreenProps } from '@src/navigation/types';
 import { FC } from "react";
 import { OrderStatus,OrderStatusEnum } from "./OrderStatus";
 import { useLocalization } from "@src/translations/i18n";
@@ -16,11 +14,11 @@ type OrderPropsTypes = {
 	orderNumber?: string
 	distance?: string
 	cargoName?: string
-	routeInfromation: RouteObjectType[]
+	transportationRoute: RouteObjectType[]
 	transportationPeriod: string
 }
 
-export const Order: FC<OrderPropsTypes> = ({ openTransportationDetails, orderStatus, orderNumber, cargoName, distance, routeInfromation }) => {
+export const Order: FC<OrderPropsTypes> = ({ openTransportationDetails, orderStatus, orderNumber, cargoName, distance, transportationRoute }) => {
 	const { t } = useLocalization()
 	const {colors} = useAppTheme()
 
@@ -54,21 +52,21 @@ export const Order: FC<OrderPropsTypes> = ({ openTransportationDetails, orderSta
 			<Text children={t('route')} />
 
 			<Box row gap={10} alignItems="center" >
-				<DarkCircle />
-				<Text type="body_500" children={routeInfromation[0].loadingPoint} />
+				<Circle color='dark_grey' />
+				<Text type="body_500" children={transportationRoute[0].loadingPoint} />
 			</Box>
 
 			<Box row gap={10} alignItems="center" >
 				<ThreeDots />
 				<Box row gap={5}>
 					<Text type="body_500" children={'Ещё'}  />
-					<Text type="body_500" children={routeInfromation.length-2}  />
+					<Text type="body_500" children={transportationRoute.length-2}  />
 				</Box>
 			</Box>
 
 			<Box row gap={10} alignItems="center" >
-				<RedCircle />
-				<Text type="body_500" children={routeInfromation[routeInfromation.length-1].loadingPoint}  />
+				<Circle color='red' />
+				<Text type="body_500" children={transportationRoute[transportationRoute.length-1].loadingPoint}  />
 			</Box>
 
 			<Text children={t('transportation-time')} />

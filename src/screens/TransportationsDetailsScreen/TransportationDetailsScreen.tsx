@@ -3,8 +3,7 @@ import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from "@src/theme/theme";
 import { Image } from "react-native";
 import { RoutePoint } from "./components/RoutePoint";
-import DarkCircle from '@assets/svg/dark-circle.svg'
-import RedCircle from '@assets/svg/red-circle.svg'
+import Circle from '@assets/svg/circle.svg'
 import Arrow from '@assets/svg/arrow-right.svg'
 import { useState } from "react";
 import { useLocalization } from "@src/translations/i18n";
@@ -26,7 +25,7 @@ export type TransportationDetailsParams = {
 	cargoWeight: string
 	cargoVolume: string
 	additionalCargoInformation: string
-	routeInfromation: RouteObjectType[]
+	transportationRoute: RouteObjectType[]
 	movingService: string
 	documents: string
 }
@@ -35,7 +34,7 @@ export const TransportationDetailsScreen = ({ navigation, route }: ScreenProps<'
 	const { t } = useLocalization()
 	const {colors} = useAppTheme()
 
-	const { distance, cargoName, cargoType, tareType, cargoWeight, cargoVolume, additionalCargoInformation, routeInfromation, movingService, documents } = route.params
+	const { distance, cargoName, cargoType, tareType, cargoWeight, cargoVolume, additionalCargoInformation, transportationRoute, movingService, documents } = route.params
 
 	const openTransportationDetails = () => {navigation.push('counter-offer')}
 
@@ -64,7 +63,7 @@ export const TransportationDetailsScreen = ({ navigation, route }: ScreenProps<'
 				</Box>
 
 				{
-					unfoldCargo ?
+					unfoldCargo &&
 					<Box py={10} gap={10}>
 						<Box>
 							<Text children={t('cargo-name')} />
@@ -98,7 +97,6 @@ export const TransportationDetailsScreen = ({ navigation, route }: ScreenProps<'
 						</Box>
 						
 					</Box>
-					: ''
 				}
 
 				
@@ -114,20 +112,20 @@ export const TransportationDetailsScreen = ({ navigation, route }: ScreenProps<'
 					unfoldRoute &&
 					<Box>
 						{
-							routeInfromation.map((data, index) => {
+							transportationRoute.map((data, index) => {
 								return (
 									<Box row gap={15}>
 										<Box alignItems="center"  >
 											{
 												index === 0 ?
-												<DarkCircle /> :
-												index === routeInfromation.length -1 ?
-												<RedCircle /> :
+												<Circle color='dark_grey' /> :
+												index === transportationRoute.length -1 ?
+												<Circle color='red' /> :
 												<Box w={15} h={15} alignItems="center" justifyContent="center" borderColor={colors.dark_grey} borderWidth={1} borderRadius={5} >
 													<Text fontSize={8} color="black" children={index} />
 												</Box>
 											}
-											{index !== routeInfromation.length -1 && <Box flex={1} w={1} backgroundColor={colors.dark_grey} />}
+											{index !== transportationRoute.length -1 && <Box flex={1} w={1} backgroundColor={colors.dark_grey} />}
 										</Box>
 										
 										<RoutePoint key={index} {...data} />
@@ -147,7 +145,7 @@ export const TransportationDetailsScreen = ({ navigation, route }: ScreenProps<'
 				</Box>
 
 				{
-					unfoldAdditional ?
+					unfoldAdditional &&
 					<Box>
 						<Text type="body_500" children={t('porter-service')} />
 						<Box>
@@ -158,7 +156,6 @@ export const TransportationDetailsScreen = ({ navigation, route }: ScreenProps<'
 							<Text type="body_500" children={movingService} />
 						</Box>
 					</Box>
-					: ''
 				}
 				
 			</Box>
@@ -170,7 +167,7 @@ export const TransportationDetailsScreen = ({ navigation, route }: ScreenProps<'
 				</Box>
 
 				{
-					unfoldDocuments ?
+					unfoldDocuments &&
 					<Box row gap={10} >
 						<Image source={require('@assets/png/pdf-file.png')} />
 						<Box>
@@ -178,7 +175,6 @@ export const TransportationDetailsScreen = ({ navigation, route }: ScreenProps<'
 							<Text type="body_500" children={documents} fontWeight={400} />
 						</Box>
 					</Box>
-					: ''
 				}
 				
 			</Box>
