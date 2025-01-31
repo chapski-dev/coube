@@ -1,5 +1,8 @@
 import { Draft } from 'immer'
 
+import { AppServiceStatus } from '@src/events'
+import app from '@src/service/app'
+
 import { AuthState } from '../auth'
 
 export enum AuthActionType {
@@ -15,6 +18,7 @@ export type AuthAction = { type: AuthActionType }
 export function authReducer(draft: Draft<AuthState>, action: AuthAction) {
   switch (action.type) {
     case AuthActionType.setReady: {
+      app.isAuthReady = AppServiceStatus.on
       draft = AuthState.ready
       break
     }

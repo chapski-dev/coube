@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
+import { HapticFeedbackTypes } from 'react-native-haptic-feedback';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -11,6 +12,8 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+
+import { vibrate } from '@src/actions/vibrate';
 
 const BUTTON_WIDTH = 350;
 const BUTTON_HEIGHT = 50;
@@ -33,6 +36,7 @@ const SwipeButton = ({ onSwipe, loading }: SwipeButtonProps) => {
   // Fires when animation ends
   const handleComplete = (isToggled: boolean) => {
     if (isToggled !== toggled) {
+      vibrate(HapticFeedbackTypes.notificationSuccess)
       setToggled(isToggled);
       onSwipe(isToggled);
     }

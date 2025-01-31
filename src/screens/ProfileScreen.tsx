@@ -1,25 +1,70 @@
 import React, { useRef, useState } from 'react';
-import { Switch } from 'react-native';
+import { useForm } from 'react-hook-form';
+import { ActivityIndicator, Switch } from 'react-native';
 import ArrowIcon from '@assets/svg/arrow-right.svg'
 import NoAvatarIcon from '@assets/svg/no-avatar.svg'
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
+import { setNotificationSettings } from '@src/api';
+import { NotificationSettings } from '@src/api/types';
 import { ScreenProps } from '@src/navigation/types';
 import app from '@src/service/app';
+import messaging from '@src/service/messaging';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Text } from '@src/ui';
+import { wait } from '@src/utils';
+import { handleCatchError } from '@src/utils/handleCatchError';
 import SelectLanguageModal from '@src/widgets/SelectLanguageModal';
+
+
+export enum NotifictationOption {
+  push_notifications = 'push_notifications',
+}
+
+const isAvatarExist = false
 
 export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
   const { t } = useLocalization()
-  const isAvatarExist = false
 
-  const [isToggleEnabled, setIsToggleEnabled] = useState(false);
-  const toggleSwitch = () => setIsToggleEnabled(previousState => !previousState);
+  const [loading, setLoading] = useState(false)
+  const form = useForm({
+    defaultValues: {
+      settings: {
+        [NotifictationOption.push_notifications]: messaging.isEnabled(),
+      },
+    },
+  })
+  const { setValue, getValues, watch } = form
 
-  const openProfileData = () => { }
-  const openIdentityData = () => { navigation.push('identity') }
+
+  const valuesWithPermission = (val: NotificationSettings['settings']) => {
+    const push_notifications = messaging.isEnabled() ?
+      val[NotifictationOption.push_notifications] :
+      false
+    return { ...val, [NotifictationOption.push_notifications]: push_notifications }
+  }
+
+  const togglePushNotification = async (val: NotificationSettings['settings']) => {
+    const newValues = valuesWithPermission(val)
+    await handleSubmitForm(newValues)
+  }
+  const handleSubmitForm = async (values: NotificationSettings['settings']) => {
+    try {
+      setLoading(true)
+      await wait(1000)
+      await setNotificationSettings({ settings: values })
+      setValue('settings', values)
+    } catch (e) {
+      handleCatchError(e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+
+  const openProfileData = () => navigation.navigate('profile-data')
+  const openIdentityData = () => navigation.push('identity')
 
   const { colors } = useAppTheme()
   const modal = useRef<BottomSheetModal>(null);
@@ -144,12 +189,17 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
 
           <Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
             <Text type={'body_500'} children={t('push_notifications')} />
-            <Switch
-              trackColor={{ false: colors.grey, true: colors.main }}
-              thumbColor={colors.white}
-              onValueChange={toggleSwitch}
-              value={isToggleEnabled}
-            />
+            {loading ? <Box mr={20} ><ActivityIndicator /></Box> : (
+              <Switch
+                trackColor={{ false: colors.grey, true: colors.main }}
+                thumbColor={colors.white}
+                onValueChange={(val) => togglePushNotification({
+                  ...getValues().settings,
+                  [NotifictationOption.push_notifications]: val
+                })}
+                value={watch('settings.push_notifications')}
+              />
+            )}
           </Box>
         </Box>
 

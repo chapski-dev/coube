@@ -1,6 +1,7 @@
 import BootSplash from 'react-native-bootsplash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { AppServiceStatus } from '@src/events';
 import { navigationRef } from '@src/navigation/navigationRef';
 import { dispatchAuth } from '@src/providers/auth';
 import { AuthActionType } from '@src/providers/reducers/authReducer';
@@ -20,9 +21,11 @@ export const waitForNavigationReady = () => {
   })
 }
 
-export const onNavigationReady = async () => {
-  const isStorageFilled = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.AUTH_STATE)
-  dispatchAuth?.({ type: isStorageFilled ? AuthActionType.setReady : AuthActionType.setEmpty })
-  await waitForNavigationReady()
-  await BootSplash.hide({ fade: true });
+export const onNavigationReady = async (status: AppServiceStatus) => {
+  if (status === AppServiceStatus.on) {
+    const isStorageFilled = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.AUTH_STATE)
+    dispatchAuth?.({ type: isStorageFilled ? AuthActionType.setReady : AuthActionType.setEmpty })
+    await waitForNavigationReady()
+    await BootSplash.hide({ fade: true });
+  }
 };

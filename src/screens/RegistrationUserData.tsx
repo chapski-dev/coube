@@ -9,7 +9,7 @@ import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import DatePicker, { Box, Button, Input, Text } from '@src/ui';
 import { modal } from '@src/ui/Layouts/ModalLayout';
-import { phoneMask } from '@src/utils';
+import { phoneMask } from '@src/utils/masks';
 
 interface ResidentFormValues {
   phone: string;

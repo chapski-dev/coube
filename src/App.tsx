@@ -6,15 +6,21 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { RootStack } from '@src/navigation/stacks/RootStack';
+import app from '@src/service/app'
 
 import '@src/translations/i18n';
 
-import { onNavigationReady } from './actions/onNavigationReady';
 import { useAppColorTheme } from './hooks/useAppColorTheme';
 import { navigationRef } from './navigation/navigationRef';
 import { UnauthorizedStack } from './navigation/stacks/UnauthorizedStack';
 import { AuthProvider, AuthState, useAuth } from './providers/auth';
 import { ModalLayout } from './ui/Layouts/ModalLayout';
+import { AppServiceStatus } from './events';
+
+const navigationLift = () => {
+  app.isNavigationReady = AppServiceStatus.on
+}
+
 
 function App(): React.JSX.Element {
   const { theme } = useAppColorTheme();
@@ -23,11 +29,7 @@ function App(): React.JSX.Element {
     <AuthProvider>
       <GestureHandlerRootView>
         <SafeAreaProvider style={{ flex: 1 }}>
-          <NavigationContainer
-            onReady={onNavigationReady}
-            theme={theme}
-            ref={navigationRef}
-          >
+          <NavigationContainer onReady={navigationLift} theme={theme} ref={navigationRef}>
             <BottomSheetModalProvider>
               <Content />
               <Toasts />

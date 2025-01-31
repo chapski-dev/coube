@@ -4,7 +4,7 @@ import { useMaskedInputProps } from 'react-native-mask-input';
 import { ScreenProps } from '@src/navigation/types'
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Input, Text } from '@src/ui'
-import { phoneMask } from '@src/utils';
+import { phoneMask } from '@src/utils/masks';
 
 const LoginViaPhoneScreen = ({ navigation, route }: ScreenProps<'login-via-phone'>) => {
   const { t } = useLocalization()
