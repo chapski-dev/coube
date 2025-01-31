@@ -1,7 +1,7 @@
 import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Toasts } from '@backpackapp-io/react-native-toast'
+import { Toasts } from '@backpackapp-io/react-native-toast';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -23,7 +23,11 @@ function App(): React.JSX.Element {
     <AuthProvider>
       <GestureHandlerRootView>
         <SafeAreaProvider style={{ flex: 1 }}>
-          <NavigationContainer onReady={onNavigationReady} theme={theme} ref={navigationRef}>
+          <NavigationContainer
+            onReady={onNavigationReady}
+            theme={theme}
+            ref={navigationRef}
+          >
             <BottomSheetModalProvider>
               <Content />
               <Toasts />
@@ -36,12 +40,10 @@ function App(): React.JSX.Element {
   );
 }
 
-
 const Content = () => {
-  const { authState } = useAuth()
+  const { authState } = useAuth();
 
-  return authState === AuthState.ready ? <RootStack /> : <UnauthorizedStack />
-}
-
+  return authState === AuthState.ready ? <RootStack /> : <UnauthorizedStack />;
+};
 
 export default App;
