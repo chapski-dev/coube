@@ -17,7 +17,7 @@
 		3D8EF7B21E7B89310BFBE1AA /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 11897635EC7D48C7C6DEED3F /* PrivacyInfo.xcprivacy */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		94CBE65D86AF5D6170E9B800 /* Pods_coube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DBFF62BC319D57AEEE48C6C /* Pods_coube.framework */; };
-		D66177332D4BBB980082426D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D66177322D4BBB980082426D /* GoogleService-Info.plist */; };
+		D6A40D652D4D0C0400FCFFF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6A40D642D4D0C0400FCFFF9 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,7 +51,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = coube/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-coube-coubeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-coube-coubeTests.release.xcconfig"; path = "Target Support Files/Pods-coube-coubeTests/Pods-coube-coubeTests.release.xcconfig"; sourceTree = "<group>"; };
 		C781A7F885A021F7FB20A2C4 /* Pods_coube_coubeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_coube_coubeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D66177322D4BBB980082426D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D6A40D642D4D0C0400FCFFF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "coube/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -96,7 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				D66177322D4BBB980082426D /* GoogleService-Info.plist */,
+				D6A40D642D4D0C0400FCFFF9 /* GoogleService-Info.plist */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -261,7 +261,7 @@
 				3D8EF7B21E7B89310BFBE1AA /* PrivacyInfo.xcprivacy in Resources */,
 				1B1D8728C7FF4EB98B4E1A32 /* BootSplash.storyboard in Resources */,
 				38B407A0CACF47DB887AED6F /* Colors.xcassets in Resources */,
-				D66177332D4BBB980082426D /* GoogleService-Info.plist in Resources */,
+				D6A40D652D4D0C0400FCFFF9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
