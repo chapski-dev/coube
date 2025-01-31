@@ -7,11 +7,11 @@ import {
   useEffect,
   useState
 } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useImmerReducer } from 'use-immer'
 
+import { AppServiceStatus } from '@src/events'
 import { AuthAction, authReducer } from '@src/providers/reducers/authReducer'
-import { ASYNC_STORAGE_KEYS } from '@src/vars/async_storage_keys'
+import app from '@src/service/app'
 
 export enum AuthState {
   // app transmission
@@ -41,21 +41,26 @@ export const AuthContext = createContext<IAuthProvider>({
 export let dispatchAuth: Dispatch<ReducerAction<typeof authReducer>> | null = null
 
 export const AuthProvider = ({ children }: { children?: ReactNode }) => {
-  const [authState, authDispatch] = useImmerReducer<AuthState, AuthAction>(authReducer, AuthState.checking)
-  
+  const [authState, authDispatch] =
+    useImmerReducer<AuthState, AuthAction>(authReducer, AuthState.checking)
+
 
   const [user, setUser] = useState<null>(null)
 
-  
-  
+
+
   function onAuthStateChanged(_user: null) {
+    // временное решение пока не авторизовываем пользователя
+    app.isFirebaseAuthorized = AppServiceStatus.on
+
     if (!user && !_user) {
       return
     }
     setUser(_user)
+    // app.isFirebaseAuthorized = _user ? AppServiceStatus.on : AppServiceStatus.off
   }
-  
-  
+
+
   useEffect(() => {
     // make request to get user data 
     // const getUserData = async (data) => onAuthStateChanged(data)

@@ -1,0 +1,132 @@
+import { AppState, PermissionsAndroid, Platform } from 'react-native'
+import { 
+  NativeEventSubscription 
+} from 'react-native/Libraries/EventEmitter/RCTNativeAppEventEmitter'
+import { HapticFeedbackTypes } from 'react-native-haptic-feedback/src/types.ts'
+import notifee, { AndroidImportance } from '@notifee/react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
+
+import { vibrate } from '@src/actions/vibrate.ts'
+import { registerFCMToken } from '@src/api'
+import notifications from '@src/service/notifications'
+import { AppStatus, getAppStatus } from '@src/utils/system'
+import { ASYNC_STORAGE_KEYS } from '@src/vars/async_storage_keys'
+import { isIOS } from '@src/vars/platform'
+
+async function onMessageReceived(message: FirebaseMessagingTypes.RemoteMessage) {
+  // TODO check data compatibility
+  if (message.data?.action === 'update_balance') {
+    vibrate(HapticFeedbackTypes.notificationSuccess)
+    void notifications.refresh()
+  }
+  try {
+    const channelId = await notifee.createChannel({
+      id: 'important',
+      importance: AndroidImportance.HIGH,
+      name: 'Important Notifications',
+    })
+    await notifee.displayNotification({
+      android: {
+        channelId,
+        importance: AndroidImportance.HIGH,
+      },
+      body: message.notification?.body,
+      title: message.notification?.title,
+    })
+  } catch (e) {
+    console.error('notifee display error: ', e)
+  }
+}
+
+const messagingService = () => {
+  let _listener: null | NativeEventSubscription
+  let _enabled = false
+  let onMessageUnsubscribe: () => void
+
+  const init = () => {
+    onMessageUnsubscribe = messaging().onMessage(onMessageReceived)
+
+    _listener = AppState.addEventListener('change', () => listenAppStateChange())
+    void listenAppStateChange(true)
+  }
+
+  const listenAppStateChange = async (forceUpdate = false) => {
+    try {
+      if (getAppStatus() === AppStatus.inactive) {
+        return
+      }
+
+      if (!(await requestPermissions())) {
+        return
+      }
+
+      await notifee.setBadgeCount(0)
+      console.log('setBadgeCount works fine');
+      
+      const previousToken = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.FCM_TOKEN_KEY)
+      console.log('previousToken works fine');
+      
+      const token = await getFCMToken()
+      console.log('FCM token: ', token)
+
+      if (!token) {
+        return
+      }
+      if (previousToken !== token || forceUpdate) {
+        await saveToken(token)
+        console.log('saveToken works fine');
+        
+      }
+    } catch (error) {
+      console.error('messaging listenAppStateChange error', error)
+    }
+  }
+
+  const requestPermissions = async () => {
+    _enabled = true
+    if (isIOS) {
+      const authStatus = await messaging().requestPermission()
+      console.log('requestPermissions authStatus', authStatus);
+      
+      _enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL
+    } else if (Number(Platform.Version) >= 33) {
+      const authStatus = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
+      _enabled = authStatus === 'granted'
+    }
+    return _enabled
+  }
+
+  const isEnabled = () => {
+    return _enabled
+  }
+
+  const getFCMToken = async () => {
+    if (!messaging().isDeviceRegisteredForRemoteMessages) {
+      await messaging().registerDeviceForRemoteMessages();
+    }
+    console.log('registerDeviceForRemoteMessages works fine');
+
+    const token = await messaging().getToken()
+    console.log('FCM token', token);
+    return token
+  }
+
+  const quitMessaging = async () => {
+    _listener?.remove()
+    onMessageUnsubscribe?.()
+    await messaging().deleteToken()
+  }
+
+  const saveToken = async (token: string) => {
+    const res = await registerFCMToken({ token })
+    console.log('/fcm res: ', res)
+    await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.FCM_TOKEN_KEY, token)
+  }
+
+  return { getFCMToken, init, isEnabled, quitMessaging, requestPermissions, saveToken }
+}
+
+export default messagingService()

@@ -1,8 +1,10 @@
 import React, { useMemo, useRef, useState } from 'react'
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, Vibration } from 'react-native'
+import { HapticFeedbackTypes } from 'react-native-haptic-feedback'
 import { OtpInput, OtpInputProps, OtpInputRef } from 'react-native-otp-entry'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+import { vibrate } from '@src/actions/vibrate'
 import { ScreenProps } from '@src/navigation/types'
 import { dispatchAuth } from '@src/providers/auth'
 import { AuthActionType } from '@src/providers/reducers/authReducer'
@@ -42,6 +44,7 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
         await wait(1000)
         if (action === 'login') {
           if (text === '5555') {
+            vibrate(HapticFeedbackTypes.notificationSuccess)
             await handleLogin();
             return
           } else {
@@ -56,6 +59,8 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
         return
       }
     } catch (e) {
+
+      Vibration.vibrate()
       setNotMatch(true)
       setDisabled(false)
       otpInput.current?.setValue('')
