@@ -31,7 +31,7 @@
   "passport_number": "Паспорт нөмірі",
   "date_of_issue": "Берілген күні",
   "validity_period": "Жарамдылық мерзімі",
-  "issued": "берілген",
+  "issued": "Берілген",
   "enter_phone_number": "Телефон нөмірін енгізіңіз",
   "and_well_send_you_an_authorization_code": "Біз сізге авторизация коды жібереміз",
   "log_in_or_register_to_manage_your_routes": "Маршруттарыңызды басқару үшін кіріңіз немесе тіркеліңіз",

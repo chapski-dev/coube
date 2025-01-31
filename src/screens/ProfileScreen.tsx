@@ -1,10 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ActivityIndicator, Switch } from 'react-native';
+import { ActivityIndicator, Alert, Switch } from 'react-native';
+import { HapticFeedbackTypes } from 'react-native-haptic-feedback/src/types';
 import ArrowIcon from '@assets/svg/arrow-right.svg'
 import NoAvatarIcon from '@assets/svg/no-avatar.svg'
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
+import { vibrate } from '@src/actions/vibrate';
 import { setNotificationSettings } from '@src/api';
 import { NotificationSettings } from '@src/api/types';
 import { ScreenProps } from '@src/navigation/types';
@@ -72,6 +74,21 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
   const modalOpen = () => modal?.current?.present();
 
 
+  const onLogoutPress = () => Alert.alert('Желаете выйти?', undefined, [
+    {
+      onPress: () => {
+        vibrate(HapticFeedbackTypes.notificationSuccess)
+        app.logout()
+      },
+      style: 'destructive',
+      text: 'Выйти'
+    },
+    {
+      onPress: () => null,
+      text: 'Отмена'
+    }
+  ])
+  
   return (
     <>
       <Box
@@ -81,6 +98,7 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
         backgroundColor={colors.background}
         pb={250}
         pt={20}
+        gap={15}
       >
         <Box
           onPress={openProfileData}
@@ -156,54 +174,45 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
           </Box>
         </Box>
 
-        <Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-          <Text type={'body_500'} children={t('reports')} />
-          <ArrowIcon />
+
+        <Box backgroundColor={colors.white}>
+          <SectionListItemWithArrow
+            title={t('reports')}
+            onPress={() => null}
+          />
+          <SectionListItemWithArrow
+            title={t('identification_card')}
+            onPress={openIdentityData}
+          />
         </Box>
 
-        <Box>
-          <Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-            <Text type={'body_500'} children={t('identification_card')} />
-            <ArrowIcon onPress={openIdentityData} />
-          </Box>
-
-          <Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-            <Text type={'body_500'} children={t('drivers_licence')} />
-            <ArrowIcon />
-          </Box>
-        </Box>
-
-        <Box>
-          <Box
-            w='full'
-            h={50}
-            px={15}
-            row
-            alignItems='center'
-            justifyContent='space-between'
+        <Box backgroundColor={colors.white}>
+          <SectionListItemWithArrow
+            title={t('drivers_licence')}
+            onPress={() => null}
+          />
+          <SectionListItemWithArrow
+            title={t('apps_language')}
             onPress={modalOpen}
-          >
-            <Text type={'body_500'} children={t('apps_language')} />
-            <ArrowIcon />
-          </Box>
-
-          <Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-            <Text type={'body_500'} children={t('push_notifications')} />
-            {loading ? <Box mr={20} ><ActivityIndicator /></Box> : (
-              <Switch
-                trackColor={{ false: colors.grey, true: colors.main }}
-                thumbColor={colors.white}
-                onValueChange={(val) => togglePushNotification({
-                  ...getValues().settings,
-                  [NotifictationOption.push_notifications]: val
-                })}
-                value={watch('settings.push_notifications')}
-              />
-            )}
-          </Box>
+          />
         </Box>
 
-        <Button backgroundColor='white' textColor='red' children='Выйти' onPress={app.logout} />
+        <Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
+          <Text type={'body_500'} children={t('push_notifications')} />
+          {loading ? <Box mr={20} ><ActivityIndicator /></Box> : (
+            <Switch
+              trackColor={{ false: colors.grey, true: colors.main }}
+              thumbColor={colors.white}
+              onValueChange={(val) => togglePushNotification({
+                ...getValues().settings,
+                [NotifictationOption.push_notifications]: val
+              })}
+              value={watch('settings.push_notifications')}
+            />
+          )}
+        </Box>
+
+        <Button backgroundColor='white' textColor='red' children='Выйти' onPress={onLogoutPress} />
 
         <Button type='clear' textColor='textSecondary' children='Удалить аккаунт' />
 
@@ -213,3 +222,21 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
   );
 }
 
+type SectionListItemWithArrowProps = {
+  title: string
+  onPress: () => void;
+}
+const SectionListItemWithArrow = ({ title, onPress }: SectionListItemWithArrowProps) => (
+  <Box
+    w='full'
+    h={50}
+    px={15}
+    row
+    alignItems='center'
+    justifyContent='space-between'
+    onPress={onPress}
+  >
+    <Text type={'body_500'} children={title} />
+    <ArrowIcon />
+  </Box>
+)

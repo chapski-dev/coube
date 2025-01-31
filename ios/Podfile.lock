@@ -1588,7 +1588,7 @@ PODS:
     - React-logger (= 0.75.4)
     - React-perflogger (= 0.75.4)
     - React-utils (= 0.75.4)
-  - RNBootSplash (6.3.2):
+  - RNBootSplash (6.3.3):
     - React-Core
   - RNCAsyncStorage (2.1.0):
     - React-Core
@@ -1734,7 +1734,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (4.5.0):
+  - RNScreens (4.6.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2090,7 +2090,7 @@ SPEC CHECKSUMS:
   React-utils: 0dbea1179726ad65a1b13470a3f3c73da98f4496
   ReactCodegen: f961bc28110632dd4c8e8d95c1a80f5344022cd2
   ReactCommon: 23eed247b5c8e57b59a823ce209353883da61dd2
-  RNBootSplash: 74d11cdbe6bfafa66014fc54a7105b79350333bd
+  RNBootSplash: 2a9d2de139a6f8a84a0f1728ac40f3e7b167e15a
   RNCAsyncStorage: c91d753ede6dc21862c4922cd13f98f7cfde578e
   RNFBApp: 32f7425af42aef99472dd46e14222cb0a8a17504
   RNFBMessaging: 993c913f7a037104b5ae02cadf7fc191545ceb51
@@ -2098,7 +2098,7 @@ SPEC CHECKSUMS:
   RNNotifee: 5e3b271e8ea7456a36eec994085543c9adca9168
   RNReactNativeHapticFeedback: c873497ad3f9fa80447baa18daa9474e671d24bf
   RNReanimated: 6a154e630ecc4c87c287f6eeda201f06b01428ba
-  RNScreens: adea7e5059df296816014c8a5b2ea0be07c21b51
+  RNScreens: ede3944a7dc2e9e548010c23c18b70b1c84e41a4
   RNSVG: 46769c92d1609e617dbf9326ad8a0cff912d0982
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: a9ef4f5c2cd79ad812110525ef61048be6a582a4

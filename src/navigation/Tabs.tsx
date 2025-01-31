@@ -51,9 +51,11 @@ export const Tabs = () => {
         component={FinanceScreen}
         options={{
           headerTitleAlign: 'center',
-          tabBarIcon: ({ color }) => <FinanceIcon color={color} />,
+          tabBarIcon: () => <FinanceIcon color={colors.disabled} />,
+          tabBarLabelStyle: { color: colors.disabled },
           title: 'Финансы',
         }}
+        listeners={{ tabPress: (e) => e.preventDefault() }}
       />
       <Tab.Screen
         name="notifications"
@@ -61,7 +63,7 @@ export const Tabs = () => {
         options={{
           headerTitleAlign: 'center',
           tabBarIcon: ({ color }) => <NotificationIcon color={color} />,
-          title: 'Уведомление',
+          title: 'Уведомления',
         }}
       />
       <Tab.Screen
