@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { IdentityScreen } from '@src/screens/IdentityScreen';
@@ -10,13 +10,15 @@ import { useAppTheme } from '@src/theme/theme';
 import { DocumentsScreen } from '../../screens/DocumentsScreen';
 import { Tabs } from '../Tabs';
 import { RootStackParamList } from '../types';
+import { InvoiseForGoodsSentScreen } from '@src/screens/InvoiseForGoodsSentScreen';
+import { InvoiceSentScreen } from '@src/screens/InvoiceSentScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootStack = () => {
   const { colors } = useAppTheme();
   return (
-    <Stack.Navigator 
+    <Stack.Navigator
       initialRouteName="tabs"
       screenOptions={{
         headerTintColor: colors.main,
@@ -25,27 +27,49 @@ export const RootStack = () => {
       }}
     >
       <Stack.Screen
-        name='tabs'
+        name="tabs"
         component={Tabs}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name='documents'
+        name="documents"
         component={DocumentsScreen}
-        options={({ route }) => ({ headerTitle: route.params.carModel, })}
+        options={({ route }) => ({ headerTitle: route.params.carModel })}
       />
       <Stack.Screen
-        name='technical-passport'
+        name="technical-passport"
         component={TechnicalPassportScreen}
-        options={{ headerTitle: 'Техпаспорт', }}
+        options={{ headerTitle: 'Техпаспорт' }}
       />
       <Stack.Screen
-        name='power-of-attorney'
+        name="power-of-attorney"
         component={PowerOfAttorneyScreen}
-        options={{ headerTitle: 'Доверенность', }}
+        options={{ headerTitle: 'Доверенность' }}
       />
-      <Stack.Screen options={{ headerShown: true, title: 'Данные профиля' }} name="profile-data" component={ProfileDataScreen} />
-      <Stack.Screen options={{ headerShown: true, title: 'Удостоверение личности' }} name="identity" component={IdentityScreen} />
+      <Stack.Screen
+        name="invoise-for-goods-sent"
+        component={InvoiseForGoodsSentScreen}
+        options={{
+          headerTitle: 'Накладная на товар',
+        }}
+      />
+      <Stack.Screen
+        name="invoice-sent"
+        component={InvoiceSentScreen}
+        options={{
+          headerTitle: 'Накладная на товар',
+        }}
+      />
+      <Stack.Screen
+        options={{ headerTitle: 'Данные профиля' }}
+        name="profile-data"
+        component={ProfileDataScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: 'Удостоверение личности' }}
+        name="identity"
+        component={IdentityScreen}
+      />
     </Stack.Navigator>
   );
 };

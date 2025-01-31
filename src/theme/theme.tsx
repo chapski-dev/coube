@@ -1,5 +1,10 @@
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { DarkTheme, DefaultTheme, Theme as NavigationTheme, useTheme } from '@react-navigation/native';
+import {
+  DarkTheme,
+  DefaultTheme,
+  Theme as NavigationTheme,
+  useTheme,
+} from '@react-navigation/native';
 
 import { darkColors, lightColors } from './colors';
 
@@ -33,17 +38,18 @@ export const AppDarkTheme = {
 } as const;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-type CheckForValidColors = keyof typeof AppLightTheme.colors extends keyof typeof AppDarkTheme.colors
-  ? keyof typeof AppDarkTheme.colors extends keyof typeof AppLightTheme.colors
-    ? true
-    : false
-  : false
+type CheckForValidColors =
+  keyof typeof AppLightTheme.colors extends keyof typeof AppDarkTheme.colors
+    ? keyof typeof AppDarkTheme.colors extends keyof typeof AppLightTheme.colors
+      ? true
+      : false
+    : false;
 
 declare global {
   namespace App {
     type Theme = (typeof AppLightTheme | typeof AppDarkTheme) & {
-      insets: ReturnType<typeof useSafeAreaInsets>
-    }
+      insets: ReturnType<typeof useSafeAreaInsets>;
+    };
   }
 }
 
