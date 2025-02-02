@@ -169,5 +169,8 @@
   "profile-data": "Данные профиля",
   "identity": "Удостоверение личности",
   "search-for-order": "Поиск заказа",
-  "counter-offer": "Контроффер"
+  "counter-offer": "Контроффер",
+  "choose-different-photo": "Выбрать другое фото",
+  "finish-registration": "Завершить регистрацию",
+  "incorrect-code-entered": "Не верно введен код!"
 }

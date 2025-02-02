@@ -48,7 +48,7 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
             await handleLogin();
             return
           } else {
-            throw new Error('Не верно введен код!')
+            throw new Error(t('incorrect-code-entered'))
           }
         }
         if (action === 'phone-verify') {
@@ -93,32 +93,34 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
   )
 
   return (
-    <Box p={16} pt={54} gap={54} alignItems='center'>
-      {action !== 'invite' ? (
-        <>
-          <Text type='h2' children={t('confirm_the_number')} />
-          <Box row>
-            <Text children={t('we_sent_it_to_a_number')} />
-            <Text children="+7 777 777 77 77" />
-            <Text children={t('confirmation_code_enter_it_below')} />
-          </Box>
-          
-        </>
-      ) : (
-        <Text type='h2' children={t('enter_the_invitation_code')} />
-      )}
-      <OtpInput
-        autoFocus
-        ref={otpInput}
-        disabled={disabled}
-        theme={theme}
-        numberOfDigits={OTP_PASSWORD_LENGTH}
-        onTextChange={handleInputChanges}
-        focusColor={colors.main}
-      />
-      <Box gap={16} w='full'>
-        <Button children={t('confirm')} onPress={() => null} />
-        {action === 'phone-verify' && <Button children={t('sms-code-failed-to-arrive')} type='clear' onPress={() => null} />}
+    <>
+      <Box p={16} pt={54} gap={54} alignItems='center'>
+        {action !== 'invite' ? (
+          <>
+            <Text type='h2' children={t('confirm_the_number')} />
+            <Box row flexWrap='wrap' justifyContent='center'>
+              <Text children={t('we_sent_it_to_a_number')} />
+              <Text children="+7 777 777 77 77" />
+              <Text children={t('confirmation_code_enter_it_below')} />
+            </Box>
+
+          </>
+        ) : (
+          <Text type='h2' children={t('enter_the_invitation_code')} />
+        )}
+        {loading ? <ActivityIndicator color={colors.main} /> : (
+          <OtpInput
+            autoFocus
+            ref={otpInput}
+            disabled={disabled}
+            theme={theme}
+            numberOfDigits={OTP_PASSWORD_LENGTH}
+            onTextChange={handleInputChanges}
+            focusColor={colors.main}
+          />
+        )}
+        {action === 'phone-verify' &&
+          <Button children={t('sms-code-failed-to-arrive')} type='clear' onPress={() => null} />}
       </Box>
     </>
   )

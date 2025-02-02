@@ -13,14 +13,14 @@ export const FromWhereScreen = ({ navigation }: ScreenProps<'from-where'>) => {
 	return (
 		<Box p={15}>
 
-			<Input placeholder={t('city')} type="search" value={inputValue} onChangeText={(text) => {setInputValue(text)}} color={colors.grey} />
+			<Input placeholder={t('city')} type="search" value={inputValue} onChangeText={setInputValue} color={colors.grey} />
 
-			<Button type='clear' buttonStyle={{ alignItems: 'flex-start', paddingLeft: 15 }} children={t('whole-kazakstan')} />
-			<Button type='clear' buttonStyle={{ alignItems: 'flex-start', paddingLeft: 15 }} children={t('astana')} />
-			<Button type='clear' buttonStyle={{ alignItems: 'flex-start', paddingLeft: 15 }} children={t('almaty')} />
-			<Button type='clear' buttonStyle={{ alignItems: 'flex-start', paddingLeft: 15 }} children={t('shimkent')} />
-			<Button type='clear' buttonStyle={{ alignItems: 'flex-start', paddingLeft: 15 }} children={t('almatynskaya-oblast')} />
-			<Button type='clear' buttonStyle={{ alignItems: 'flex-start', paddingLeft: 15 }} children={t('akmolinskaya-oblast')} />
+			<Box onPress={() => null} py={7} ><Text type="body_500" children={t('whole-kazakstan')}/></Box>
+			<Box onPress={() => null} py={7} ><Text type="body_500" children={t('astana')}/></Box>
+			<Box onPress={() => null} py={7} ><Text type="body_500" children={t('almaty')}/></Box>
+			<Box onPress={() => null} py={7} ><Text type="body_500" children={t('shimkent')}/></Box>
+			<Box onPress={() => null} py={7} ><Text type="body_500" children={t('almatynskaya-oblast')}/></Box>
+			<Box onPress={() => null} py={7} ><Text type="body_500" children={t('akmolinskaya-oblast')}/></Box>
 
 		</Box>
 	);

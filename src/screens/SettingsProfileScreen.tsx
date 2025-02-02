@@ -33,13 +33,6 @@ const SettingsProfileScreen = ({ navigation }: ScreenProps<'settings-profile'>) 
   const goToPersonalIdScreen = () => {
     navigation.navigate('personal-identifier')
   }
-  return (
-    <>
-      <Box pl={16} pr={16} pt={25}>
-        <Box gap={12} justifyContent='center' alignItems='center' mb={12}>
-          <Box w={90} h={90} backgroundColor={colors.green} borderRadius={50} />
-          <Button textColor='main' type='clear' wrapperStyle={{ width: 150 }} children={t('add-photo')} />
-        </Box>
 
   const [pickerResponse, setPickerResponse] = useState<ImagePickerResponse | null>(null);
   const uri = pickerResponse?.assets && pickerResponse.assets[0].uri;
@@ -75,7 +68,7 @@ const SettingsProfileScreen = ({ navigation }: ScreenProps<'settings-profile'>) 
           textColor='main'
           type='clear'
           wrapperStyle={{ width: 150 }}
-          children="Добавить фото"
+          children={t('add-photo')}
           onPress={modalOpen}
         />
       </Box>
@@ -126,7 +119,7 @@ const SettingsProfileScreen = ({ navigation }: ScreenProps<'settings-profile'>) 
     {isDriverLicenceSended ? (
       <Box px={16} pt={20}>
         <Button
-          children='Завершить регистрацию'
+          children={t('finish-registration')}
           loading={loading}
           disabled={loading}
           onPress={handleFinishRegistration}
@@ -140,20 +133,14 @@ const SettingsProfileScreen = ({ navigation }: ScreenProps<'settings-profile'>) 
             children={t('you_need_to_add_a_drivers_license_to_use_the_app_correctly_want_to_do_it_now')}
           />
         </Box>
-<<<<<<< HEAD
-        <Box gap={16} pl={16} pr={16}>
-          <Button children={t('add')} />
-          <Button children={t('later')} type='clear' />
-=======
         <Box gap={16} px={16}>
           <Button children={t('add')} onPress={goToAddDriverLicence} />
           <Button
-            children="Позже"
+            children={t('later')}
             type='clear' loading={loading}
             disabled={loading}
             onPress={handleFinishRegistration}
           />
->>>>>>> main
         </Box>
       </Box>
     )}

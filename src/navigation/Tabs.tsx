@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TabsParamList } from './types';
 import { FinanceScreen } from '@src/screens/FinanceScreen';
-import { MyOrdersScreen } from '@src/screens/MyOrdersScreen';
+import { MyOrdersScreen } from '@src/screens/MyOrdersScreen/MyOrdersScreen';
 import { MyVehicleScreen } from '@src/screens/MyVehicleScreen/MyVehicleScreen';
 import { NotificationScreen } from '@src/screens/NotificationScreen';
 import { ProfileScreen } from '@src/screens/ProfileScreen';
@@ -31,7 +31,6 @@ export const Tabs = () => {
         name="orders"
         component={MyOrdersScreen}
         options={{
-          headerTitleAlign: 'center',
           tabBarIcon: ({ color }) => <OrderIcon color={color} />,
           title: t('my-orders'),
         }}
@@ -71,7 +70,6 @@ export const Tabs = () => {
         options={{
           headerTitleAlign: 'center',
           tabBarIcon: ({ color }) => <ProfileIcon color={color} />,
-          tabBarLabel: t('profile'),
           title: t('profile'),
         }}
       />
