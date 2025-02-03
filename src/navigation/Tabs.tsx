@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { TabsParamList } from './types';
+
 import { FinanceScreen } from '@src/screens/FinanceScreen';
 import { MyOrdersScreen } from '@src/screens/MyOrdersScreen/MyOrdersScreen';
 import { MyVehicleScreen } from '@src/screens/MyVehicleScreen/MyVehicleScreen';
@@ -8,11 +8,14 @@ import { NotificationScreen } from '@src/screens/NotificationScreen';
 import { ProfileScreen } from '@src/screens/ProfileScreen';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
+
 import FinanceIcon from '../../assets/svg/finance.svg';
 import NotificationIcon from '../../assets/svg/notification.svg';
 import OrderIcon from '../../assets/svg/orders.svg';
 import ProfileIcon from '../../assets/svg/profile-outline.svg';
 import TransportIcon from '../../assets/svg/transport.svg';
+
+import { TabsParamList } from './types';
 
 const Tab = createBottomTabNavigator<TabsParamList>();
 
@@ -39,7 +42,6 @@ export const Tabs = () => {
         name="transport"
         component={MyVehicleScreen}
         options={{
-          headerTitleAlign: 'center',
           tabBarIcon: ({ color }) => <TransportIcon color={color} />,
           title: t('my-vehicles'),
         }}
@@ -49,9 +51,8 @@ export const Tabs = () => {
         component={FinanceScreen}
         options={{
           tabBarIcon: ({ color }) => <FinanceIcon color={color} />,
-          title: t('finances'),
-          headerTitleAlign: 'center',
           tabBarLabelStyle: { color: colors.disabled },
+          title: t('finances'),
         }}
         listeners={{ tabPress: (e) => e.preventDefault() }}
       />
@@ -61,14 +62,12 @@ export const Tabs = () => {
         options={{
           tabBarIcon: ({ color }) => <NotificationIcon color={color} />,
           title: t('notification'),
-          headerTitleAlign: 'center',
         }}
       />
       <Tab.Screen
         name="profile"
         component={ProfileScreen}
         options={{
-          headerTitleAlign: 'center',
           tabBarIcon: ({ color }) => <ProfileIcon color={color} />,
           title: t('profile'),
         }}

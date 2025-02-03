@@ -1,12 +1,14 @@
-import { useAppTheme } from "@src/theme/theme";
-import { Box, Button, Text } from "@src/ui";
-import { Image } from "react-native";
+import { FC } from 'react';
+import { Image } from 'react-native';
 import Circle from '@assets/svg/circle.svg'
 import ThreeDots from '@assets/svg/three-dots.svg'
-import { FC } from "react";
-import { OrderStatus,OrderStatusEnum } from "./OrderStatus";
-import { useLocalization } from "@src/translations/i18n";
-import { RouteObjectType } from "@src/screens/TransportationsDetailsScreen/TransportationDetailsScreen";
+
+import { RouteObjectType } from '@src/screens/TransportationsDetailsScreen/TransportationDetailsScreen';
+import { useAppTheme } from '@src/theme/theme';
+import { useLocalization } from '@src/translations/i18n';
+import { Box, Button, Text } from '@src/ui';
+
+import { OrderStatus,OrderStatusEnum } from './OrderStatus';
 
 type OrderPropsTypes = {
 	openTransportationDetails: () => void
@@ -47,7 +49,7 @@ export const Order: FC<OrderPropsTypes> = ({ openTransportationDetails, orderSta
 			<Text children={t('cargo-name')} />
 			<Text type="body_500" children={cargoName} />
 
-			<Box w='full' h={0.5} backgroundColor={colors.dark_grey} ></Box>
+			<Box w='full' h={0.5} backgroundColor={colors.dark_grey} />
 
 			<Text children={t('route')} />
 
@@ -59,14 +61,14 @@ export const Order: FC<OrderPropsTypes> = ({ openTransportationDetails, orderSta
 			<Box row gap={10} alignItems="center" >
 				<ThreeDots />
 				<Box row gap={5}>
-					<Text type="body_500" children={'Ещё'}  />
-					<Text type="body_500" children={transportationRoute.length-2}  />
+					<Text type="body_500" children={'Ещё'} />
+					<Text type="body_500" children={transportationRoute.length-2} />
 				</Box>
 			</Box>
 
 			<Box row gap={10} alignItems="center" >
 				<Circle color='red' />
-				<Text type="body_500" children={transportationRoute[transportationRoute.length-1].loadingPoint}  />
+				<Text type="body_500" children={transportationRoute[transportationRoute.length-1].loadingPoint} />
 			</Box>
 
 			<Text children={t('transportation-time')} />

@@ -1,28 +1,28 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { IdentityScreen } from '@src/screens/IdentityScreen';
-import { PowerOfAttorneyScreen } from '@src/screens/PowerOfAttorneyScreen';
-import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
-import { TechnicalPassportScreen } from '@src/screens/TechnicalPassportScreen';
-import { useAppTheme } from '@src/theme/theme';
-import { SearchForNewOrder } from '@src/screens/SearchForOrdersScreen/SearchForNewOrderScreen';
+import { CounterOfferScreen } from '@src/screens/CounterOfferScreen';
 import { FiltersForOrdersScreen } from '@src/screens/FiltersForOrdersScreen';
 import { FromWhereScreen } from '@src/screens/FromWhereScreen';
+import { IdentityScreen } from '@src/screens/IdentityScreen';
+import { InvoiceSentScreen } from '@src/screens/InvoiceSentScreen';
+import { InvoiseForGoodsSentScreen } from '@src/screens/InvoiseForGoodsSentScreen';
+import { PowerOfAttorneyScreen } from '@src/screens/PowerOfAttorneyScreen';
+import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
+import { SearchForNewOrder } from '@src/screens/SearchForOrdersScreen/SearchForNewOrderScreen';
+import { TechnicalPassportScreen } from '@src/screens/TechnicalPassportScreen';
 import { TransportationDetailsScreen } from '@src/screens/TransportationsDetailsScreen/TransportationDetailsScreen';
-import { CounterOfferScreen } from '@src/screens/CounterOfferScreen';
+import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 
 import { DocumentsScreen } from '../../screens/DocumentsScreen';
 import { Tabs } from '../Tabs';
 import { RootStackParamList } from '../types';
-import { InvoiseForGoodsSentScreen } from '@src/screens/InvoiseForGoodsSentScreen';
-import { InvoiceSentScreen } from '@src/screens/InvoiceSentScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootStack = () => {
-  const { t } = useLocalization()
+  const { t } = useLocalization();
   const { colors } = useAppTheme();
   return (
     <Stack.Navigator
@@ -46,20 +46,48 @@ export const RootStack = () => {
       <Stack.Screen
         name="technical-passport"
         component={TechnicalPassportScreen}
-        options={{ headerTitle: t('technical-passport'), }}
+        options={{ headerTitle: t('technical-passport') }}
       />
       <Stack.Screen
         name="power-of-attorney"
         component={PowerOfAttorneyScreen}
-        options={{ headerTitle: t('power-of-attorney'), }}
+        options={{ headerTitle: t('power-of-attorney') }}
       />
-      <Stack.Screen options={{ headerTitle: t('power-of-attorney') }} name="profile-data" component={ProfileDataScreen} />
-      <Stack.Screen options={{ headerTitle: t('identity') }} name="identity" component={IdentityScreen} />
-      <Stack.Screen options={{ headerTitle: t('search-for-order') }} name="search-for-new-order" component={SearchForNewOrder} />
-      <Stack.Screen options={{ headerTitle: t('filters') }} name="filters-for-orders" component={FiltersForOrdersScreen} />
-      <Stack.Screen options={{ headerTitle: t('from-where') }} name="from-where" component={FromWhereScreen} />
-      <Stack.Screen options={{ headerTitle: '' }} name="transportation-details" component={TransportationDetailsScreen} />
-      <Stack.Screen options={{ headerTitle: t('counter-offer') }} name="counter-offer" component={CounterOfferScreen} />
+      <Stack.Screen
+        options={{ headerTitle: t('power-of-attorney') }}
+        name="profile-data"
+        component={ProfileDataScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: t('identity') }}
+        name="identity"
+        component={IdentityScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: t('search-for-order') }}
+        name="search-for-new-order"
+        component={SearchForNewOrder}
+      />
+      <Stack.Screen
+        options={{ headerTitle: t('filters') }}
+        name="filters-for-orders"
+        component={FiltersForOrdersScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: t('from-where') }}
+        name="from-where"
+        component={FromWhereScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: '' }}
+        name="transportation-details"
+        component={TransportationDetailsScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: t('counter-offer') }}
+        name="counter-offer"
+        component={CounterOfferScreen}
+      />
     </Stack.Navigator>
   );
 };

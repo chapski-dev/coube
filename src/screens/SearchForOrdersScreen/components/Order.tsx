@@ -1,9 +1,10 @@
-import { useAppTheme } from "@src/theme/theme";
-import { Box, Button, Text } from "@src/ui";
+import { FC } from 'react';
 import Circle from '@assets/svg/circle.svg'
-import { FC } from "react";
-import { useLocalization } from "@src/translations/i18n";
-import { RouteObjectType } from "@src/screens/TransportationsDetailsScreen/TransportationDetailsScreen";
+
+import { RouteObjectType } from '@src/screens/TransportationsDetailsScreen/TransportationDetailsScreen';
+import { useAppTheme } from '@src/theme/theme';
+import { useLocalization } from '@src/translations/i18n';
+import { Box, Button, Text } from '@src/ui';
 
 type OrderPropsTypes = {
 	openTransportationDetails?: () => void

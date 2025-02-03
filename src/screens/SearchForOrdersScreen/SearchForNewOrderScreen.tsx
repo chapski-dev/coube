@@ -1,17 +1,18 @@
-import { Box, Text } from "@src/ui";
-import { useAppTheme } from "@src/theme/theme";
-import { ScreenProps } from '@src/navigation/types';
-import { OrderForSearchForOrderScreen } from "./components/Order";
-import MapPointer from '@assets/svg/map-pointer.svg'
+import { Image } from 'react-native';
 import Filter from '@assets/svg/filter.svg'
-import { Image } from "react-native";
-import { TransportationDetailsParams } from "../TransportationsDetailsScreen/TransportationDetailsScreen";
-import { useLocalization } from "@src/translations/i18n";
-import { orderDetails } from "@src/mocks/order-details";
+import MapPointer from '@assets/svg/map-pointer.svg'
+
+import { orderDetails } from '@src/mocks/order-details';
+import { ScreenProps } from '@src/navigation/types';
+import { useLocalization } from '@src/translations/i18n';
+import { Box, Text } from '@src/ui';
+
+import { TransportationDetailsParams } from '../TransportationsDetailsScreen/TransportationDetailsScreen';
+
+import { OrderForSearchForOrderScreen } from './components/Order';
 
 export const SearchForNewOrder = ({ navigation }: ScreenProps<'search-for-new-order'>) => {
 	const { t } = useLocalization()
-	const {colors} = useAppTheme()
 
 	const openFilters = () => {navigation.push('filters-for-orders')}
 	const openFromWhere = () => {navigation.push('from-where')}

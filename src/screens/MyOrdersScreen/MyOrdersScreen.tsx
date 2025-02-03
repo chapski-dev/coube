@@ -1,14 +1,17 @@
-import { Box, Text } from "@src/ui";
-import { Order } from "./components/Order";
-import { useAppTheme } from "@src/theme/theme";
-import Search from '@assets/svg/search.svg'
+import { useState } from 'react'
 import Arrow from '@assets/svg/arrow-right.svg'
+import Search from '@assets/svg/search.svg'
+
+import { orderDetails } from '@src/mocks/order-details';
 import { ScreenProps } from '@src/navigation/types';
-import { useState } from "react"
+import { useAppTheme } from '@src/theme/theme';
+import { useLocalization } from '@src/translations/i18n';
+import { Box, Text } from '@src/ui';
+
+import { TransportationDetailsParams } from '../TransportationsDetailsScreen/TransportationDetailsScreen';
+
+import { Order } from './components/Order';
 import {OrderStatusEnum} from './components/OrderStatus'
-import { TransportationDetailsParams } from "../TransportationsDetailsScreen/TransportationDetailsScreen";
-import { useLocalization } from "@src/translations/i18n";
-import { orderDetails } from "@src/mocks/order-details";
 
 export const MyOrdersScreen = ({ navigation }: ScreenProps<'my-orders-screen'>) => {
 	const { t } = useLocalization()
@@ -21,7 +24,7 @@ export const MyOrdersScreen = ({ navigation }: ScreenProps<'my-orders-screen'>) 
 		<Box>
 
 			<Box row w='full' backgroundColor={colors.white}>
-				<Box justifyContent="center" py={7} style={{ width: '50%', borderBottomWidth: 5, borderBottomColor: colors.main }} row >
+				<Box justifyContent="center" py={7} style={{ borderBottomColor: colors.main, borderBottomWidth: 5, width: '50%' }} row >
 					<Text type="body_500" children={t('active')} />
 					<Text type="body_500" children='(1)' />
 				</Box>

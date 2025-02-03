@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text } from './Text';
-import { Box } from './Box';
-import TickIcon from '@assets/svg/tick-fill.svg';
+
 import { useAppTheme } from '@src/theme/theme';
+
+import { Box } from './Box';
+import { Text } from './Text';
 
 interface SelectProps {
   selected?: boolean;

@@ -1,7 +1,9 @@
-import { useLocalization } from "@src/translations/i18n";
-import { Box, Button, Text } from "@src/ui";
-import { FC } from "react";
-import { RouteObjectType } from "../TransportationDetailsScreen";
+import { FC } from 'react';
+
+import { useLocalization } from '@src/translations/i18n';
+import { Box, Text } from '@src/ui';
+
+import { RouteObjectType } from '../TransportationDetailsScreen';
 
 export const RoutePoint: FC<RouteObjectType> = ( data ) => {
 	const { t } = useLocalization()
@@ -23,7 +25,7 @@ export const RoutePoint: FC<RouteObjectType> = ( data ) => {
 			<Box row gap={25} >
 				<Box>
 					<Text children={t('cargo-weight')} />
-					<Text type="body_500" children={data.cargoWeight}  />
+					<Text type="body_500" children={data.cargoWeight} />
 				</Box>
 				<Box>
 					<Text children={t('cargo-volume')} />

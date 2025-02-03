@@ -20,10 +20,11 @@ const Select = ({
 
   return (
     <Box
+      h={72}
       onPress={onPress}
       pr={8}
       pl={8}
-      borderWidth={0}
+      borderWidth={1}
       borderRadius={15}
       borderColor={selected ? colors.main : colors.disabled}
       row
@@ -31,10 +32,8 @@ const Select = ({
       alignItems="center"
       w="full"
       >
-      <Box w={15} h={15} borderColor={colors.grey} borderWidth={1} alignItems='center' justifyContent='center' borderRadius={5} >
         <TickIcon color={selected ? colors.main : colors.disabled} width={15} height={15} />
-      </Box>
-      <Text color='black' fontWeight={400} children={children} />
+        <Text children={children} />
     </Box>
   );
 };

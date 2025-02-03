@@ -1,7 +1,8 @@
-import { useAppTheme } from "@src/theme/theme";
-import { useLocalization } from "@src/translations/i18n";
-import { Box, Text } from "@src/ui";
-import { FC } from "react";
+import { FC } from 'react';
+
+import { useAppTheme } from '@src/theme/theme';
+import { useLocalization } from '@src/translations/i18n';
+import { Box, Text } from '@src/ui';
 
 interface PropsType {
 	orderStatus: OrderStatusEnum
