@@ -9,7 +9,7 @@ interface SelectProps {
   children?: string;
   onPress?: () => void;
 }
-const Select = ({
+const Checkbox = ({
   selected,
   children,
   onPress,
@@ -37,4 +37,4 @@ const Select = ({
   );
 };
 
-export default Select;
+export default Checkbox;

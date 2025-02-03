@@ -8,7 +8,7 @@ import { useState } from "react"
 import {OrderStatusEnum} from './components/OrderStatus'
 import { TransportationDetailsParams } from "../TransportationsDetailsScreen/TransportationDetailsScreen";
 import { useLocalization } from "@src/translations/i18n";
-import { transportationRouteData } from "@src/mocks/order-details";
+import { orderDetails } from "@src/mocks/order-details";
 
 export const MyOrdersScreen = ({ navigation }: ScreenProps<'my-orders-screen'>) => {
 	const { t } = useLocalization()
@@ -41,23 +41,12 @@ export const MyOrdersScreen = ({ navigation }: ScreenProps<'my-orders-screen'>) 
 
 			<Box py={20} >
 				<Order
-					openTransportationDetails={() => openTransportationDetails({
-						distance: '228 км', 
-						cargoName: 'Медицинское оборудование',
-						cargoType: 'Деревянный короб',
-						tareType: 'Продукты питания',
-						cargoWeight: '15 tonn',
-						cargoVolume: '3000 м3',
-						additionalCargoInformation: 'Транспортные средства, используемые для перевозки продуктов',
-						transportationRoute: transportationRouteData,
-						movingService: '2',
-						documents: '№2233411-Артем.pdf'
-					})} 
+					openTransportationDetails={() => openTransportationDetails(orderDetails)} 
 					orderStatus={OrderStatusEnum.new}
 					orderNumber='15-020342'
 					distance='884 км'
 					cargoName='Медицинское оборудование'
-					transportationRoute={transportationRouteData}
+					transportationRoute={orderDetails.transportationRoute}
 					transportationPeriod='12.07.2024-30.07.2024'
 				/>
 			</Box>

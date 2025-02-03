@@ -7,7 +7,7 @@ import Filter from '@assets/svg/filter.svg'
 import { Image } from "react-native";
 import { TransportationDetailsParams } from "../TransportationsDetailsScreen/TransportationDetailsScreen";
 import { useLocalization } from "@src/translations/i18n";
-import { transportationRouteData } from "@src/mocks/order-details";
+import { orderDetails } from "@src/mocks/order-details";
 
 export const SearchForNewOrder = ({ navigation }: ScreenProps<'search-for-new-order'>) => {
 	const { t } = useLocalization()
@@ -37,23 +37,12 @@ export const SearchForNewOrder = ({ navigation }: ScreenProps<'search-for-new-or
 			</Box>
 
 			<OrderForSearchForOrderScreen
-				openTransportationDetails={() => openTransportationDetails({
-					distance: '228 км', 
-					cargoName: 'Медицинское оборудование',
-					cargoType: 'Деревянный короб',
-					tareType: 'Продукты питания',
-					cargoWeight: '15 tonn',
-					cargoVolume: '3000 м3',
-					additionalCargoInformation: 'Транспортные средства, используемые для перевозки продуктов',
-					transportationRoute: transportationRouteData,
-					movingService: '2',
-					documents: '№2233411-Артем.pdf'
-				})} 
+				openTransportationDetails={() => openTransportationDetails(orderDetails)} 
 				companyName='ТОО «FISO»'
 				rating='4.9'
 				cargoName='Медицинское оборудование'
 				category={['Бытовая техника', '15 тонн', 'Полуприцеп', 'Полуприцеп', '12.07.2024-30.07.2024']}
-				transportationRoute={transportationRouteData}
+				transportationRoute={orderDetails.transportationRoute}
 				cargoWeight='1 000 000 T'
 			/>
 

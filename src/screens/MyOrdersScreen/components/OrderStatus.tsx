@@ -21,10 +21,10 @@ export const OrderStatus: FC<PropsType> = ({ orderStatus }) => {
 
 	const colorStatus: Record<OrderStatusEnum, string> = {
 		[OrderStatusEnum.new]: colors.green,
-		[OrderStatusEnum.pending]: colors.green,
-		[OrderStatusEnum.loading]: colors.green,
-		[OrderStatusEnum.processing]: colors.green,
-		[OrderStatusEnum.unloading]: colors.green,
+		[OrderStatusEnum.pending]: colors.main,
+		[OrderStatusEnum.loading]: colors.main,
+		[OrderStatusEnum.processing]: colors.blue,
+		[OrderStatusEnum.unloading]: colors.main,
 	}
 
 	const statusToLocalizationKey: Record<OrderStatusEnum, string> = {
