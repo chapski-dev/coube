@@ -1,5 +1,4 @@
 import React from 'react';
-import TickIcon from '@assets/svg/tick-fill.svg';
 
 import { useAppTheme } from '@src/theme/theme';
 
@@ -11,7 +10,7 @@ interface SelectProps {
   children?: string;
   onPress?: () => void;
 }
-const Select = ({
+const Checkbox = ({
   selected,
   children,
   onPress,
@@ -20,11 +19,10 @@ const Select = ({
 
   return (
     <Box
-      h={72}
       onPress={onPress}
       pr={8}
       pl={8}
-      borderWidth={1}
+      borderWidth={0}
       borderRadius={15}
       borderColor={selected ? colors.main : colors.disabled}
       row
@@ -32,10 +30,12 @@ const Select = ({
       alignItems="center"
       w="full"
       >
-        <TickIcon color={selected ? colors.main : colors.disabled} width={15} height={15} />
-        <Text children={children} />
+      <Box w={15} h={15} borderColor={colors.grey} borderWidth={1} alignItems='center' justifyContent='center' borderRadius={5} >
+        {selected && <Box w={5} h={5} backgroundColor={colors.main} borderRadius={1} />}
+      </Box>
+      <Text color='black' fontWeight={400} children={children} />
     </Box>
   );
 };
 
-export default Select;
+export default Checkbox;

@@ -29,6 +29,7 @@ interface PropsType extends ViewProps {
   type?: ButtonType
   backgroundColor?: keyof typeof AppLightTheme.colors;
   textColor?: keyof typeof AppLightTheme.colors;
+  borderColor?: keyof typeof AppLightTheme.colors;
 }
 
 const typeStyle = {
@@ -49,6 +50,7 @@ export const Button: FC<PropsType> = ({
   type = 'filled',
   backgroundColor,
   textColor,
+  borderColor,
 }) => {
   const { colors } = useAppTheme();
   const styles = useMemo(() => typeStyle[type], [type]);
@@ -74,6 +76,14 @@ export const Button: FC<PropsType> = ({
     }
   }, [colors, textColor, type]);
 
+  const generateBorderColor = useMemo(() => {
+    if(borderColor){
+      return colors[borderColor];
+    } else if (type === 'outline' && !borderColor ) {
+      return colors.black;
+    }
+  }, [colors, borderColor]);
+
   return (
     <View style={[styles.wrapper, wrapperStyle]}>
       <TouchableOpacity
@@ -87,6 +97,7 @@ export const Button: FC<PropsType> = ({
         ] : [styles.button,
           buttonStyle,
         { backgroundColor: generateBgColor },
+        { borderColor: generateBorderColor },
         ]}
         disabled={disabled}
         onPress={onPress}>
@@ -95,5 +106,3 @@ export const Button: FC<PropsType> = ({
     </View>
   );
 };
-
-

@@ -5,11 +5,14 @@ import { useNavigation } from '@react-navigation/native';
 
 import { useAppTheme } from '@src/theme/theme';
 import { Box, Text } from '@src/ui';
+import { useLocalization } from '@src/translations/i18n';
 
 export const TransportCard = () => {
   const navigation = useNavigation();
   const carModel = 'FAW J7';
   const { colors } = useAppTheme();
+
+  const { t } = useLocalization()
 
   return (
     <Box backgroundColor={colors.white}>
@@ -20,23 +23,23 @@ export const TransportCard = () => {
         <Box gap={8}>
           <Text type="h3" children={carModel} />
           <Box>
-            <Text type="label" children="Гос. номер:" />
+            <Text type="label" children={t('licence-plate')} />
             <Text fontWeight={500} children="123 BOK 02" />
           </Box>
           <Box>
-            <Text type="label" children="Грузоподъемность:" />
+            <Text type="label" children={t('payload')}  />
             <Text fontWeight={500} children={'15.5 т'} />
           </Box>
           <Box>
-            <Text type="label" children="Цвет авто:" />
+            <Text type="label" children={t('car-color')} />
             <Text fontWeight={500} children="Белый" />
           </Box>
           <Box>
-            <Text type="label" children="Модель полуприцепа:" />
+            <Text type="label" children={t('semi-trailer-model')} />
             <Text fontWeight={500} children="Krone" />
           </Box>
           <Box>
-            <Text type="label" children="Госномер полуприцепа:" />
+            <Text type="label" children={t('semi-trailer-licence')} />
             <Text fontWeight={500} children="123 BOK 02" />
           </Box>
         </Box>
@@ -51,7 +54,7 @@ export const TransportCard = () => {
         style={{ borderBottomWidth: 1, borderTopWidth: 1, }}
         onPress={() => navigation.navigate('documents', { carModel })}
       >
-        <Text fontWeight={500} children="Документы" />
+        <Text fontWeight={500} children={t('documents')} />
         <RightArrow />
       </Box>
     </Box>
