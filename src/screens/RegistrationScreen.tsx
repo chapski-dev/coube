@@ -6,9 +6,11 @@ import registrationService from '@src/service/registration-service';
 import { useAppTheme } from '@src/theme/theme';
 import { Box, Button } from '@src/ui';
 import Select from '@src/ui/Select';
+import { useLocalization } from '@src/translations/i18n';
 
 
 const RegistrationScreen = ({ navigation, route }: ScreenProps<'registration'>) => {
+  const { t } = useLocalization()
 
   const { insets } = useAppTheme();
   const [isResident, setIsResident] = useState(registrationService.getIsRezident());
@@ -76,7 +78,7 @@ const RegistrationScreen = ({ navigation, route }: ScreenProps<'registration'>) 
           </>
         )}
       </Box>
-      <Button children="Далее" onPress={goAhead} />
+      <Button children={t('next')} onPress={goAhead} />
     </Box>
   );
 };

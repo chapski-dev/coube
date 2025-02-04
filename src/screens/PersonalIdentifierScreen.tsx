@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react'
 import { Dimensions, Image } from 'react-native'
 import { ImagePickerResponse } from 'react-native-image-picker'
@@ -22,7 +21,7 @@ const PersonalIdentifier = ({ navigation }: ScreenProps<'personal-identifier'>) 
   useEffect(() => {
     navigation.setOptions({
       headerBackButtonDisplayMode: 'minimal',
-      headerTitle: !isResident ? 'Паспорт' : 'Удостоверение личности'
+      headerTitle: !isResident ? t('passport') : t('identity')
     })
 
   }, [navigation, isResident])
@@ -89,7 +88,7 @@ const PersonalIdentifier = ({ navigation }: ScreenProps<'personal-identifier'>) 
           resizeMode='contain'
         />}
         <Button
-          children={pickerResponse?.assets ? 'Выбрать другое фото' : 'Загрузить фото'}
+          children={pickerResponse?.assets ? t('choose-different-photo') : t('upload-photo')}
           onPress={modalOpen}
           backgroundColor='main_light'
           textColor='textDefault'
