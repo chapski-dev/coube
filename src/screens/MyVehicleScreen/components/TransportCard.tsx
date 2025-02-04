@@ -12,7 +12,7 @@ export const TransportCard = () => {
   const { colors } = useAppTheme();
 
   return (
-    <Box>
+    <Box backgroundColor={colors.white}>
       <Box row gap={16} py={16} px={16}>
         <Box h={150} borderRadius={12} overflow="hidden">
           <Image source={require('@assets/png/car.png')} />
