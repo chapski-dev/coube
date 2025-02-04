@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { FinanceScreen } from '@src/screens/FinanceScreen';
-import { MyOrdersScreen } from '@src/screens/MyOrdersScreen';
+import { MyOrdersScreen } from '@src/screens/MyOrdersScreen/MyOrdersScreen';
 import { MyVehicleScreen } from '@src/screens/MyVehicleScreen/MyVehicleScreen';
 import { NotificationScreen } from '@src/screens/NotificationScreen';
 import { ProfileScreen } from '@src/screens/ProfileScreen';

@@ -5,6 +5,7 @@ import SwipeButton from '@src/components/SwipeButton';
 import { useLocalization } from '@src/translations/i18n';
 import { modal } from '@src/ui/Layouts/ModalLayout';
 import { wait } from '@src/utils';
+import { CompletedOrderCard } from './components/CompletedOrderCard';
 
 export const MyOrdersScreen = () => {
   const { t } = useLocalization();
