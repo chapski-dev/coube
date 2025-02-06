@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Image } from 'react-native';
+import { Image, ScrollView } from 'react-native';
 import Arrow from '@assets/svg/arrow-right.svg';
 import Circle from '@assets/svg/circle.svg';
 
@@ -37,7 +37,7 @@ export const TransportationDetailsScreen = ({
   route,
 }: ScreenProps<'transportation-details'>) => {
   const { t } = useLocalization();
-  const { colors } = useAppTheme();
+  const { colors, insets } = useAppTheme();
 
   const {
     distance,
@@ -62,7 +62,9 @@ export const TransportationDetailsScreen = ({
   const [unfoldDocuments, setUnfoldDocuments] = useState<boolean>(true);
 
   return (
-    <Box gap={5}>
+    <ScrollView
+      contentContainerStyle={{ gap: 5, paddingBottom: insets.bottom }}
+    >
       <Box alignItems="center" justifyContent="center" pt={10}>
         <Image
           source={require('@assets/png/map-for-transportation-details.png')}
@@ -71,7 +73,7 @@ export const TransportationDetailsScreen = ({
 
       <Box justifyContent="flex-end" row>
         <Text children={t('distance')} />
-        <Text children={': '} />
+        <Text children=": " />
         <Text type="body_500" children={distance} />
       </Box>
 
@@ -136,8 +138,8 @@ export const TransportationDetailsScreen = ({
         {unfoldRoute && (
           <Box>
             {transportationRoute.map((data, index) => {
-				const lastElement = transportationRoute.length - 1
-				const isFirstElement = index === 0
+              const lastElement = transportationRoute.length - 1;
+              const isFirstElement = index === 0;
               return (
                 <Box row gap={15} key={index}>
                   <Box alignItems="center">
@@ -224,6 +226,6 @@ export const TransportationDetailsScreen = ({
           onPress={openTransportationDetails}
         />
       </Box>
-    </Box>
+    </ScrollView>
   );
 };

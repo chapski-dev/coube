@@ -127,7 +127,7 @@ const SwipeButton = ({ onSwipe, loading }: SwipeButtonProps) => {
       <Animated.View style={[styles.swipeCont, AnimatedStyles.swipeCont]}>
         <Animated.View style={[AnimatedStyles.colorWave, styles.colorWave]} />
         <Animated.View style={[styles.swipeable, AnimatedStyles.swipeable]} >
-          {loading ? <ActivityIndicator color={'#fff'} /> : <Animated.Text children="SOS" />}
+          {loading ? <ActivityIndicator color="#fff" /> : <Animated.Text children="SOS" />}
         </Animated.View>
         <Animated.Text style={[styles.swipeText, AnimatedStyles.swipeText]} children="Отправить" />
       </Animated.View>

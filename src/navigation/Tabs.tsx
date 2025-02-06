@@ -50,7 +50,7 @@ export const Tabs = () => {
         name="finance"
         component={FinanceScreen}
         options={{
-          tabBarIcon: ({ color }) => <FinanceIcon color={color} />,
+          tabBarIcon: () => <FinanceIcon color={colors.disabled} />,
           tabBarLabelStyle: { color: colors.disabled },
           title: t('finances'),
         }}

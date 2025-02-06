@@ -6,12 +6,13 @@ import { FiltersForOrdersScreen } from '@src/screens/FiltersForOrdersScreen';
 import { FromWhereScreen } from '@src/screens/FromWhereScreen';
 import { IdentityScreen } from '@src/screens/IdentityScreen';
 import { InvoiceSentScreen } from '@src/screens/InvoiceSentScreen';
-import { InvoiseForGoodsSentScreen } from '@src/screens/InvoiseForGoodsSentScreen';
+import { OrderAcceptedScreen } from '@src/screens/OrderAcceptedScreen';
 import { PowerOfAttorneyScreen } from '@src/screens/PowerOfAttorneyScreen';
 import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
 import { SearchForNewOrder } from '@src/screens/SearchForOrdersScreen/SearchForNewOrderScreen';
 import { TechnicalPassportScreen } from '@src/screens/TechnicalPassportScreen';
-import { TransportationDetailsScreen } from '@src/screens/TransportationsDetailsScreen/TransportationDetailsScreen';
+import { TransportationDetailsScreen } from '@src/screens/TransportationsDetailsScreen';
+import UploadInvoiseForGoodsScreen from '@src/screens/UploadInvoiseForGoodsScreen';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 
@@ -87,6 +88,21 @@ export const RootStack = () => {
         options={{ headerTitle: t('counter-offer') }}
         name="counter-offer"
         component={CounterOfferScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false, headerTitle: '', presentation: 'modal' }}
+        name="order-accepted"
+        component={OrderAcceptedScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: 'Накладная на товар' }}
+        name="upload-invoise-for-goods"
+        component={UploadInvoiseForGoodsScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: 'Накладная на товар' }}
+        name="invoice-sent"
+        component={InvoiceSentScreen}
       />
     </Stack.Navigator>
   );

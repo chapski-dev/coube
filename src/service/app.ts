@@ -39,10 +39,10 @@ class App extends Emittery<EventsParams> {
     // order:
     // fires before all, indicate is user was logged in
     this.on(Events.onNavigationReady, onNavigationReady)
-    // second, authorize, fetch some user data and more
-    this.on(Events.onFirebaseAuthorize, onFirebaseAuthorize)
-    // the last one, prepare transactions, let user see authorized stack screens and etc
+    // second, prepare transactions, let user see authorized stack screens and etc
     this.on(Events.onAuthReady, onAuthReady)
+    // the last one, authorize, fetch some user data and more
+    this.on(Events.onFirebaseAuthorize, onFirebaseAuthorize)
 
     addNetworkEventListener((state) => {
       this._isNetworkProblems = !state.isConnected && !state.isInternetReachable
@@ -86,6 +86,10 @@ class App extends Emittery<EventsParams> {
     //   .catch((e) => {
     //     console.error('firebase signout error: ', e)
     //   }) // firebase sigOut doesnt provide this._isFirebaseAuthorized = false
+    this.isFirebaseAuthorized = AppServiceStatus.off
+    this.isAuthReady = AppServiceStatus.off
+    this.isNavigationReady = AppServiceStatus.off
+    
     // authService.cleanUp()
     // providers
     dispatchAuth?.({ type: AuthActionType.setEmpty })

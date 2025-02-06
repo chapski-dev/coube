@@ -1,8 +1,9 @@
-import { ScreenProps } from '@src/navigation/types';
-import { Box, Button, Text } from '@src/ui';
-import WaybillIcon from '@assets/svg/sheet.svg';
 import React from 'react';
+import WaybillIcon from '@assets/svg/sheet.svg';
+
+import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
+import { Box, Button, Text } from '@src/ui';
 
 export const InvoiceSentScreen = ({
   navigation,
@@ -19,18 +20,18 @@ export const InvoiceSentScreen = ({
       <Box gap={27} alignItems="center">
         <WaybillIcon color={colors.main} />
         <Box gap={4}>
-          <Text type="h2" center children={'Накладная на товар отправлена!'} />
-          <Text type="h3" center children={'Погрузка груза завершена!'} />
+          <Text type="h2" center children="Накладная на товар отправлена!" />
+          <Text type="h3" center children="Погрузка груза завершена!" />
         </Box>
       </Box>
       <Box
-        w={'full'}
+        w="full"
         py={12}
         px={16}
         borderColor={colors.border}
         style={{ borderTopWidth: 1 }}
       >
-        <Button children={'Перейти к заказу'} />
+        <Button children="Перейти к заказу" />
       </Box>
     </Box>
   );
