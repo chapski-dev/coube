@@ -4,8 +4,6 @@ import messaging from '@src/service/messaging'
 
 let _isAuthorized = false
 export const onFirebaseAuthorize = async (status: AppServiceStatus) => {
-  console.log('onFirebaseAuthorize');
-  
   if (status === AppServiceStatus.on && !_isAuthorized) {
     _isAuthorized = true
     messaging.init()

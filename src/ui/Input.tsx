@@ -25,6 +25,7 @@ interface InputProps extends TextInputProps {
   required?: boolean;
   wrapperStyle?: StyleProp<ViewStyle>
   type?: 'search' | 'classic'
+  color?: string
 }
 
 export const Input = forwardRef<InputProps, InputProps>(
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   inputWrapper: {
     alignItems: 'center',
     borderRadius: 10,
-    borderWidth: 2,
+    borderWidth: 1.5,
     flexDirection: 'row',
     flexGrow: 1,
     gap: 9,

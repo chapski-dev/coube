@@ -48,7 +48,7 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
             await handleLogin();
             return
           } else {
-            throw new Error('Не верно введен код!')
+            throw new Error(t('incorrect-code-entered'))
           }
         }
         if (action === 'phone-verify') {
@@ -98,7 +98,7 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
         {action !== 'invite' ? (
           <>
             <Text type='h2' children={t('confirm_the_number')} />
-            <Box>
+            <Box row flexWrap='wrap' justifyContent='center'>
               <Text children={t('we_sent_it_to_a_number')} />
               <Text children="+7 777 777 77 77" />
               <Text children={t('confirmation_code_enter_it_below')} />
@@ -120,7 +120,7 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
           />
         )}
         {action === 'phone-verify' &&
-          <Button children="Не пришел смс код" type='clear' onPress={() => null} />}
+          <Button children={t('sms-code-failed-to-arrive')} type='clear' onPress={() => null} />}
       </Box>
     </>
   )

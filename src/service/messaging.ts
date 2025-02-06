@@ -8,16 +8,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 
 import { vibrate } from '@src/actions/vibrate.ts'
-import { registerFCMToken } from '@src/api'
+// import { registerFCMToken } from '@src/api'
 import notifications from '@src/service/notifications'
 import { AppStatus, getAppStatus } from '@src/utils/system'
 import { ASYNC_STORAGE_KEYS } from '@src/vars/async_storage_keys'
 import { isIOS } from '@src/vars/platform'
 
+import orders from './orders'
+
 async function onMessageReceived(message: FirebaseMessagingTypes.RemoteMessage) {
   // TODO check data compatibility
-  if (message.data?.action === 'update_balance') {
+  if (message.data?.action === 'new_order') {
     vibrate(HapticFeedbackTypes.notificationSuccess)
+    void orders.refresh()
     void notifications.refresh()
   }
   try {
@@ -46,6 +49,8 @@ const messagingService = () => {
 
   const init = () => {
     onMessageUnsubscribe = messaging().onMessage(onMessageReceived)
+    messaging().setBackgroundMessageHandler(onMessageReceived)
+
 
     _listener = AppState.addEventListener('change', () => listenAppStateChange())
     void listenAppStateChange(true)
@@ -62,21 +67,15 @@ const messagingService = () => {
       }
 
       await notifee.setBadgeCount(0)
-      console.log('setBadgeCount works fine');
       
       const previousToken = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.FCM_TOKEN_KEY)
-      console.log('previousToken works fine');
       
       const token = await getFCMToken()
-      console.log('FCM token: ', token)
-
       if (!token) {
         return
       }
       if (previousToken !== token || forceUpdate) {
         await saveToken(token)
-        console.log('saveToken works fine');
-        
       }
     } catch (error) {
       console.error('messaging listenAppStateChange error', error)
@@ -87,8 +86,6 @@ const messagingService = () => {
     _enabled = true
     if (isIOS) {
       const authStatus = await messaging().requestPermission()
-      console.log('requestPermissions authStatus', authStatus);
-      
       _enabled =
         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
         authStatus === messaging.AuthorizationStatus.PROVISIONAL
@@ -107,8 +104,6 @@ const messagingService = () => {
     if (!messaging().isDeviceRegisteredForRemoteMessages) {
       await messaging().registerDeviceForRemoteMessages();
     }
-    console.log('registerDeviceForRemoteMessages works fine');
-
     const token = await messaging().getToken()
     console.log('FCM token', token);
     return token
@@ -121,8 +116,7 @@ const messagingService = () => {
   }
 
   const saveToken = async (token: string) => {
-    const res = await registerFCMToken({ token })
-    console.log('/fcm res: ', res)
+    // const res = await registerFCMToken({ token })
     await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.FCM_TOKEN_KEY, token)
   }
 
