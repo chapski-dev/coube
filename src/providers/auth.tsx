@@ -5,13 +5,13 @@ import {
   ReducerAction,
   useContext,
   useEffect,
-  useState
-} from 'react'
-import { useImmerReducer } from 'use-immer'
+  useState,
+} from 'react';
+import { useImmerReducer } from 'use-immer';
 
-import { AppServiceStatus } from '@src/events'
-import { AuthAction, authReducer } from '@src/providers/reducers/authReducer'
-import app from '@src/service/app'
+import { AppServiceStatus } from '@src/events';
+import { AuthAction, authReducer } from '@src/providers/reducers/authReducer';
+import app from '@src/service/app';
 
 export enum AuthState {
   // app transmission
@@ -29,48 +29,54 @@ export enum AuthState {
 }
 
 export interface IAuthProvider {
-  authState: AuthState
-  user: null
+  authState: AuthState;
+  user: null;
 }
 
 export const AuthContext = createContext<IAuthProvider>({
   authState: AuthState.checking,
   user: null,
-})
+});
 
-export let dispatchAuth: Dispatch<ReducerAction<typeof authReducer>> | null = null
+export let dispatchAuth: Dispatch<ReducerAction<typeof authReducer>> | null =
+  null;
 
 export const AuthProvider = ({ children }: { children?: ReactNode }) => {
-  const [authState, authDispatch] =
-    useImmerReducer<AuthState, AuthAction>(authReducer, AuthState.checking)
+  const [authState, authDispatch] = useImmerReducer<AuthState, AuthAction>(
+    authReducer,
+    AuthState.checking,
+  );
 
-
-  const [user, setUser] = useState<null>(null)
-
-
+  const [user, setUser] = useState<null>(null);
 
   function onAuthStateChanged(_user: null) {
-    app.isFirebaseAuthorized = AuthState.filled ? AppServiceStatus.on : AppServiceStatus.off
+    app.isFirebaseAuthorized =
+      authState === AuthState.ready
+        ? AppServiceStatus.on
+        : AppServiceStatus.off;
 
     if (!user && !_user) {
-      return
+      return;
     }
-    setUser(_user)
+    setUser(_user);
     // app.isFirebaseAuthorized = _user ? AppServiceStatus.on : AppServiceStatus.off
   }
 
-
   useEffect(() => {
-    // make request to get user data 
+    // make request to get user data
     // const getUserData = async (data) => onAuthStateChanged(data)
-    onAuthStateChanged(null)
-  }, [])
+    onAuthStateChanged(null);
+  }, []);
 
   useEffect(() => {
-    dispatchAuth = authDispatch
-  }, [authDispatch])
+    dispatchAuth = authDispatch;
+  }, [authDispatch]);
 
-  return <AuthContext.Provider value={{ authState, user }}>{children}</AuthContext.Provider>
-}
+  return (
+    <AuthContext.Provider value={{ authState, user }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-export const useAuth = () => useContext(AuthContext)
+export const useAuth = () => useContext(AuthContext);
