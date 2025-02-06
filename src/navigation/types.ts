@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { TransportationDetailsParams } from '@src/screens/TransportationsDetailsScreen/TransportationDetailsScreen';
+
+import { TransportationDetailsParams } from '@src/screens/TransportationsDetailsScreen';
 
 export type RootStackParamList = {
   tabs: undefined
@@ -9,13 +10,12 @@ export type RootStackParamList = {
   documents: { carModel: string }
   'technical-passport': undefined
   'power-of-attorney': undefined
-  'my-orders-screen': undefined
   'search-for-new-order': undefined
   'filters-for-orders': undefined
   'from-where': undefined
   'transportation-details': TransportationDetailsParams
   'counter-offer': undefined
-  'invoise-for-goods-sent': undefined
+  'upload-invoise-for-goods': undefined
   'invoice-sent': undefined
   'order-accepted': undefined
 }

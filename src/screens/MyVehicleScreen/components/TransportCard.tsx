@@ -4,8 +4,8 @@ import RightArrow from '@assets/svg/arrow-right.svg';
 import { useNavigation } from '@react-navigation/native';
 
 import { useAppTheme } from '@src/theme/theme';
-import { Box, Text } from '@src/ui';
 import { useLocalization } from '@src/translations/i18n';
+import { Box, Text } from '@src/ui';
 
 export const TransportCard = () => {
   const navigation = useNavigation();
@@ -15,7 +15,7 @@ export const TransportCard = () => {
   const { t } = useLocalization()
 
   return (
-    <Box>
+    <Box backgroundColor={colors.white}>
       <Box row gap={16} py={16} px={16}>
         <Box h={150} borderRadius={12} overflow="hidden">
           <Image source={require('@assets/png/car.png')} />
@@ -27,7 +27,7 @@ export const TransportCard = () => {
             <Text fontWeight={500} children="123 BOK 02" />
           </Box>
           <Box>
-            <Text type="label" children={t('payload')}  />
+            <Text type="label" children={t('payload')} />
             <Text fontWeight={500} children={'15.5 т'} />
           </Box>
           <Box>

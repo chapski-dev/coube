@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ActivityIndicator, Alert, Switch } from 'react-native';
 import { HapticFeedbackTypes } from 'react-native-haptic-feedback/src/types';
-import ArrowIcon from '@assets/svg/arrow-right.svg'
-import NoAvatarIcon from '@assets/svg/no-avatar.svg'
+import ArrowIcon from '@assets/svg/arrow-right.svg';
+import NoAvatarIcon from '@assets/svg/no-avatar.svg';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { vibrate } from '@src/actions/vibrate';
@@ -19,82 +19,84 @@ import { wait } from '@src/utils';
 import { handleCatchError } from '@src/utils/handleCatchError';
 import SelectLanguageModal from '@src/widgets/SelectLanguageModal';
 
-
 export enum NotifictationOption {
   push_notifications = 'push_notifications',
 }
 
-const isAvatarExist = false
+const isAvatarExist = false;
 
 export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
-  const { t } = useLocalization()
+  const { t } = useLocalization();
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     defaultValues: {
       settings: {
         [NotifictationOption.push_notifications]: messaging.isEnabled(),
       },
     },
-  })
-  const { setValue, getValues, watch } = form
-
+  });
+  const { setValue, getValues, watch } = form;
 
   const valuesWithPermission = (val: NotificationSettings['settings']) => {
-    const push_notifications = messaging.isEnabled() ?
-      val[NotifictationOption.push_notifications] :
-      false
-    return { ...val, [NotifictationOption.push_notifications]: push_notifications }
-  }
+    const push_notifications = messaging.isEnabled()
+      ? val[NotifictationOption.push_notifications]
+      : false;
+    return {
+      ...val,
+      [NotifictationOption.push_notifications]: push_notifications,
+    };
+  };
 
-  const togglePushNotification = async (val: NotificationSettings['settings']) => {
-    const newValues = valuesWithPermission(val)
-    await handleSubmitForm(newValues)
-  }
+  const togglePushNotification = async (
+    val: NotificationSettings['settings'],
+  ) => {
+    const newValues = valuesWithPermission(val);
+    await handleSubmitForm(newValues);
+  };
   const handleSubmitForm = async (values: NotificationSettings['settings']) => {
     try {
-      setLoading(true)
-      await wait(1000)
-      await setNotificationSettings({ settings: values })
-      setValue('settings', values)
+      setLoading(true);
+      await wait(1000);
+      await setNotificationSettings({ settings: values });
+      setValue('settings', values);
     } catch (e) {
-      handleCatchError(e)
+      handleCatchError(e);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
+  const openProfileData = () => navigation.navigate('profile-data');
+  const openIdentityData = () => navigation.push('identity');
 
-  const openProfileData = () => navigation.navigate('profile-data')
-  const openIdentityData = () => navigation.push('identity')
-
-  const { colors } = useAppTheme()
+  const { colors } = useAppTheme();
   const modal = useRef<BottomSheetModal>(null);
   const modalClose = () => modal?.current?.forceClose();
   const modalOpen = () => modal?.current?.present();
 
-
-  const onLogoutPress = () => Alert.alert('Желаете выйти?', undefined, [
-    {
-      onPress: () => {
-        vibrate(HapticFeedbackTypes.notificationSuccess)
-        app.logout()
+  const onLogoutPress = () =>
+    Alert.alert('Желаете выйти?', undefined, [
+      {
+        onPress: () => {
+          vibrate(HapticFeedbackTypes.notificationSuccess);
+          app.logout();
+        },
+        style: 'destructive',
+        text: 'Выйти',
       },
-      style: 'destructive',
-      text: 'Выйти'
-    },
-    {
-      onPress: () => null,
-      text: 'Отмена'
-    }
-  ])
-  
+      {
+        onPress: () => null,
+        text: 'Отмена',
+      },
+    ]);
+
   return (
     <>
       <Box
         flex={1}
-        alignItems='center'
-        justifyContent='space-between'
+        alignItems="center"
+        justifyContent="space-between"
         backgroundColor={colors.background}
         pb={250}
         pt={20}
@@ -102,35 +104,40 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
       >
         <Box
           onPress={openProfileData}
-          w='full'
+          w="full"
           h={50}
           px={15}
           row
-          alignItems='center'
-          justifyContent='space-between'
+          alignItems="center"
+          justifyContent="space-between"
         >
-          <Box row alignItems='center' gap={15} >
+          <Box row alignItems="center" gap={15}>
             {isAvatarExist ? <NoAvatarIcon /> : <NoAvatarIcon />}
-            <Text type='body_500' fontSize={18} children='Сергей' />
+            <Text type="body_500" fontSize={18} children="Сергей" />
           </Box>
           <ArrowIcon />
         </Box>
 
-        <Box row w='full' gap={5} px={15} >
+        <Box row w="full" gap={5} px={15}>
           <Box
             backgroundColor={colors.grey}
             borderRadius={9}
-            justifyContent='center'
-            alignItems='flex-start'
-            gap={3} p={10} w={126} h={72} >
+            justifyContent="center"
+            alignItems="flex-start"
+            gap={3}
+            p={10}
+            w={126}
+            h={72}
+          >
             <Box
               backgroundColor={colors.green}
               borderRadius={35}
               px={10}
               py={3}
-              alignItems='center'
-              justifyContent='center' >
-              <Text color={colors.white} fontWeight={700} children='4.5' />
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text color={colors.white} fontWeight={700} children="4.5" />
             </Box>
             <Text fontSize={10} fontWeight={400} children={t('my_rating')} />
           </Box>
@@ -138,48 +145,60 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
           <Box
             backgroundColor={colors.grey}
             borderRadius={9}
-            justifyContent='center'
-            alignItems='flex-start'
+            justifyContent="center"
+            alignItems="flex-start"
             gap={3}
-            p={10} w={126} h={72} >
+            p={10}
+            w={126}
+            h={72}
+          >
             <Box
               backgroundColor={colors.dark_grey}
               borderRadius={35}
               px={10}
               py={3}
-              alignItems='center'
-              justifyContent='center' >
-              <Text color={colors.white} fontWeight={700} children='115' />
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text color={colors.white} fontWeight={700} children="115" />
             </Box>
-            <Text fontSize={10} fontWeight={400} children={t('transportations')} />
+            <Text
+              fontSize={10}
+              fontWeight={400}
+              children={t('transportations')}
+            />
           </Box>
 
           <Box
             backgroundColor={colors.grey}
             borderRadius={9}
-            justifyContent='center'
-            alignItems='flex-start'
-            gap={3} p={10} w={126} h={72} >
+            justifyContent="center"
+            alignItems="flex-start"
+            gap={3}
+            p={10}
+            w={126}
+            h={72}
+          >
             <Box
               backgroundColor={colors.dark_grey}
               borderRadius={35}
               px={10}
               py={3}
-              alignItems='center'
-              justifyContent='center'
+              alignItems="center"
+              justifyContent="center"
             >
-              <Text color={colors.white} fontWeight={700} children='351 тыс.' />
+              <Text color={colors.white} fontWeight={700} children="351 тыс." />
             </Box>
-            <Text fontSize={10} fontWeight={400} children={t('traveled_kilometers')} />
+            <Text
+              fontSize={10}
+              fontWeight={400}
+              children={t('traveled_kilometers')}
+            />
           </Box>
         </Box>
 
-
         <Box backgroundColor={colors.white}>
-          <SectionListItemWithArrow
-            title={t('reports')}
-            onPress={() => null}
-          />
+          <SectionListItemWithArrow title={t('reports')} onPress={() => null} />
           <SectionListItemWithArrow
             title={t('identification_card')}
             onPress={openIdentityData}
@@ -197,46 +216,70 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
           />
         </Box>
 
-        <Box w='full' h={50} px={15} row alignItems='center' justifyContent='space-between' >
-          <Text type={'body_500'} children={t('push_notifications')} />
-          {loading ? <Box mr={20} ><ActivityIndicator /></Box> : (
+        <Box
+          w="full"
+          h={50}
+          px={15}
+          row
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Text type="body_500" children={t('push_notifications')} />
+          {loading ? (
+            <Box mr={20}>
+              <ActivityIndicator />
+            </Box>
+          ) : (
             <Switch
               trackColor={{ false: colors.grey, true: colors.main }}
               thumbColor={colors.white}
-              onValueChange={(val) => togglePushNotification({
-                ...getValues().settings,
-                [NotifictationOption.push_notifications]: val
-              })}
+              onValueChange={(val) =>
+                togglePushNotification({
+                  ...getValues().settings,
+                  [NotifictationOption.push_notifications]: val,
+                })
+              }
               value={watch('settings.push_notifications')}
             />
           )}
         </Box>
 
-        <Button backgroundColor='white' textColor='red' children='Выйти' onPress={onLogoutPress} />
+        <Button
+          backgroundColor="white"
+          textColor="red"
+          children="Выйти"
+          onPress={onLogoutPress}
+        />
 
-        <Button type='clear' textColor='textSecondary' children='Удалить аккаунт' />
-
+        <Button
+          type="clear"
+          textColor="textSecondary"
+          children="Удалить аккаунт"
+        />
       </Box>
       <SelectLanguageModal ref={modal} modalClose={modalClose} />
     </>
   );
-}
+};
 
 type SectionListItemWithArrowProps = {
-  title: string
+  title: string;
   onPress: () => void;
-}
-const SectionListItemWithArrow = ({ title, onPress }: SectionListItemWithArrowProps) => (
+};
+const SectionListItemWithArrow = ({
+  title,
+  onPress,
+}: SectionListItemWithArrowProps) => (
   <Box
-    w='full'
+    w="full"
     h={50}
     px={15}
     row
-    alignItems='center'
-    justifyContent='space-between'
+    alignItems="center"
+    justifyContent="space-between"
     onPress={onPress}
   >
-    <Text type={'body_500'} children={title} />
+    <Text type="body_500" children={title} />
     <ArrowIcon />
   </Box>
-)
+);

@@ -50,8 +50,7 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
 
 
   function onAuthStateChanged(_user: null) {
-    // временное решение пока не авторизовываем пользователя
-    app.isFirebaseAuthorized = AppServiceStatus.on
+    app.isFirebaseAuthorized = AuthState.filled ? AppServiceStatus.on : AppServiceStatus.off
 
     if (!user && !_user) {
       return
