@@ -21,13 +21,13 @@ const LoginScreen = ({ navigation }: ScreenProps<'login'>) => {
       />
       <Box gap={12} w="full" >
         <Button
-          children="Войти"
+          children={t('enter')}
           onPress={() => navigation.navigate('login-via-phone')}
 
         />
         <Button
           type="clear"
-          children="Регистрация"
+          children={t('registration')}
           textColor="main"
           onPress={() => navigation.navigate('registration', { step: 'driver_performer_or_invaitetion' })}
         />

@@ -68,7 +68,7 @@ const SettingsProfileScreen = ({ navigation }: ScreenProps<'settings-profile'>) 
           textColor='main'
           type='clear'
           wrapperStyle={{ width: 150 }}
-          children="Добавить фото"
+          children={t('add-photo')}
           onPress={modalOpen}
         />
       </Box>
@@ -119,7 +119,7 @@ const SettingsProfileScreen = ({ navigation }: ScreenProps<'settings-profile'>) 
     {isDriverLicenceSended ? (
       <Box px={16} pt={20}>
         <Button
-          children='Завершить регистрацию'
+          children={t('finish-registration')}
           loading={loading}
           disabled={loading}
           onPress={handleFinishRegistration}
@@ -136,7 +136,7 @@ const SettingsProfileScreen = ({ navigation }: ScreenProps<'settings-profile'>) 
         <Box gap={16} px={16}>
           <Button children={t('add')} onPress={goToAddDriverLicence} />
           <Button
-            children="Позже"
+            children={t('later')}
             type='clear' loading={loading}
             disabled={loading}
             onPress={handleFinishRegistration}

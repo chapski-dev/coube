@@ -32,8 +32,8 @@ const Select = ({
       alignItems="center"
       w="full"
       >
-      <TickIcon color={selected ? colors.main : colors.disabled} />
-      <Text children={children} />
+        <TickIcon color={selected ? colors.main : colors.disabled} width={15} height={15} />
+        <Text children={children} />
     </Box>
   );
 };

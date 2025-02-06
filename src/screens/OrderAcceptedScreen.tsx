@@ -1,8 +1,9 @@
-import { Box, Button, Text } from '@src/ui';
 import React from 'react';
 import OrdersIcon from '@assets/svg/orders.svg';
-import { useAppTheme } from '@src/theme/theme';
+
 import { ScreenProps } from '@src/navigation/types';
+import { useAppTheme } from '@src/theme/theme';
+import { Box, Button, Text } from '@src/ui';
 
 export const OrderAcceptedScreen = ({
   navigation,
@@ -22,15 +23,19 @@ export const OrderAcceptedScreen = ({
           <OrdersIcon width="100%" height="100%" color={colors.white} />
         </Box>
       </Box>
-      <Text type="h2" children={'Заказ принят!'} />
+      <Text type="h2" children="Заказ принят!" />
       <Box row>
-        <Text children={'Номер заказа: 15-020342 '} />
+        <Text children="Номер заказа: 15-020342 " />
       </Box>
       <Box mb={16} alignItems="center">
-        <Text center children={'Дата и время погрузки:'} />
-        <Text center children={' 12.07.2024, 15:40'} />
+        <Text center children="Дата и время погрузки:" />
+        <Text center children=" 12.07.2024, 15:40" />
       </Box>
-      <Button children={'Отлично !'} backgroundColor="green" />
+      <Button
+        children="Отлично !"
+        backgroundColor="green"
+        onPress={() => navigation.goBack()}
+      />
     </Box>
   );
 };

@@ -4,6 +4,7 @@ import RightArrowIcon from '@assets/svg/arrow-right.svg';
 import { useNavigation } from '@react-navigation/native';
 
 import { useAppTheme } from '@src/theme/theme';
+import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
 
 export const TransportCard = () => {
@@ -11,8 +12,10 @@ export const TransportCard = () => {
   const carModel = 'FAW J7';
   const { colors } = useAppTheme();
 
+  const { t } = useLocalization();
+
   return (
-    <Box>
+    <Box backgroundColor={colors.white}>
       <Box row gap={16} py={16} px={16}>
         <Box h={150} borderRadius={12} overflow="hidden">
           <Image source={require('@assets/png/car.png')} />
@@ -20,23 +23,23 @@ export const TransportCard = () => {
         <Box gap={8}>
           <Text type="h3" children={carModel} />
           <Box>
-            <Text type="label" children="Гос. номер:" />
+            <Text type="label" children={t('licence-plate')} />
             <Text fontWeight={500} children="123 BOK 02" />
           </Box>
           <Box>
-            <Text type="label" children="Грузоподъемность:" />
+            <Text type="label" children={t('payload')} />
             <Text fontWeight={500} children={'15.5 т'} />
           </Box>
           <Box>
-            <Text type="label" children="Цвет авто:" />
+            <Text type="label" children={t('car-color')} />
             <Text fontWeight={500} children="Белый" />
           </Box>
           <Box>
-            <Text type="label" children="Модель полуприцепа:" />
+            <Text type="label" children={t('semi-trailer-model')} />
             <Text fontWeight={500} children="Krone" />
           </Box>
           <Box>
-            <Text type="label" children="Госномер полуприцепа:" />
+            <Text type="label" children={t('semi-trailer-licence')} />
             <Text fontWeight={500} children="123 BOK 02" />
           </Box>
         </Box>
