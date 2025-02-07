@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, FlatList, RefreshControl } from 'react-native';
 import ArrowIcon from '@assets/svg/arrow-right.svg';
 import SearchIcon from '@assets/svg/search.svg';
@@ -8,7 +8,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { EventBusEvents } from '@src/events';
 import { orderDetails } from '@src/mocks/order-details';
 import { ScreenProps } from '@src/navigation/types';
-import ordersService, { SectionData } from '@src/service/orders'
+import ordersService, { SectionData } from '@src/service/orders';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
@@ -52,7 +52,7 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
   const { colors, insets } = useAppTheme();
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = async () => {
-    ordersService.refresh()
+    ordersService.refresh();
     try {
       setRefreshing(true);
       await wait(1000);
@@ -61,19 +61,23 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
     }
   };
 
-  const [ordersSections, setTransactionSections] = useState(ordersService.orderSections)
+  const [ordersSections, setTransactionSections] = useState(
+    ordersService.orderSections,
+  );
 
   useEffect(() => {
-    return ordersService.subscribe<SectionData[]>(EventBusEvents.getOrderSections, 
+    return ordersService.subscribe<SectionData[]>(
+      EventBusEvents.getOrderSections,
       ({ payload }) => {
-      payload && setTransactionSections(payload)
-    }).unsubscribe
-  }, [])
+        payload && setTransactionSections(payload);
+      },
+    ).unsubscribe;
+  }, []);
 
   const openSearchForNewOrder = () => {
     navigation.push('search-for-new-order');
   };
-  const openTransportationDetails = (details: TransportationDetailsParams) => 
+  const openTransportationDetails = (details: TransportationDetailsParams) =>
     navigation.push('transportation-details', details);
 
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image } from 'react-native';
-import RightArrow from '@assets/svg/arrow-right.svg';
+import RightArrowIcon from '@assets/svg/arrow-right.svg';
 import { useNavigation } from '@react-navigation/native';
 
 import { useAppTheme } from '@src/theme/theme';
@@ -12,7 +12,7 @@ export const TransportCard = () => {
   const carModel = 'FAW J7';
   const { colors } = useAppTheme();
 
-  const { t } = useLocalization()
+  const { t } = useLocalization();
 
   return (
     <Box backgroundColor={colors.white}>
@@ -51,11 +51,11 @@ export const TransportCard = () => {
         borderColor={colors.border}
         gap={16}
         row
-        style={{ borderBottomWidth: 1, borderTopWidth: 1, }}
+        style={{ borderBottomWidth: 1, borderTopWidth: 1 }}
         onPress={() => navigation.navigate('documents', { carModel })}
       >
-        <Text fontWeight={500} children={t('documents')} />
-        <RightArrow />
+        <Text fontWeight={500} children="Документы" />
+        <RightArrowIcon />
       </Box>
     </Box>
   );
