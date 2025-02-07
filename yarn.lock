@@ -7433,6 +7433,18 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-background-fetch@^4.2.7, react-native-background-fetch@~4.2.6:
+  version "4.2.7"
+  resolved "https://registry.yarnpkg.com/react-native-background-fetch/-/react-native-background-fetch-4.2.7.tgz#2c13afa2454d0f01da2b798d0968acf4a6b34373"
+  integrity sha512-lR8MmQRjd7MV9KBSOsyxFRW7jeCjNOSvsT4PECwZv54iZZtxUkRjH8Kbr6SGiSPK1AmYM6TCdRBEt2I9FDZJEg==
+
+react-native-background-geolocation@^4.18.3:
+  version "4.18.3"
+  resolved "https://registry.yarnpkg.com/react-native-background-geolocation/-/react-native-background-geolocation-4.18.3.tgz#4e163443afcdf8493d40b6dc65ab9acf902f7acc"
+  integrity sha512-pbzqf/NOAFvzfPsJnaNSpLRZdZsTcMwtrRVs9EKqsDmyCJymRE4wPCHWlKJT4bSQESkyAc2MVmWwWM3d6q1WeA==
+  dependencies:
+    react-native-background-fetch "~4.2.6"
+
 react-native-bootsplash@^6.3.2:
   version "6.3.3"
   resolved "https://registry.yarnpkg.com/react-native-bootsplash/-/react-native-bootsplash-6.3.3.tgz#28dc8a15cc387e0cd7dafda9abea7c3655eaa343"

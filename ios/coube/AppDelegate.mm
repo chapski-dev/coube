@@ -3,11 +3,15 @@
 #import "RNBootSplash.h"
 #import <React/RCTBundleURLProvider.h>
 #import <Firebase.h>
+#import <TSBackgroundFetch/TSBackgroundFetch.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  // [REQUIRED] Register BackgroundFetch
+  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
+
   [FIRApp configure];
   self.moduleName = @"coube";
   // You can add your custom initial props in the dictionary below.
