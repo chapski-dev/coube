@@ -3,6 +3,7 @@ import {
   Dispatch,
   ReactNode,
   ReducerAction,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -49,24 +50,25 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
 
   const [user, setUser] = useState<null>(null);
 
-  function onAuthStateChanged(_user: null) {
-    app.isFirebaseAuthorized =
-      authState === AuthState.ready
-        ? AppServiceStatus.on
-        : AppServiceStatus.off;
-
-    if (!user && !_user) {
-      return;
-    }
-    setUser(_user);
-    // app.isFirebaseAuthorized = _user ? AppServiceStatus.on : AppServiceStatus.off
-  }
+  const onAuthStateChanged = useCallback(
+    (_user: null) => {
+      if (authState === AuthState.ready) {
+        app.isFirebaseAuthorized = AppServiceStatus.on;
+      }
+      if (!user && !_user) {
+        return;
+      }
+      setUser(_user);
+      // app.isFirebaseAuthorized = _user ? AppServiceStatus.on : AppServiceStatus.off
+    },
+    [authState, user],
+  );
 
   useEffect(() => {
     // make request to get user data
     // const getUserData = async (data) => onAuthStateChanged(data)
     onAuthStateChanged(null);
-  }, []);
+  }, [onAuthStateChanged]);
 
   useEffect(() => {
     dispatchAuth = authDispatch;

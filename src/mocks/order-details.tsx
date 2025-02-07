@@ -1,4 +1,4 @@
-import { TransportationDetailsParams } from '@src/screens/TransportationsDetailsScreen/TransportationDetailsScreen';
+import { TransportationDetailsParams } from '@src/screens/TransportationsDetailsScreen';
 
 export const orderDetails: TransportationDetailsParams = {
 	additionalCargoInformation: 'Транспортные средства, используемые для перевозки продуктов', 

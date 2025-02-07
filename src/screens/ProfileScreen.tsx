@@ -7,7 +7,7 @@ import NoAvatarIcon from '@assets/svg/no-avatar.svg';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { vibrate } from '@src/actions/vibrate';
-import { setNotificationSettings } from '@src/api';
+// import { setNotificationSettings } from '@src/api';
 import { NotificationSettings } from '@src/api/types';
 import { ScreenProps } from '@src/navigation/types';
 import app from '@src/service/app';
@@ -54,11 +54,13 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
     const newValues = valuesWithPermission(val);
     await handleSubmitForm(newValues);
   };
+
   const handleSubmitForm = async (values: NotificationSettings['settings']) => {
     try {
       setLoading(true);
       await wait(1000);
-      await setNotificationSettings({ settings: values });
+      messaging.togglePushNotifications(values.push_notifications)
+      // await setNotificationSettings({ settings: values });
       setValue('settings', values);
     } catch (e) {
       handleCatchError(e);
@@ -78,6 +80,10 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
   const onLogoutPress = () =>
     Alert.alert('Желаете выйти?', undefined, [
       {
+        onPress: () => null,
+        text: 'Отмена',
+      },
+      {
         onPress: () => {
           vibrate(HapticFeedbackTypes.notificationSuccess);
           app.logout();
@@ -85,9 +91,21 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
         style: 'destructive',
         text: 'Выйти',
       },
+    ]);
+
+  const onDeleteAccountPress = () =>
+    Alert.alert('Желаете удалить аккаут?', undefined, [
       {
         onPress: () => null,
         text: 'Отмена',
+      },
+      {
+        onPress: () => {
+          vibrate(HapticFeedbackTypes.notificationSuccess);
+          app.logout();
+        },
+        style: 'destructive',
+        text: 'Удалить',
       },
     ]);
 
@@ -255,6 +273,7 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
           type="clear"
           textColor="textSecondary"
           children="Удалить аккаунт"
+          onPress={onDeleteAccountPress}
         />
       </Box>
       <SelectLanguageModal ref={modal} modalClose={modalClose} />
