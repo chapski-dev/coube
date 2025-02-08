@@ -19,6 +19,7 @@ import { useLocalization } from '@src/translations/i18n';
 import { DocumentsScreen } from '../../screens/DocumentsScreen';
 import { Tabs } from '../Tabs';
 import { RootStackParamList } from '../types';
+import { StartOfExecutionScreen } from '@src/screens/MyOrdersScreen/StartOfExecutionScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -103,6 +104,11 @@ export const RootStack = () => {
         options={{ headerTitle: 'Накладная на товар' }}
         name="invoice-sent"
         component={InvoiceSentScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: 'Заказ № 15-020342 ' }}
+        name="start-of-execution"
+        component={StartOfExecutionScreen}
       />
     </Stack.Navigator>
   );

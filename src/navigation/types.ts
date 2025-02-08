@@ -17,7 +17,8 @@ export type RootStackParamList = {
   'counter-offer': undefined
   'upload-invoise-for-goods': undefined
   'invoice-sent': undefined
-  'order-accepted': undefined
+  'order-accepted': { onOrderAccepted: () => void }
+  'start-of-execution': undefined
 }
 
 export type TabsParamList = {
