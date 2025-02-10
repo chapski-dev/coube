@@ -23,7 +23,7 @@ const LaunchScreen = ({ navigation }: ScreenProps<'launch'>) => {
       <Box
         flexGrow={1}
         pt={insets.top}
-        pb={insets.bottom}
+        pb={insets.bottom + 15}
         pl={16}
         pr={16}
         alignItems="center"

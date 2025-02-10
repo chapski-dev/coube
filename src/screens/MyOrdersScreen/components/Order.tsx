@@ -1,53 +1,66 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Image } from 'react-native';
 import Circle from '@assets/svg/circle.svg';
 import ThreeDots from '@assets/svg/three-dots.svg';
 import { useNavigation } from '@react-navigation/native';
 
-import { RouteObjectType } from '@src/screens/TransportationsDetailsScreen';
+import { TransportationDetails } from '@src/screens/TransportationsDetailsScreen';
+import geoTrackingService from '@src/service/geo-tracking-service'
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Text } from '@src/ui';
 import { wait } from '@src/utils';
+import { handleCatchError } from '@src/utils/handleCatchError';
 
-import { OrderStatus, OrderStatusEnum } from './OrderStatus';
+import { OrderStatus } from './OrderStatus';
 
-type OrderPropsTypes = {
-  openTransportationDetails: () => void;
-  orderStatus: OrderStatusEnum;
-  orderNumber?: string;
-  distance?: string;
-  cargoName?: string;
-  transportationRoute: RouteObjectType[];
-  transportationPeriod: string;
-};
+type OrderPropsTypes = TransportationDetails;
 
-export const Order: FC<OrderPropsTypes> = ({
-  openTransportationDetails,
-  orderStatus,
-  orderNumber,
-  cargoName,
-  distance,
-  transportationRoute,
-}) => {
+export const Order: FC<OrderPropsTypes> = (props) => {
+  const {
+    orderStatus,
+    orderNumber,
+    cargoName,
+    distance,
+    transportationRoute,
+  } = props;
+
+  const navigation = useNavigation();
+
   const { t } = useLocalization();
   const { colors } = useAppTheme();
   const [loadingAccept, setLoadingAccept] = useState(false);
   const [loadingDecline, setLoadingDecline] = useState(false);
 
   const { navigate } = useNavigation();
+
   const handleDecline = async () => {
-    setLoadingDecline(true);
-    await wait(1000);
-    setLoadingDecline(false);
+    try {
+      setLoadingDecline(true);
+      await geoTrackingService.stopTracking()
+      await wait(1000);
+      setLoadingDecline(false);
+      
+    } catch (error) {
+      handleCatchError(error)
+    }
   };
 
   const handleAccept = async () => {
-    setLoadingAccept(true);
-    await wait(1000);
-    navigate('order-accepted');
-    setLoadingAccept(false);
+    try {
+      setLoadingAccept(true);
+      await geoTrackingService.startTracking()
+      await wait(1000);
+      navigate('order-accepted');
+      setLoadingAccept(false);
+    } catch (error) {
+      handleCatchError(error)
+    }
+    
   };
+
+  const openTransportationDetails = () =>
+    navigation.navigate('transportation-details', props);
 
   return (
     <Box backgroundColor={colors.white} minHeight={523} p={15} gap={7} flex={1}>

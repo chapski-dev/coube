@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FlatList, Image } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
 import Filter from '@assets/svg/filter.svg';
@@ -11,7 +11,7 @@ import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
 import { wait } from '@src/utils';
 
-import { TransportationDetailsParams } from '../TransportationsDetailsScreen';
+import { TransportationDetails } from '../TransportationsDetailsScreen';
 
 import { Order } from './components/Order';
 
@@ -33,7 +33,7 @@ export const SearchForNewOrder = ({
 
   const openFilters = () => navigation.push('filters-for-orders');
   const openFromWhere = () => navigation.push('from-where');
-  const openTransportationDetails = (details: TransportationDetailsParams) =>
+  const openTransportationDetails = (details: TransportationDetails) =>
     navigation.push('transportation-details', details);
 
   return (
