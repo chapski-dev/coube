@@ -1,32 +1,41 @@
 /* eslint-disable max-len */
-import React from 'react';
-import { ScrollView } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Image, ScrollView } from 'react-native';
+import { ImagePickerResponse } from 'react-native-image-picker';
 import ArrowIcon from '@assets/svg/arrow-right.svg';
-import UploadLogoIcon from '@assets/svg/uploadLogo.svg';
+import UploadIcon from '@assets/svg/upload.svg';
 import WarningIcon from '@assets/svg/warning.svg';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Text } from '@src/ui';
+import ImagePickerModal from '@src/widgets/ImagePickerModal';
 
 export const CompanyConfigurationScreen = ({ navigation }: ScreenProps<'company-configuration'>) => {
 	const { t } = useLocalization();
 	const { colors } = useAppTheme();
 
-	const openBankDetails = () => {
-    navigation.push('bank-details');
-  };
+	const [pickerResponse, setPickerResponse] = useState<ImagePickerResponse | null>(null);
+  const uri = pickerResponse?.assets && pickerResponse.assets[0].uri;
+  const modal = useRef<BottomSheetModal>(null);
+  const modalClose = () => modal?.current?.forceClose();
+  const modalOpen = () => modal?.current?.present();
 
-	const openContactDetails = () => {
-    navigation.push('contact-details');
-  };
+	const openBankDetails = () => {navigation.push('bank-details')}
+
+	const openContactDetails = () => {navigation.push('contact-details')}
 
 	return (
 		<ScrollView>
 			<Box pt={20} gap={15} pb={25}>
 				<Box w='full' alignItems='center'>
-					<UploadLogoIcon />
+					{
+						pickerResponse?.assets ?
+            <Image style={{ borderRadius: 50, height: 90, width: 90 }} source={{ uri }} /> :
+            <UploadIcon onPress={modalOpen} />
+          }
 				</Box>
 
 				<Box gap={7}>
@@ -80,8 +89,14 @@ export const CompanyConfigurationScreen = ({ navigation }: ScreenProps<'company-
 							<Text color='black' children={t('certificate-of-registration')} />
 							<Text color='red' children='*' />
 						</Box>
-						<Text color='red' children={t('document-has-not-been-uploaded')} />
-						<Button type='outline' children={t('upload-file')} />
+						{
+							pickerResponse?.assets ?
+							<Image style={{ borderRadius: 50, height: 90, width: 90 }} source={{ uri }} /> :
+							<Box gap={3}>
+								<Text color='red' children={t('document-has-not-been-uploaded')} />
+								<Button onPress={modalOpen} type='outline' children={t('upload-file')} />
+							</Box>
+						}
 					</Box>
 					<Box w='full'h={1} backgroundColor={colors.grey} />
 					<Box gap={3}>
@@ -89,8 +104,14 @@ export const CompanyConfigurationScreen = ({ navigation }: ScreenProps<'company-
 							<Text color='black' children={t('order-on-appointment-of-the-general-director')} />
 							<Text color='red' children='*' />
 						</Box>
-						<Text color='red' children={t('document-has-not-been-uploaded')} />
-						<Button type='outline' children={t('upload-file')} />
+						{
+							pickerResponse?.assets ?
+							<Image style={{ borderRadius: 50, height: 90, width: 90 }} source={{ uri }} /> :
+							<Box gap={3}>
+								<Text color='red' children={t('document-has-not-been-uploaded')} />
+								<Button onPress={modalOpen} type='outline' children={t('upload-file')} />
+							</Box>
+						}
 					</Box>
 					<Box w='full'h={1} backgroundColor={colors.grey} />
 					<Box gap={3}>
@@ -98,8 +119,14 @@ export const CompanyConfigurationScreen = ({ navigation }: ScreenProps<'company-
 							<Text color='black' children={t('articles-of-association')} />
 							<Text color='red' children='*' />
 						</Box>
-						<Text color='red' children={t('document-has-not-been-uploaded')} />
-						<Button type='outline' children={t('upload-file')} />
+						{
+							pickerResponse?.assets ?
+							<Image style={{ borderRadius: 50, height: 90, width: 90 }} source={{ uri }} /> :
+							<Box gap={3}>
+								<Text color='red' children={t('document-has-not-been-uploaded')} />
+								<Button onPress={modalOpen} type='outline' children={t('upload-file')} />
+							</Box>
+						}
 					</Box>
 
 					<Box w='full' h={1} backgroundColor={colors.grey} />
@@ -111,6 +138,12 @@ export const CompanyConfigurationScreen = ({ navigation }: ScreenProps<'company-
 				</Box>
 
 			</Box>
+
+			<ImagePickerModal
+				ref={modal}
+				modalClose={modalClose}
+				setPickerResponse={setPickerResponse}
+			/>
 		</ScrollView>
 	);
 };

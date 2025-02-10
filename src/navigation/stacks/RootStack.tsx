@@ -98,22 +98,22 @@ export const RootStack = () => {
         component={OrderAcceptedScreen}
       />
       <Stack.Screen
-        options={{ headerTitle: 'Накладная на товар' }}
+        options={{ headerTitle: t('bill-of-lading') }}
         name="upload-invoise-for-goods"
         component={UploadInvoiseForGoodsScreen}
       />
       <Stack.Screen
-        options={{ headerTitle: 'Настройка компании' }}
+        options={{ headerTitle: t('company-customization') }}
         name="company-configuration"
         component={CompanyConfigurationScreen}
       />
       <Stack.Screen
-        options={{ headerTitle: 'Банковские реквизиты' }}
+        options={{ headerTitle: t('bank-details') }}
         name="bank-details"
         component={BankDetailsScreen}
       />
       <Stack.Screen
-        options={{ headerTitle: 'Контактные данные' }}
+        options={{ headerTitle: t('contact-details') }}
         name="contact-details"
         component={ContactDetails}
       />

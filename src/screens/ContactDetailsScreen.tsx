@@ -9,8 +9,9 @@ export const ContactDetails = ({navigation}: ScreenProps<'contact-details'>) => 
 	const { t } = useLocalization();
 	
 	const [actualAdress, setActualAdress] = useState('')
-	const [bank, setBank] = useState('')
-	const [BIK, setBIK] = useState('')
+	const [phone, setPhone] = useState('')
+	const [email, setEmail] = useState('')
+	const [accountingDocuments, setAccountingDocuments] = useState('')
 
 	return (
 		<Box px={15} py={20} gap={10}>
@@ -21,20 +22,20 @@ export const ContactDetails = ({navigation}: ScreenProps<'contact-details'>) => 
 
 			<Box gap={5}>
 				<Text children={t('phone')} />
-				<Input placeholder='+ 7 777 777 77 77' value={bank} onChangeText={setBank} />
+				<Input placeholder='+ 7 777 777 77 77' value={phone} onChangeText={setPhone} />
 			</Box>
 
 			<Box gap={5}>
 				<Text children={t('email')} />
-				<Input placeholder='Cost@mail.ru' value={BIK} onChangeText={setBIK} />
+				<Input placeholder='Cost@mail.ru' value={email} onChangeText={setEmail} />
 			</Box>
 
 			<Box gap={5}>
 				<Text children={t('mail-for-accounting-documents')} />
-				<Input placeholder='Cost@mail.ru' value={BIK} onChangeText={setBIK} />
+				<Input placeholder='Cost@mail.ru' value={accountingDocuments} onChangeText={setAccountingDocuments} />
 			</Box>
 
-			<Button type='filled' children={t('save')} />
+			<Button children={t('save')} />
 		</Box>
 	);
 };

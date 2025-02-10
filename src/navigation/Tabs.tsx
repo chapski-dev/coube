@@ -33,7 +33,8 @@ export const Tabs = () => {
     >
       <Tab.Screen
         name="orders"
-        component={MyOrdersScreen}
+        // component={MyOrdersScreen}
+        component={CompanyConfigurationScreen}
         options={{
           tabBarIcon: ({ color }) => <OrderIcon color={color} />,
           title: t('my-orders'),

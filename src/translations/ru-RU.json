@@ -189,5 +189,8 @@
   "save": "Сохранить",
   "account-number": "Номер счета",
   "bank": "Банк",
-  "bik": "БИК"
+  "bik": "БИК",
+  "bill-of-lading": "Накладная на товар",
+  "company-customization": "Настройка компании"
+  
 }
