@@ -19,6 +19,9 @@ import { useLocalization } from '@src/translations/i18n';
 import { DocumentsScreen } from '../../screens/DocumentsScreen';
 import { Tabs } from '../Tabs';
 import { RootStackParamList } from '../types';
+import { CompanyConfigurationScreen } from '@src/screens/CompanyConfigurationScreen';
+import { BankDetailsScreen } from '@src/screens/BankDetailsScreen';
+import { ContactDetails } from '@src/screens/ContactDetailsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -100,9 +103,19 @@ export const RootStack = () => {
         component={UploadInvoiseForGoodsScreen}
       />
       <Stack.Screen
-        options={{ headerTitle: 'Накладная на товар' }}
-        name="invoice-sent"
-        component={InvoiceSentScreen}
+        options={{ headerTitle: 'Настройка компании' }}
+        name="company-configuration"
+        component={CompanyConfigurationScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: 'Банковские реквизиты' }}
+        name="bank-details"
+        component={BankDetailsScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: 'Контактные данные' }}
+        name="contact-details"
+        component={ContactDetails}
       />
     </Stack.Navigator>
   );

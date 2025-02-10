@@ -172,5 +172,22 @@
   "counter-offer": "Контроффер",
   "choose-different-photo": "Выбрать другое фото",
   "finish-registration": "Завершить регистрацию",
-  "incorrect-code-entered": "Не верно введен код!"
+  "incorrect-code-entered": "Не верно введен код!",
+  "oragnization-name": "Название организации",
+  "general-director": "Генеральный директор",
+  "bank-details": "Банковские реквизиты",
+  "contact-details": "Контактные данные",
+  "certificate-of-registration": "Свидетельство о регистрации",
+  "document-has-not-been-uploaded": "Документ не загружен!",
+  "upload-file": "Загрузить файл",
+  "order-on-appointment-of-the-general-director": "Приказ о назначении генерального директора",
+  "articles-of-association": "Устав организации",
+  "finalize-the-configuration": "Завершить настройку",
+  "actual-address": "Фактический адрес",
+  "email": "Электронная почта",
+  "mail-for-accounting-documents": "Почта для бухгалтерских документов",
+  "save": "Сохранить",
+  "account-number": "Номер счета",
+  "bank": "Банк",
+  "bik": "БИК"
 }

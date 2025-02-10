@@ -16,6 +16,7 @@ import ProfileIcon from '../../assets/svg/profile-outline.svg';
 import TransportIcon from '../../assets/svg/transport.svg';
 
 import { TabsParamList } from './types';
+import { CompanyConfigurationScreen } from '@src/screens/CompanyConfigurationScreen';
 
 const Tab = createBottomTabNavigator<TabsParamList>();
 
