@@ -16,7 +16,6 @@ import ProfileIcon from '../../assets/svg/profile-outline.svg';
 import TransportIcon from '../../assets/svg/transport.svg';
 
 import { TabsParamList } from './types';
-import { CompanyConfigurationScreen } from '@src/screens/CompanyConfigurationScreen';
 
 const Tab = createBottomTabNavigator<TabsParamList>();
 
@@ -33,8 +32,7 @@ export const Tabs = () => {
     >
       <Tab.Screen
         name="orders"
-        // component={MyOrdersScreen}
-        component={CompanyConfigurationScreen}
+        component={MyOrdersScreen}
         options={{
           tabBarIcon: ({ color }) => <OrderIcon color={color} />,
           title: t('my-orders'),

@@ -1,6 +1,9 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { BankDetailsScreen } from '@src/screens/BankDetailsScreen';
+import { CompanyConfigurationScreen } from '@src/screens/CompanyConfigurationScreen';
+import { ContactDetails } from '@src/screens/ContactDetailsScreen';
 import { CounterOfferScreen } from '@src/screens/CounterOfferScreen';
 import { FiltersForOrdersScreen } from '@src/screens/FiltersForOrdersScreen';
 import { FromWhereScreen } from '@src/screens/FromWhereScreen';
@@ -19,9 +22,6 @@ import { useLocalization } from '@src/translations/i18n';
 import { DocumentsScreen } from '../../screens/DocumentsScreen';
 import { Tabs } from '../Tabs';
 import { RootStackParamList } from '../types';
-import { CompanyConfigurationScreen } from '@src/screens/CompanyConfigurationScreen';
-import { BankDetailsScreen } from '@src/screens/BankDetailsScreen';
-import { ContactDetails } from '@src/screens/ContactDetailsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
