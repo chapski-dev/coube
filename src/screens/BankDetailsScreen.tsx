@@ -5,6 +5,7 @@ import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Input } from '@src/ui';
 
 export const BankDetailsScreen = ({navigation}: ScreenProps<'bank-details'>) => {
+	
 	const { t } = useLocalization();
 	
 	const [accountNumber, setAccountNumber] = useState('')
