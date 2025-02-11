@@ -5,7 +5,7 @@ import ThreeDots from '@assets/svg/three-dots.svg';
 import { useNavigation } from '@react-navigation/native';
 
 import { TransportationDetails } from '@src/screens/TransportationsDetailsScreen';
-import geoTrackingService from '@src/service/geo-tracking-service'
+import geolocationService from '@src/service/geolocation-service'
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Text } from '@src/ui';
@@ -37,7 +37,7 @@ export const Order: FC<OrderPropsTypes> = (props) => {
   const handleDecline = async () => {
     try {
       setLoadingDecline(true);
-      await geoTrackingService.stopTracking()
+      await geolocationService.stopTracking()
       await wait(1000);
       setLoadingDecline(false);
       
@@ -49,7 +49,7 @@ export const Order: FC<OrderPropsTypes> = (props) => {
   const handleAccept = async () => {
     try {
       setLoadingAccept(true);
-      await geoTrackingService.startTracking()
+      await geolocationService.startTracking()
       await wait(1000);
       navigate('order-accepted');
       setLoadingAccept(false);
