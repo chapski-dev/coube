@@ -4,7 +4,7 @@ import Circle from '@assets/svg/circle.svg';
 import { RouteObjectType } from '@src/screens/TransportationsDetailsScreen';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
-import { Box, Button, Text } from '@src/ui';
+import { Box, Button, Chip, Text } from '@src/ui';
 
 type OrderPropsTypes = {
   openTransportationDetails?: () => void;
@@ -39,17 +39,7 @@ export const Order: FC<OrderPropsTypes> = ({
 
       <Box row flexWrap="wrap" gap={8}>
         {category?.map((el) => {
-          return (
-            <Box
-              key={el}
-              borderColor={colors.grey}
-              borderWidth={1}
-              px={10}
-              borderRadius={21}
-            >
-              <Text children={el} />
-            </Box>
-          );
+          return <Chip key={el} children={el} />;
         })}
       </Box>
 

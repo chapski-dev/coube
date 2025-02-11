@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, FlatList, RefreshControl } from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import ArrowIcon from '@assets/svg/arrow-right.svg';
 import SearchIcon from '@assets/svg/search.svg';
 import SheetIcon from '@assets/svg/sheet.svg';
@@ -71,57 +76,60 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
     ).unsubscribe;
   }, []);
 
-  const openSearchForNewOrder = () => {
+  const [searchOrderLoading, setSearchOrderLoading] = useState(false);
+  const openSearchForNewOrder = async () => {
+    setSearchOrderLoading(true);
+    await wait(200);
     navigation.push('search-for-new-order');
+    setSearchOrderLoading(false);
   };
 
-
   return (
-    <>
-      <FlatList
-        ListHeaderComponent={() => (
-          <Box
-            row
-            justifyContent="space-between"
-            px={10}
-            py={20}
-            alignItems="center"
-            backgroundColor={colors.white}
-            onPress={openSearchForNewOrder}
-          >
-            <Box row gap={10} alignItems="center">
-              <SearchIcon />
-              <Text type="body_500" children={t('new-orders-search')} />
-            </Box>
-            <ArrowIcon />
+    <FlatList
+      ListHeaderComponent={() => (
+        <Box
+          row
+          justifyContent="space-between"
+          px={10}
+          h={50}
+          alignItems="center"
+          backgroundColor={colors.white}
+          onPress={openSearchForNewOrder}
+          activeOpacity={0.9}
+          disabled={searchOrderLoading}
+        >
+          <Box row gap={10} alignItems="center">
+            <SearchIcon />
+            <Text type="body_500" children={t('new-orders-search')} />
           </Box>
-        )}
-        contentContainerStyle={{
-          gap: 16,
-          paddingBottom: insets.bottom,
-        }}
-        stickyHeaderIndices={[0]}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        ListEmptyComponent={
-          <Box justifyContent="center" gap={16} alignItems="center">
-            <SheetIcon color={colors.disabled} width={40} height={40} />
-            <Box maxWidth={183}>
-              <Text center children="На данный момент активных заказов нет!" />
-            </Box>
+
+          {searchOrderLoading ? <ActivityIndicator /> : <ArrowIcon />}
+        </Box>
+      )}
+      contentContainerStyle={{
+        gap: 16,
+        paddingBottom: insets.bottom,
+      }}
+      stickyHeaderIndices={[0]}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      ListEmptyComponent={
+        <Box justifyContent="center" gap={16} alignItems="center">
+          <SheetIcon color={colors.disabled} width={40} height={40} />
+          <Box maxWidth={183}>
+            <Text center children="На данный момент активных заказов нет!" />
           </Box>
-        }
-        renderItem={() => <Order {...orderDetails} />}
-        data={Array.from({ length: 5 })}
-        stickyHeaderHiddenOnScroll={false}
-      />
-    </>
+        </Box>
+      }
+      renderItem={() => <Order {...orderDetails} />}
+      data={Array.from({ length: 5 })}
+      stickyHeaderHiddenOnScroll={false}
+    />
   );
 };
 
 const Complited = ({ navigation }: ScreenProps<'orders'>) => {
-  const { t } = useLocalization();
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = async () => {
     try {
@@ -131,7 +139,7 @@ const Complited = ({ navigation }: ScreenProps<'orders'>) => {
       setRefreshing(false);
     }
   };
-  
+
   return (
     <FlatList
       contentContainerStyle={{ gap: 16 }}
