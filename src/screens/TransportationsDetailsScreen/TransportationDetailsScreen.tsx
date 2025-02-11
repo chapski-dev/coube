@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Image, ScrollView } from 'react-native';
 import Arrow from '@assets/svg/arrow-right.svg';
 import Circle from '@assets/svg/circle.svg';
@@ -7,6 +7,8 @@ import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Text } from '@src/ui';
+
+import { OrderStatusEnum } from '../MyOrdersScreen/components/OrderStatus';
 
 import { RoutePoint } from './components/RoutePoint';
 
@@ -19,7 +21,8 @@ export type RouteObjectType = {
   loadingMethod: string;
 };
 
-export type TransportationDetailsParams = {
+export type TransportationDetails = {
+  orderStatus: OrderStatusEnum;
   distance: string;
   cargoName: string;
   cargoType: string;
@@ -30,6 +33,8 @@ export type TransportationDetailsParams = {
   transportationRoute: RouteObjectType[];
   movingService: string;
   documents: string;
+  orderNumber: string;
+  transportationPeriod?: string;
 };
 
 export const TransportationDetailsScreen = ({
@@ -78,16 +83,18 @@ export const TransportationDetailsScreen = ({
       </Box>
 
       <Box p={15} backgroundColor={colors.white}>
-        <Box row justifyContent="space-between" alignItems="center">
+        <Box
+          row
+          justifyContent="space-between"
+          alignItems="center"
+          onPress={() => setUnfoldCargo((prev) => !prev)}
+        >
           <Text
             type="body_500"
             children={t('cargo-information')}
             fontSize={17}
           />
-          <Arrow
-            rotation={unfoldCargo ? -90 : 90}
-            onPress={() => setUnfoldCargo((prev) => !prev)}
-          />
+          <Arrow rotation={unfoldCargo ? -90 : 90} />
         </Box>
 
         {unfoldCargo && (
@@ -127,12 +134,14 @@ export const TransportationDetailsScreen = ({
       </Box>
 
       <Box p={15} backgroundColor={colors.white} gap={15}>
-        <Box row justifyContent="space-between" alignItems="center">
+        <Box
+          row
+          justifyContent="space-between"
+          alignItems="center"
+          onPress={() => setUnfoldRoute((prev) => !prev)}
+        >
           <Text type="body_500" children={t('route')} fontSize={17} />
-          <Arrow
-            rotation={unfoldRoute ? -90 : 90}
-            onPress={() => setUnfoldRoute((prev) => !prev)}
-          />
+          <Arrow rotation={unfoldRoute ? -90 : 90} />
         </Box>
 
         {unfoldRoute && (
@@ -174,12 +183,14 @@ export const TransportationDetailsScreen = ({
       </Box>
 
       <Box p={15} backgroundColor={colors.white} gap={8}>
-        <Box row justifyContent="space-between" alignItems="center">
+        <Box
+          row
+          justifyContent="space-between"
+          alignItems="center"
+          onPress={() => setUnfoldAdditional((prev) => !prev)}
+        >
           <Text type="body_500" children={t('additional-info')} fontSize={17} />
-          <Arrow
-            rotation={unfoldAdditional ? -90 : 90}
-            onPress={() => setUnfoldAdditional((prev) => !prev)}
-          />
+          <Arrow rotation={unfoldAdditional ? -90 : 90} />
         </Box>
 
         {unfoldAdditional && (
@@ -197,12 +208,14 @@ export const TransportationDetailsScreen = ({
       </Box>
 
       <Box p={15} backgroundColor={colors.white} gap={15}>
-        <Box row justifyContent="space-between" alignItems="center">
+        <Box
+          row
+          justifyContent="space-between"
+          alignItems="center"
+          onPress={() => setUnfoldDocuments((prev) => !prev)}
+        >
           <Text type="body_500" children={t('documents')} fontSize={17} />
-          <Arrow
-            rotation={unfoldDocuments ? -90 : 90}
-            onPress={() => setUnfoldDocuments((prev) => !prev)}
-          />
+          <Arrow rotation={unfoldDocuments ? -90 : 90} />
         </Box>
 
         {unfoldDocuments && (

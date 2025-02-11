@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import Circle from '@assets/svg/circle.svg';
 
 import { RouteObjectType } from '@src/screens/TransportationsDetailsScreen';

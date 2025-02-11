@@ -14,10 +14,7 @@ import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
 import { wait } from '@src/utils';
 
-import { TransportationDetailsParams } from '../TransportationsDetailsScreen';
-
 import { Order } from './components/Order';
-import { OrderStatusEnum } from './components/OrderStatus';
 
 const Tabs = createMaterialTopTabNavigator();
 
@@ -77,32 +74,33 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
   const openSearchForNewOrder = () => {
     navigation.push('search-for-new-order');
   };
-  const openTransportationDetails = (details: TransportationDetailsParams) =>
-    navigation.push('transportation-details', details);
+
 
   return (
-    <Box pb={insets.bottom} flexGrow={1}>
-      <Box
-        row
-        justifyContent="space-between"
-        px={10}
-        py={20}
-        alignItems="center"
-        backgroundColor={colors.white}
-        onPress={openSearchForNewOrder}
-      >
-        <Box row gap={10} alignItems="center">
-          <SearchIcon />
-          <Text type="body_500" children={t('new-orders-search')} />
-        </Box>
-        <ArrowIcon />
-      </Box>
+    <>
       <FlatList
+        ListHeaderComponent={() => (
+          <Box
+            row
+            justifyContent="space-between"
+            px={10}
+            py={20}
+            alignItems="center"
+            backgroundColor={colors.white}
+            onPress={openSearchForNewOrder}
+          >
+            <Box row gap={10} alignItems="center">
+              <SearchIcon />
+              <Text type="body_500" children={t('new-orders-search')} />
+            </Box>
+            <ArrowIcon />
+          </Box>
+        )}
         contentContainerStyle={{
           gap: 16,
-          paddingBottom: insets.bottom + 30,
-          paddingTop: 16,
+          paddingBottom: insets.bottom,
         }}
+        stickyHeaderIndices={[0]}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -114,22 +112,11 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
             </Box>
           </Box>
         }
-        renderItem={() => (
-          <Order
-            openTransportationDetails={() =>
-              openTransportationDetails(orderDetails)
-            }
-            orderStatus={OrderStatusEnum.new}
-            orderNumber="15-020342"
-            distance="884 км"
-            cargoName="Медицинское оборудование"
-            transportationRoute={orderDetails.transportationRoute}
-            transportationPeriod="12.07.2024-30.07.2024"
-          />
-        )}
+        renderItem={() => <Order {...orderDetails} />}
         data={Array.from({ length: 5 })}
+        stickyHeaderHiddenOnScroll={false}
       />
-    </Box>
+    </>
   );
 };
 
@@ -144,33 +131,15 @@ const Complited = ({ navigation }: ScreenProps<'orders'>) => {
       setRefreshing(false);
     }
   };
-
-  const openTransportationDetails = (details: TransportationDetailsParams) => {
-    navigation.push('transportation-details', details);
-  };
-
+  
   return (
-    <Box>
-      <FlatList
-        contentContainerStyle={{ gap: 16 }}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        renderItem={() => (
-          <Order
-            openTransportationDetails={() =>
-              openTransportationDetails(orderDetails)
-            }
-            orderStatus={OrderStatusEnum.new}
-            orderNumber="15-020342"
-            distance="884 км"
-            cargoName="Медицинское оборудование"
-            transportationRoute={orderDetails.transportationRoute}
-            transportationPeriod="12.07.2024-30.07.2024"
-          />
-        )}
-        data={Array.from({ length: 5 })}
-      />
-    </Box>
+    <FlatList
+      contentContainerStyle={{ gap: 16 }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      renderItem={() => <Order {...orderDetails} />}
+      data={Array.from({ length: 5 })}
+    />
   );
 };
