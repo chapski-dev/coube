@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 
 import { ScreenProps } from '@src/navigation/types';
@@ -6,6 +6,8 @@ import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Input, Text } from '@src/ui';
 import Checkbox from '@src/ui/Checkbox';
+import { wait } from '@src/utils';
+import { handleCatchError } from '@src/utils/handleCatchError';
 
 const initialFiltersState = {
   FAWJ7: false,
@@ -45,7 +47,19 @@ export const FiltersForOrdersScreen = ({
   const { colors, insets } = useAppTheme();
 
   const [statesObject, setStatesObject] = useState(initialFiltersState);
+  const [loading, setLoading] = useState(false);
 
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      await wait(1000);
+      navigation.goBack();
+    } catch (error) {
+      handleCatchError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <ScrollView
       contentContainerStyle={{
@@ -355,7 +369,12 @@ export const FiltersForOrdersScreen = ({
 
       <Box />
 
-      <Button children={t('show')} />
+      <Button
+        children={t('show')}
+        onPress={handleSubmit}
+        disabled={loading}
+        loading={loading}
+      />
     </ScrollView>
   );
 };

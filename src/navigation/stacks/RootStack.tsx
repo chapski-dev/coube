@@ -78,7 +78,7 @@ export const RootStack = () => {
         component={FiltersForOrdersScreen}
       />
       <Stack.Screen
-        options={{ headerTitle: t('from-where') }}
+        options={{ headerTitle: t('from-where'), presentation: 'modal' }}
         name="from-where"
         component={FromWhereScreen}
       />
