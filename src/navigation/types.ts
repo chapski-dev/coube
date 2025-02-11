@@ -18,6 +18,9 @@ export type RootStackParamList = {
   'upload-invoise-for-goods': undefined
   'invoice-sent': undefined
   'order-accepted': undefined
+  'company-configuration': undefined
+  'bank-details': undefined
+  'contact-details': undefined
 }
 
 export type TabsParamList = {
