@@ -86,7 +86,7 @@ export const PerformerRegistrationScreen = ({
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label={t('enter-email')}
-            required={true}
+            required
             placeholder=""
             onBlur={onBlur}
             onChangeText={onChange}
@@ -103,7 +103,7 @@ export const PerformerRegistrationScreen = ({
           <Input
             placeholder=""
             label={t('enter-phone')}
-            required={true}
+            required
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
