@@ -12,6 +12,7 @@ import { wait } from '@src/utils';
 import RightArrowIcon from '@assets/svg/arrow-right.svg';
 
 import { OrderStatus, OrderStatusEnum } from './OrderStatus';
+import { DriverStatue } from '../../OrderScreen';
 
 type OrderPropsTypes = {
   openTransportationDetails: () => void;
@@ -48,9 +49,7 @@ export const Order: FC<OrderPropsTypes> = ({
   const handleAccept = async () => {
     setLoadingAccept(true);
     await wait(1000);
-    navigation.navigate('order-accepted', {
-      onOrderAccepted: () => setIsOrderAccepted(true),
-    });
+    setIsOrderAccepted(true), navigation.navigate('order-accepted');
     setLoadingAccept(false);
   };
 
@@ -134,7 +133,13 @@ export const Order: FC<OrderPropsTypes> = ({
       {isOrderAccepted ? (
         <Button
           backgroundColor={'green'}
-          onPress={() => navigation.navigate('start-of-execution')}
+          onPress={() =>
+            navigation.navigate('order-screen', {
+              driver_status: DriverStatue.accepted,
+              order_status: OrderStatusEnum.pending,
+              headerTitle: 'Заказ № 15-020342',
+            })
+          }
         >
           <Box row alignItems={'center'} gap={10}>
             <Text

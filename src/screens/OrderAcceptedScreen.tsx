@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import OrdersIcon from '@assets/svg/orders.svg';
 
 import { ScreenProps } from '@src/navigation/types';
@@ -10,14 +10,6 @@ export const OrderAcceptedScreen = ({
   route,
 }: ScreenProps<'order-accepted'>) => {
   const { colors } = useAppTheme();
-
-  useEffect(() => {
-    if (route.params?.onOrderAccepted) {
-      navigation.setParams({
-        onOrderAccepted: route.params.onOrderAccepted,
-      });
-    }
-  }, [route.params?.onOrderAccepted]);
 
   return (
     <Box px={16} flex={1} justifyContent="center" alignItems="center" gap={8}>
@@ -43,10 +35,7 @@ export const OrderAcceptedScreen = ({
       <Button
         children="Отлично !"
         backgroundColor="green"
-        onPress={() => {
-          navigation.goBack();
-          route.params.onOrderAccepted?.();
-        }}
+        onPress={navigation.goBack}
       />
     </Box>
   );

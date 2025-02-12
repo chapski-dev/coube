@@ -16,6 +16,7 @@ export const DefaultColors = {
   textDefaultReverse: '#FFFFFF',
   textSecondary: '#979797',
   white: '#FFFFFF',
+  light_red: 'rgba(255, 0, 0, 0.1)',
 } as const;
 
 export const lightColors = {

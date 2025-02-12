@@ -23,39 +23,62 @@ const UploadInvoiseForGoodsScreen = ({
 
   return (
     <>
-      <Box px={16} py={45} alignItems="center" flex={1} gap={27}>
+      <Box px={16} py={11} alignItems="center" flex={1} gap={27}>
         {pickerResponse?.assets ? (
-          <Image
-            source={{ uri }}
-            width={Dimensions.get('screen').width - 32}
-            height={Dimensions.get('screen').height * 0.4}
-            style={{ alignSelf: 'center' }}
-            resizeMode="contain"
-          />
+          <>
+            <Image
+              source={{ uri }}
+              width={Dimensions.get('screen').width - 32}
+              height={Dimensions.get('screen').height * 0.6}
+              style={{ alignSelf: 'center' }}
+              resizeMode="contain"
+            />
+            <Box row gap={10}>
+              <Box flex={1}>
+                <Button
+                  children="Заменить"
+                  backgroundColor="main_light"
+                  textColor="dark_grey"
+                  onPress={modalOpen}
+                />
+              </Box>
+              <Box flex={1}>
+                <Button
+                  children="Отправить"
+                  backgroundColor="main"
+                  textColor={'white'}
+                  onPress={() => {
+                    navigation.navigate('invoice-sent');
+                  }}
+                />
+              </Box>
+            </Box>
+          </>
         ) : (
-          <Box
-            w={90}
-            h={90}
-            backgroundColor={colors.disabled}
-            borderRadius={50}
-          >
-            <WaybillIcon color={colors.disabled} />
-          </Box>
+          <>
+            <Box
+              w={90}
+              h={90}
+              backgroundColor={colors.disabled}
+              borderRadius={50}
+            >
+              <WaybillIcon color={colors.disabled} />
+            </Box>
+            <Box px={40} gap={4}>
+              <Text type="h2" center children="Накладная на товар" />
+              <Text
+                center
+                children="Загрузите документ, подтверждающий отпуска товара"
+              />
+            </Box>
+            <Button
+              children="Загрузить"
+              backgroundColor="main_light"
+              textColor="dark_grey"
+              onPress={modalOpen}
+            />
+          </>
         )}
-
-        <Box px={40} gap={4}>
-          <Text type="h2" center children="Накладная на товар" />
-          <Text
-            center
-            children="Загрузите документ, подтверждающий отпуска товара"
-          />
-        </Box>
-        <Button
-          children="Загрузить"
-          backgroundColor="main_light"
-          textColor="dark_grey"
-          onPress={modalOpen}
-        />
       </Box>
       <ImagePickerModal
         ref={modal}
