@@ -16,7 +16,7 @@ export const BankDetailsScreen = ({
 }: ScreenProps<'bank-details'>) => {
   const { t } = useLocalization();
   
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit } = useForm<BankDetailsFormData>();
 
   const onSubmit = (data: BankDetailsFormData) => {
     console.log(data);

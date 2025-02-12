@@ -16,7 +16,7 @@ export const ContactDetails = ({
 }: ScreenProps<'contact-details'>) => {
   const { t } = useLocalization();
 
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit } = useForm<ContactFormData>();
 
   const onSubmit = (data: ContactFormData) => {
     console.log(data); 
