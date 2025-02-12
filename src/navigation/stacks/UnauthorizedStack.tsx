@@ -6,6 +6,7 @@ import LaunchScreen from '@src/screens/LaunchScreen';
 import LoginScreen from '@src/screens/LoginScreen';
 import LoginViaPhoneScreen from '@src/screens/LoginViaPhoneScreen';
 import OtpVerifyScreen from '@src/screens/OtpVerifyScreen';
+import { PerformerRegistrationScreen } from '@src/screens/PerformerRegistrationScreen';
 import PersonalIdentifier from '@src/screens/PersonalIdentifierScreen';
 import PickCountryScreen from '@src/screens/PickCountryScreen';
 import RegistrationFinishedScreen from '@src/screens/RegistrationFinishedScreen';
@@ -77,7 +78,10 @@ export const UnauthorizedStack = () => {
         component={RegistrationFinishedScreen}
         options={{ headerShown: false, title: '' }}
       />
-
+      <Stack.Screen
+        name="performer-registration"
+        component={PerformerRegistrationScreen}
+      />
 
     </Stack.Navigator>
   );

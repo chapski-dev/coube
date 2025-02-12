@@ -1,6 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { BankDetailsScreen } from '@src/screens/BankDetailsScreen';
+import { CompanyConfigurationScreen } from '@src/screens/CompanyConfigurationScreen';
+import { ContactDetails } from '@src/screens/ContactDetailsScreen';
 import { CounterOfferScreen } from '@src/screens/CounterOfferScreen';
 import { FiltersForOrdersScreen } from '@src/screens/FiltersForOrdersScreen';
 import { FromWhereScreen } from '@src/screens/FromWhereScreen';
@@ -76,7 +78,7 @@ export const RootStack = () => {
         component={FiltersForOrdersScreen}
       />
       <Stack.Screen
-        options={{ headerTitle: t('from-where') }}
+        options={{ headerTitle: t('from-where'), presentation: 'modal' }}
         name="from-where"
         component={FromWhereScreen}
       />
@@ -96,14 +98,19 @@ export const RootStack = () => {
         component={OrderAcceptedScreen}
       />
       <Stack.Screen
-        options={{ headerTitle: 'Накладная на товар' }}
+        options={{ headerTitle: t('bill-of-lading') }}
         name="upload-invoise-for-goods"
         component={UploadInvoiseForGoodsScreen}
       />
       <Stack.Screen
-        options={{ headerTitle: 'Накладная на товар' }}
-        name="invoice-sent"
-        component={InvoiceSentScreen}
+        options={{ headerTitle: t('company-customization') }}
+        name="company-configuration"
+        component={CompanyConfigurationScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: t('bank-details') }}
+        name="bank-details"
+        component={BankDetailsScreen}
       />
       <Stack.Screen
         options={({ route }) => ({
@@ -111,6 +118,11 @@ export const RootStack = () => {
         })}
         name="order-screen"
         component={OrderScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: t('contact-details') }}
+        name="contact-details"
+        component={ContactDetails}
       />
     </Stack.Navigator>
   );

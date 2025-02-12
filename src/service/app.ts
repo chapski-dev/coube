@@ -92,6 +92,7 @@ class App extends Emittery<EventsParams> {
     
     // authService.cleanUp()
     // providers
+    
     dispatchAuth?.({ type: AuthActionType.setEmpty })
     // dispatchAccount?.({ payload: initialAccountState.account, type: AccountActionType.patchAccount })
     // app reset etc

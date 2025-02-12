@@ -4,7 +4,8 @@ import Circle from '@assets/svg/circle.svg';
 import ThreeDots from '@assets/svg/three-dots.svg';
 import { useNavigation } from '@react-navigation/native';
 
-import { RouteObjectType } from '@src/screens/TransportationsDetailsScreen';
+import { TransportationDetails } from '@src/screens/TransportationsDetailsScreen';
+import geolocationService from '@src/service/geolocation-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Text } from '@src/ui';
@@ -13,25 +14,14 @@ import RightArrowIcon from '@assets/svg/arrow-right.svg';
 
 import { OrderStatus, OrderStatusEnum } from './OrderStatus';
 import { DriverStatue } from '../../OrderScreen';
+import { handleCatchError } from '@src/utils/handleCatchError';
 
-type OrderPropsTypes = {
-  openTransportationDetails: () => void;
-  orderStatus: OrderStatusEnum;
-  orderNumber?: string;
-  distance?: string;
-  cargoName?: string;
-  transportationRoute: RouteObjectType[];
-  transportationPeriod: string;
-};
+type OrderPropsTypes = TransportationDetails;
 
-export const Order: FC<OrderPropsTypes> = ({
-  openTransportationDetails,
-  orderStatus,
-  orderNumber,
-  cargoName,
-  distance,
-  transportationRoute,
-}) => {
+export const Order: FC<OrderPropsTypes> = (props) => {
+  const { orderStatus, orderNumber, cargoName, distance, transportationRoute } =
+    props;
+
   const { t } = useLocalization();
   const { colors } = useAppTheme();
   const [loadingAccept, setLoadingAccept] = useState(false);
@@ -41,17 +31,30 @@ export const Order: FC<OrderPropsTypes> = ({
   const navigation = useNavigation();
 
   const handleDecline = async () => {
-    setLoadingDecline(true);
-    await wait(1000);
-    setLoadingDecline(false);
+    try {
+      setLoadingDecline(true);
+      await geolocationService.stopTracking();
+      await wait(1000);
+      setLoadingDecline(false);
+    } catch (error) {
+      handleCatchError(error);
+    }
   };
 
   const handleAccept = async () => {
     setLoadingAccept(true);
     await wait(1000);
-    setIsOrderAccepted(true), navigation.navigate('order-accepted');
+    setIsOrderAccepted(true),
+      navigation.navigate('order-accepted', {
+        driver_status: DriverStatue.accepted,
+        order_status: OrderStatusEnum.loading,
+        headerTitle: 'Завершить погрузку',
+      });
     setLoadingAccept(false);
   };
+
+  const openTransportationDetails = () =>
+    navigation.navigate('transportation-details', props);
 
   return (
     <Box backgroundColor={colors.white} p={15} gap={7} flex={1}>

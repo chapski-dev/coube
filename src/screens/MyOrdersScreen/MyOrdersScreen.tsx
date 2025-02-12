@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, FlatList, RefreshControl } from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import ArrowIcon from '@assets/svg/arrow-right.svg';
 import SearchIcon from '@assets/svg/search.svg';
 import SheetIcon from '@assets/svg/sheet.svg';
@@ -14,10 +19,7 @@ import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
 import { wait } from '@src/utils';
 
-import { TransportationDetailsParams } from '../TransportationsDetailsScreen';
-
 import { Order } from './components/Order';
-import { OrderStatusEnum } from './components/OrderStatus';
 
 const Tabs = createMaterialTopTabNavigator();
 
@@ -74,67 +76,60 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
     ).unsubscribe;
   }, []);
 
-  const openSearchForNewOrder = () => {
+  const [searchOrderLoading, setSearchOrderLoading] = useState(false);
+  const openSearchForNewOrder = async () => {
+    setSearchOrderLoading(true);
+    await wait(200);
     navigation.push('search-for-new-order');
+    setSearchOrderLoading(false);
   };
-  const openTransportationDetails = (details: TransportationDetailsParams) =>
-    navigation.push('transportation-details', details);
 
   return (
-    <Box pb={insets.bottom} flexGrow={1}>
-      <Box
-        row
-        justifyContent="space-between"
-        px={10}
-        py={20}
-        alignItems="center"
-        backgroundColor={colors.white}
-        onPress={openSearchForNewOrder}
-      >
-        <Box row gap={10} alignItems="center">
-          <SearchIcon />
-          <Text type="body_500" children={t('new-orders-search')} />
-        </Box>
-        <ArrowIcon />
-      </Box>
-      <FlatList
-        contentContainerStyle={{
-          gap: 16,
-          paddingBottom: insets.bottom + 30,
-          paddingTop: 16,
-        }}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        ListEmptyComponent={
-          <Box justifyContent="center" gap={16} alignItems="center">
-            <SheetIcon color={colors.disabled} width={40} height={40} />
-            <Box maxWidth={183}>
-              <Text center children="На данный момент активных заказов нет!" />
-            </Box>
+    <FlatList
+      ListHeaderComponent={() => (
+        <Box
+          row
+          justifyContent="space-between"
+          px={10}
+          h={50}
+          alignItems="center"
+          backgroundColor={colors.white}
+          onPress={openSearchForNewOrder}
+          activeOpacity={0.9}
+          disabled={searchOrderLoading}
+        >
+          <Box row gap={10} alignItems="center">
+            <SearchIcon />
+            <Text type="body_500" children={t('new-orders-search')} />
           </Box>
-        }
-        renderItem={() => (
-          <Order
-            openTransportationDetails={() =>
-              openTransportationDetails(orderDetails)
-            }
-            orderStatus={OrderStatusEnum.new}
-            orderNumber="15-020342"
-            distance="884 км"
-            cargoName="Медицинское оборудование"
-            transportationRoute={orderDetails.transportationRoute}
-            transportationPeriod="12.07.2024-30.07.2024"
-          />
-        )}
-        data={Array.from({ length: 5 })}
-      />
-    </Box>
+
+          {searchOrderLoading ? <ActivityIndicator /> : <ArrowIcon />}
+        </Box>
+      )}
+      contentContainerStyle={{
+        gap: 16,
+        paddingBottom: insets.bottom,
+      }}
+      stickyHeaderIndices={[0]}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      ListEmptyComponent={
+        <Box justifyContent="center" gap={16} alignItems="center">
+          <SheetIcon color={colors.disabled} width={40} height={40} />
+          <Box maxWidth={183}>
+            <Text center children="На данный момент активных заказов нет!" />
+          </Box>
+        </Box>
+      }
+      renderItem={() => <Order {...orderDetails} />}
+      data={Array.from({ length: 5 })}
+      stickyHeaderHiddenOnScroll={false}
+    />
   );
 };
 
 const Complited = ({ navigation }: ScreenProps<'orders'>) => {
-  const { t } = useLocalization();
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = async () => {
     try {
@@ -145,32 +140,14 @@ const Complited = ({ navigation }: ScreenProps<'orders'>) => {
     }
   };
 
-  const openTransportationDetails = (details: TransportationDetailsParams) => {
-    navigation.push('transportation-details', details);
-  };
-
   return (
-    <Box>
-      <FlatList
-        contentContainerStyle={{ gap: 16 }}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        renderItem={() => (
-          <Order
-            openTransportationDetails={() =>
-              openTransportationDetails(orderDetails)
-            }
-            orderStatus={OrderStatusEnum.new}
-            orderNumber="15-020342"
-            distance="884 км"
-            cargoName="Медицинское оборудование"
-            transportationRoute={orderDetails.transportationRoute}
-            transportationPeriod="12.07.2024-30.07.2024"
-          />
-        )}
-        data={Array.from({ length: 5 })}
-      />
-    </Box>
+    <FlatList
+      contentContainerStyle={{ gap: 16 }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      renderItem={() => <Order {...orderDetails} />}
+      data={Array.from({ length: 5 })}
+    />
   );
 };

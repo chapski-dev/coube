@@ -1,5 +1,8 @@
 PODS:
   - boost (1.84.0)
+  - CocoaLumberjack (3.8.5):
+    - CocoaLumberjack/Core (= 3.8.5)
+  - CocoaLumberjack/Core (3.8.5)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.75.4)
   - Firebase/CoreOnly (11.7.0):
@@ -1609,6 +1612,11 @@ PODS:
     - React-logger (= 0.75.4)
     - React-perflogger (= 0.75.4)
     - React-utils (= 0.75.4)
+  - RNBackgroundFetch (4.2.7):
+    - React-Core
+  - RNBackgroundGeolocation (4.18.3):
+    - CocoaLumberjack (~> 3.8.5)
+    - React-Core
   - RNBootSplash (6.3.3):
     - React-Core
   - RNCAsyncStorage (2.1.0):
@@ -1852,6 +1860,8 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
+  - RNBackgroundGeolocation (from `../node_modules/react-native-background-geolocation`)
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -1866,6 +1876,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - CocoaLumberjack
     - Firebase
     - FirebaseCore
     - FirebaseCoreExtension
@@ -2014,6 +2025,10 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNBackgroundFetch:
+    :path: "../node_modules/react-native-background-fetch"
+  RNBackgroundGeolocation:
+    :path: "../node_modules/react-native-background-geolocation"
   RNBootSplash:
     :path: "../node_modules/react-native-bootsplash"
   RNCAsyncStorage:
@@ -2039,6 +2054,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 4cb898d0bf20404aab1850c656dcea009429d6c1
+  CocoaLumberjack: 6a459bc897d6d80bd1b8c78482ec7ad05dffc3f0
   DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
   FBLazyVector: 430e10366de01d1e3d57374500b1b150fe482e6d
   Firebase: a64bf6a8546e6eab54f1c715cd6151f39d2329f4
@@ -2115,6 +2131,8 @@ SPEC CHECKSUMS:
   React-utils: 0dbea1179726ad65a1b13470a3f3c73da98f4496
   ReactCodegen: f961bc28110632dd4c8e8d95c1a80f5344022cd2
   ReactCommon: 23eed247b5c8e57b59a823ce209353883da61dd2
+  RNBackgroundFetch: 005d4742a64a511ea54cf2929ace9f0804a7c511
+  RNBackgroundGeolocation: d0caaa6cfd309e1e76757001ba8eda858cb60ab3
   RNBootSplash: 2a9d2de139a6f8a84a0f1728ac40f3e7b167e15a
   RNCAsyncStorage: c91d753ede6dc21862c4922cd13f98f7cfde578e
   RNFBApp: 32f7425af42aef99472dd46e14222cb0a8a17504

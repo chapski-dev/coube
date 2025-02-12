@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { RefreshControl, ScrollView } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 
+import { useAppTheme } from '@src/theme/theme';
 import { wait } from '@src/utils';
 
 import { TransportCard } from './components/TransportCard';
 
 export const MyVehicleScreen = () => {
+  const { insets } = useAppTheme();
+
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = async () => {
     try {
@@ -16,15 +19,14 @@ export const MyVehicleScreen = () => {
     }
   };
 
-
   return (
-    <ScrollView 
-    contentContainerStyle={{ gap: 16 }}
-    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-    >
-      <TransportCard />
-      <TransportCard />
-      <TransportCard />
-    </ScrollView>
+    <FlatList
+      contentContainerStyle={{ gap: 16, paddingBottom: insets.bottom }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      data={Array.from({ length: 3 })}
+      renderItem={() => <TransportCard />}
+    />
   );
 };

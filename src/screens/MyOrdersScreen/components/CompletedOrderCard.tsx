@@ -1,7 +1,8 @@
+import React from 'react';
+import RightArrowIcon from '@assets/svg/arrow-right.svg';
+
 import { useAppTheme } from '@src/theme/theme';
 import { Box, Button, Text } from '@src/ui';
-import RightArrowIcon from '@assets/svg/arrow-right.svg';
-import React from 'react';
 
 export const CompletedOrderCard = () => {
   const { colors } = useAppTheme();

@@ -1,15 +1,19 @@
-import { TransportationDetailsParams } from '@src/screens/TransportationsDetailsScreen/TransportationDetailsScreen';
+import { OrderStatusEnum } from '@src/screens/MyOrdersScreen/components/OrderStatus';
+import { TransportationDetails } from '@src/screens/TransportationsDetailsScreen';
 
-export const orderDetails: TransportationDetailsParams = {
-	additionalCargoInformation: 'Транспортные средства, используемые для перевозки продуктов', 
-	cargoName: 'Медицинское оборудование',
-	cargoType: 'Деревянный короб',
-	cargoVolume: '3000 м3',
+export const orderDetails: TransportationDetails = {
+  additionalCargoInformation: 'Транспортные средства, используемые для перевозки продуктов',
+  cargoName: 'Медицинское оборудование',
+  cargoType: 'Деревянный короб',
+	cargoVolume: '3000 м3', 
 	cargoWeight: '15 tonn',
 	distance: '228 км',
 	documents: '№2233411-Артем.pdf',
 	movingService: '2',
+	orderNumber: '15-020342',
+	orderStatus: OrderStatusEnum.new,
 	tareType: 'Продукты питания',
+	transportationPeriod:'12.07.2024-30.07.2024',
 	transportationRoute: [
 		{
 			cargoVolume: '2000 м3',

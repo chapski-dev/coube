@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { OrderStatusEnum } from '@src/screens/MyOrdersScreen/components/OrderStatus';
 import { DriverStatue } from '@src/screens/OrderScreen';
 
-import { TransportationDetailsParams } from '@src/screens/TransportationsDetailsScreen';
+import { TransportationDetails } from '@src/screens/TransportationsDetailsScreen';
 
 export type RootStackParamList = {
   tabs: undefined
@@ -15,7 +15,7 @@ export type RootStackParamList = {
   'search-for-new-order': undefined
   'filters-for-orders': undefined
   'from-where': undefined
-  'transportation-details': TransportationDetailsParams
+  'transportation-details': TransportationDetails
   'counter-offer': undefined
   'upload-invoise-for-goods': undefined
   'invoice-sent': undefined
@@ -23,8 +23,11 @@ export type RootStackParamList = {
   'order-screen': { 
     driver_status: DriverStatue
     order_status: OrderStatusEnum
-      headerTitle: string
+    headerTitle: string
   }
+  'company-configuration': undefined
+  'bank-details': undefined
+  'contact-details': undefined
 }
 
 export type TabsParamList = {
@@ -51,6 +54,7 @@ export type UnauthorizedStackParamList = {
   'personal-identifier': undefined;
   'registration-finished': undefined
   'add-drivers-license': undefined;
+  'performer-registration': undefined
 };
 
 export type AllStackParamList = RootStackParamList & TabsParamList & UnauthorizedStackParamList 

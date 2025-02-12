@@ -13,7 +13,7 @@ import { phoneMask } from '@src/utils/masks';
 
 interface ResidentFormValues {
   phone: string;
-  iin: string
+  iin: string;
 }
 
 interface NonResidentFormValues {
@@ -29,49 +29,56 @@ interface NonResidentFormValues {
   citizenship: string;
 }
 
-const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-user-data'>) => {
-  const { t } = useLocalization()
+const RegistrationUserData = ({
+  navigation,
+  route,
+}: ScreenProps<'registration-user-data'>) => {
+  const { t } = useLocalization();
 
   const { insets, colors } = useAppTheme();
 
   const form = useForm<ResidentFormValues | NonResidentFormValues>({
     defaultValues: {
       pasportValidUntil: new Date().toLocaleDateString(),
-    }
+    },
   });
   const [dateValidUntil, setDateValidUntil] = useState(new Date());
   const [dateIssued, setDateIssued] = useState(new Date());
 
-  const isResident = registrationService.getIsRezident()
-  
-  const handleContinue = (values: ResidentFormValues | NonResidentFormValues) => {
+  const isResident = registrationService.getIsRezident();
+
+  const handleContinue = (
+    values: ResidentFormValues | NonResidentFormValues,
+  ) => {
     if (isResident) {
       navigation.navigate('otp-verify', { action: 'phone-verify' });
-      return
-    } {
-      navigation.navigate('settings-profile')
-      return
+      return;
+    }
+    {
+      navigation.navigate('settings-profile');
+      return;
     }
   };
 
   const onChangeDateValidUntil = useCallback(
     (_, newDate: Date) => {
       const selectedDate = newDate || dateValidUntil;
-      setDateValidUntil(newDate)
-      form.setValue('pasportValidUntil', selectedDate.toLocaleDateString())
-      modal()?.closeModal?.()
-    }, [dateValidUntil, form],
+      setDateValidUntil(newDate);
+      form.setValue('pasportValidUntil', selectedDate.toLocaleDateString());
+      modal()?.closeModal?.();
+    },
+    [dateValidUntil, form],
   );
 
   const onChangeDateIssued = useCallback(
     (_, newDate: Date) => {
       const selectedDate = newDate || dateIssued;
-      setDateIssued(newDate)
-      form.setValue('pasportDateIssued', selectedDate.toLocaleDateString())
-      modal()?.closeModal?.()
-    }, [dateIssued, form],
+      setDateIssued(newDate);
+      form.setValue('pasportDateIssued', selectedDate.toLocaleDateString());
+      modal()?.closeModal?.();
+    },
+    [dateIssued, form],
   );
-
 
   const maskedInputProps = useMaskedInputProps({
     mask: phoneMask,
@@ -79,14 +86,16 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
     value: form.watch().phone,
   });
 
-
   const renderContent = () => {
     if (isResident) {
       return (
         <>
           <Box alignItems="center" mb={60}>
             <Text type="h1" children={t('registration')} />
-            <Text fontSize={18} children={t('enter_your_phone_number_and_iin')} />
+            <Text
+              fontSize={18}
+              children={t('enter_your_phone_number_and_iin')}
+            />
           </Box>
 
           <Box w="full" mb={24} gap={16}>
@@ -100,33 +109,51 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
         <>
           <Box alignItems="center" mb={16}>
             <Text type="h1" children={t('registration')} />
-            <Text fontSize={18} children={t('enter_your_registration_details')} />
+            <Text
+              fontSize={18}
+              children={t('enter_your_registration_details')}
+            />
           </Box>
           <Box w="full" mb={24} gap={8}>
             <Controller
               control={form.control}
               name="firstName"
               render={({ field: { value, onBlur, onChange } }) => (
-                <Input label="Имя" value={value} onChangeText={onChange} onBlur={onBlur} />
+                <Input
+                  label="Имя"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                />
               )}
             />
             <Controller
               control={form.control}
               name="surname"
               render={({ field: { value, onBlur, onChange } }) => (
-                <Input label="Фамилия" value={value} onChangeText={onChange} onBlur={onBlur} />
+                <Input
+                  label="Фамилия"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                />
               )}
             />
             <Controller
               control={form.control}
-              name='middleName'
+              name="middleName"
               render={({ field: { value, onBlur, onChange } }) => (
-                <Input label="Отчество" value={value} onChangeText={onChange} onBlur={onBlur} />
+                <Input
+                  label="Отчество"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                />
               )}
             />
             <Controller
               control={form.control}
-              name='phone'
+              name="phone"
               render={({ field: { onBlur } }) => (
                 <Input
                   label="Телефон"
@@ -140,9 +167,10 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
             />
             <Controller
               control={form.control}
-              name='citizenship'
+              name="citizenship"
               render={({ field: { value, onChange } }) => {
-                const handlePickCitizenship = () => navigation.navigate('pick-country', { handlePick: onChange });
+                const handlePickCitizenship = () =>
+                  navigation.navigate('pick-country', { handlePick: onChange });
                 return (
                   <Box mb={24} gap={4} onPress={handlePickCitizenship}>
                     <Text children={t('citizenship')} />
@@ -153,7 +181,7 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
                       borderColor={colors.border}
                       borderRadius={10}
                       h={50}
-                      justifyContent='center'
+                      justifyContent="center"
                     >
                       <Text
                         color={value ? colors.textDefault : colors.disabled}
@@ -161,8 +189,7 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
                       />
                     </Box>
                   </Box>
-
-                )
+                );
               }}
             />
             <Box gap={8}>
@@ -170,14 +197,19 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
               <Box w="full" row gap={8}>
                 <Controller
                   control={form.control}
-                  name='pasportNumber'
+                  name="pasportNumber"
                   render={({ field: { value, onBlur, onChange } }) => (
-                    <Input label={t('passport-number')} value={value} onChangeText={onChange} onBlur={onBlur} />
+                    <Input
+                      label={t('passport-number')}
+                      value={value}
+                      onChangeText={onChange}
+                      onBlur={onBlur}
+                    />
                   )}
                 />
                 <Controller
                   control={form.control}
-                  name='pasportDateIssued'
+                  name="pasportDateIssued"
                   render={({ field: { value } }) => (
                     <DatePicker
                       date={dateIssued}
@@ -190,14 +222,19 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
               </Box>
               <Controller
                 control={form.control}
-                name='pasportIssuedBy'
+                name="pasportIssuedBy"
                 render={({ field: { value, onBlur, onChange } }) => (
-                  <Input label={t('given-by-who')} value={value} onChangeText={onChange} onBlur={onBlur} />
+                  <Input
+                    label={t('given-by-who')}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                  />
                 )}
               />
               <Controller
                 control={form.control}
-                name='pasportValidUntil'
+                name="pasportValidUntil"
                 render={({ field: { value } }) => (
                   <DatePicker
                     date={dateValidUntil}
@@ -220,11 +257,15 @@ const RegistrationUserData = ({ navigation, route }: ScreenProps<'registration-u
         contentContainerStyle={{
           alignItems: 'center',
           flexGrow: 1,
-          paddingBottom: insets.bottom,
+          paddingBottom: insets.bottom + 15,
           paddingHorizontal: 16,
-        }}>
+        }}
+      >
         {renderContent()}
-        <Button children={t('next')} onPress={form.handleSubmit(handleContinue)} />
+        <Button
+          children={t('next')}
+          onPress={form.handleSubmit(handleContinue)}
+        />
       </KeyboardAwareScrollView>
     </>
   );

@@ -1,9 +1,47 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Input, Text } from '@src/ui';
+
+import { setSearchingRegionRef } from './SearchForOrdersScreen/SearchForNewOrderScreen';
+
+export enum RegionsValue {
+  wholeKazakstan = 'whole-kazakstan',
+  astana = 'astana',
+  almaty = 'almaty',
+  shimkent = 'shimkent',
+  almatynskayaOblast = 'almatynskaya-oblast',
+  akmolinskayaOblast = 'akmolinskaya-oblast',
+}
+
+const REGIONS = [
+  {
+    title: 'whole-kazakstan',
+    value: RegionsValue.wholeKazakstan,
+  },
+  {
+    title: 'astana',
+    value: RegionsValue.astana,
+  },
+  {
+    title: 'almaty',
+    value: RegionsValue.almaty,
+  },
+  {
+    title: 'shimkent',
+    value: RegionsValue.shimkent,
+  },
+  {
+    title: 'almatynskaya-oblast',
+    value: RegionsValue.almatynskayaOblast,
+  },
+  {
+    title: 'akmolinskaya-oblast',
+    value: RegionsValue.akmolinskayaOblast,
+  },
+];
 
 export const FromWhereScreen = ({ navigation }: ScreenProps<'from-where'>) => {
   const { colors } = useAppTheme();
@@ -11,6 +49,11 @@ export const FromWhereScreen = ({ navigation }: ScreenProps<'from-where'>) => {
 
   const [inputValue, setInputValue] = useState('');
 
+  const handlePick = (value: RegionsValue) => {
+    setSearchingRegionRef && setSearchingRegionRef(value)
+    navigation.goBack()
+  }
+  
   return (
     <Box p={15}>
       <Input
@@ -20,24 +63,16 @@ export const FromWhereScreen = ({ navigation }: ScreenProps<'from-where'>) => {
         onChangeText={setInputValue}
         color={colors.grey}
       />
-      <Box onPress={() => null} h={36} justifyContent='center' >
-        <Text children={t('whole-kazakstan')} />
-      </Box>
-      <Box onPress={() => null} h={36} justifyContent='center'>
-        <Text children={t('astana')} />
-      </Box>
-      <Box onPress={() => null} h={36} justifyContent='center'>
-        <Text children={t('almaty')} />
-      </Box>
-      <Box onPress={() => null} h={36} justifyContent='center'>
-        <Text children={t('shimkent')} />
-      </Box>
-      <Box onPress={() => null} h={36} justifyContent='center'>
-        <Text children={t('almatynskaya-oblast')} />
-      </Box>
-      <Box onPress={() => null} h={36} justifyContent='center'>
-        <Text children={t('akmolinskaya-oblast')} />
-      </Box>
+      {REGIONS.map((el) => (
+        <Box
+          key={el.value}
+          onPress={() => handlePick(el.value)}
+          h={36}
+          justifyContent="center"
+        >
+          <Text children={t(el.title)} />
+        </Box>
+      ))}
     </Box>
   );
 };
