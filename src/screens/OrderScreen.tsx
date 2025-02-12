@@ -1,5 +1,5 @@
 import { ScreenProps } from '@src/navigation/types';
-import { Box, Button, Text } from '@src/ui';
+import { Accordion, Box, Button, Text } from '@src/ui';
 import React, { useMemo } from 'react';
 import {
   OrderStatus,
@@ -17,7 +17,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { InfoSection } from './MyOrdersScreen/components/InfoSection';
 
 export enum DriverStatue {
   accepted = 'accepted',
@@ -128,17 +127,21 @@ export const OrderScreen = ({
                 <Text type="body_500" children={'Ручной'} />
               </Box>
               <Box row gap={8}>
-                <Box>
+                <Box flex={1}>
                   <Text children={'Контактное лицо'} />
-                  <Text type="body_500" children={'Ануар'} />
+                  <Text type="body_500" children={'Ануар '} />
                 </Box>
-                <Box>
+                <Box maxWidth={133}>
                   <Text children={'Телефон'} />
                   <Text type="body_500" children={'+7 777 777 77 77'} />
                 </Box>
-                <Box w={'32%'} justifyContent="center" alignItems="center">
-                  <Button backgroundColor="blue" children={'Позвонить'} />
-                </Box>
+                <Button
+                  wrapperStyle={{
+                    flex: 0.8,
+                  }}
+                  backgroundColor="blue"
+                  children={'Позвонить'}
+                />
               </Box>
             </>
           ) : (
@@ -147,8 +150,7 @@ export const OrderScreen = ({
                 source={require('@assets/png/map-orders-search-screen.png')}
               />
               <Box row w="full" justifyContent="flex-end">
-                <Text children={t('distance')} />
-                <Text children=": " />
+                <Text children={`${t('distance')}: `} />
                 <Text fontWeight={500} children={'844 км'} />
               </Box>
             </Box>
@@ -193,22 +195,19 @@ export const OrderScreen = ({
               </Box>
             </Box>
           )}
-          <InfoSection
-            title="Информация о грузе"
-            content={<Text children={'Подробная информация о грузе...'} />}
+          <Accordion
+            label={t('cargo-information')}
+            children={'Подробная информация о грузе...'}
           />
-          <InfoSection
-            title="Маршрут"
-            content={<Text children={'Подробная информация о маршруте...'} />}
+          <Accordion
+            label={t('route')}
+            children={'Подробная информация о маршруте...'}
           />
-          <InfoSection
-            title="Дополнительно"
-            content={<Text children={'Дополнительная информация...'} />}
+          <Accordion
+            label={t('additional-info')}
+            children={'Дополнительная информация...'}
           />
-          <InfoSection
-            title="Документы"
-            content={<Text children={'Список документов...'} />}
-          />
+          <Accordion label={t('documents')} children={'Список документов...'} />
           {route.params?.driver_status === DriverStatue.arrived_for_loading ? (
             <Button
               backgroundColor="light_red"
@@ -217,7 +216,7 @@ export const OrderScreen = ({
             />
           ) : (
             <Box py={23} alignItems="center">
-              <SwipeButton />
+              <SwipeButton onSwipe={() => null} loading={false} />
             </Box>
           )}
         </Box>
