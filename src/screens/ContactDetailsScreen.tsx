@@ -1,49 +1,89 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
 
 import { ScreenProps } from '@src/navigation/types';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Input } from '@src/ui';
+interface ContactFormData {
+  actualAddress: string;
+  phone: string;
+  email: string;
+  accountingDocuments: string;
+}
 
 export const ContactDetails = ({
   navigation,
 }: ScreenProps<'contact-details'>) => {
   const { t } = useLocalization();
 
-  const [actualAdress, setActualAdress] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [accountingDocuments, setAccountingDocuments] = useState('');
+  const { control, handleSubmit } = useForm();
+
+  const onSubmit = (data: ContactFormData) => {
+    console.log(data); 
+  };
 
   return (
     <Box px={15} py={20} gap={10}>
-      <Input
-        label={t('actual-address')}
-        value={actualAdress}
-        onChangeText={setActualAdress}
+      <Controller
+        control={control}
+        name="actualAddress"
+        defaultValue=""
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label={t('actual-address')}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
       />
 
-      <Input
-        label={t('phone')}
-        placeholder="+ 7 777 777 77 77"
-        value={phone}
-        onChangeText={setPhone}
+      <Controller
+        control={control}
+        name="phone"
+        defaultValue=""
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label={t('phone')}
+            placeholder="+ 7 777 777 77 77"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
       />
 
-      <Input
-        label={t('email')}
-        placeholder="Cost@mail.ru"
-        value={email}
-        onChangeText={setEmail}
+      <Controller
+        control={control}
+        name="email"
+        defaultValue=""
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label={t('email')}
+            placeholder="Cost@mail.ru"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
       />
 
-      <Input
-        label={t('mail-for-accounting-documents')}
-        placeholder="Cost@mail.ru"
-        value={accountingDocuments}
-        onChangeText={setAccountingDocuments}
+      <Controller
+        control={control}
+        name="accountingDocuments"
+        defaultValue=""
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label={t('mail-for-accounting-documents')}
+            placeholder="Cost@mail.ru"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
       />
 
-      <Button children={t('save')} />
+      <Button onPress={handleSubmit(onSubmit)} children={t('save')} />
     </Box>
   );
 };
