@@ -1,5 +1,5 @@
 import React from 'react';
-import { Controller,useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { ScreenProps } from '@src/navigation/types';
 import { useLocalization } from '@src/translations/i18n';
@@ -11,12 +11,19 @@ interface BankDetailsFormData {
   bik: string;
 }
 
+interface BankDetailsScreenProps extends ScreenProps<'bank-details'> {
+  initialValues?: BankDetailsFormData;
+}
+
 export const BankDetailsScreen = ({
   navigation,
-}: ScreenProps<'bank-details'>) => {
+  initialValues = { accountNumber: '', bank: '', bik: '' }, 
+}: BankDetailsScreenProps) => {
   const { t } = useLocalization();
   
-  const { control, handleSubmit } = useForm<BankDetailsFormData>();
+  const { control, handleSubmit } = useForm<BankDetailsFormData>({
+    defaultValues: initialValues, 
+  });
 
   const onSubmit = (data: BankDetailsFormData) => {
     console.log(data);
@@ -27,7 +34,6 @@ export const BankDetailsScreen = ({
       <Controller
         control={control}
         name="accountNumber"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label={t('account-number')}
@@ -42,7 +48,6 @@ export const BankDetailsScreen = ({
       <Controller
         control={control}
         name="bank"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label={t('bank')}
@@ -57,7 +62,6 @@ export const BankDetailsScreen = ({
       <Controller
         control={control}
         name="bik"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label={t('bik')}

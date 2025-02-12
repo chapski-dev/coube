@@ -1,9 +1,10 @@
 import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { ScreenProps } from '@src/navigation/types';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Input } from '@src/ui';
+
 interface ContactFormData {
   actualAddress: string;
   phone: string;
@@ -11,12 +12,19 @@ interface ContactFormData {
   accountingDocuments: string;
 }
 
+interface ContactDetailsProps extends ScreenProps<'contact-details'> {
+  initialValues?: ContactFormData; // Добавляем пропс для начальных значений
+}
+
 export const ContactDetails = ({
   navigation,
-}: ScreenProps<'contact-details'>) => {
+  initialValues = { actualAddress: '', phone: '', email: '', accountingDocuments: '' }, // Устанавливаем значения по умолчанию
+}: ContactDetailsProps) => {
   const { t } = useLocalization();
 
-  const { control, handleSubmit } = useForm<ContactFormData>();
+  const { control, handleSubmit } = useForm<ContactFormData>({
+    defaultValues: initialValues, // Передаем начальные значения в useForm
+  });
 
   const onSubmit = (data: ContactFormData) => {
     console.log(data); 
@@ -27,7 +35,6 @@ export const ContactDetails = ({
       <Controller
         control={control}
         name="actualAddress"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label={t('actual-address')}
@@ -41,7 +48,6 @@ export const ContactDetails = ({
       <Controller
         control={control}
         name="phone"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label={t('phone')}
@@ -56,7 +62,6 @@ export const ContactDetails = ({
       <Controller
         control={control}
         name="email"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label={t('email')}
@@ -71,7 +76,6 @@ export const ContactDetails = ({
       <Controller
         control={control}
         name="accountingDocuments"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label={t('mail-for-accounting-documents')}
