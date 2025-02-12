@@ -191,6 +191,8 @@
   "bank": "Банк",
   "bik": "БИК",
   "bill-of-lading": "Накладная на товар",
-  "company-customization": "Настройка компании"
-  
+  "company-customization": "Настройка компании",
+  "performer-registration": "Регистрация исполнителя",
+  "organization-name": "Название организации",
+  "enter-email": "Введите e-mail"
 }

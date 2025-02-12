@@ -70,7 +70,7 @@ export const Input = forwardRef<InputProps, InputProps>(
       <View style={[{ flexGrow: 1, gap: 4 }, wrapperStyle]}>
         {label && <Text style={styles.label}>
           <Text children={label} />
-          {required ? <Text children='*' color={colors.red} /> : null}
+          {required ? <Text children=' *' color={colors.red} /> : null}
         </Text>
         }
         <View
