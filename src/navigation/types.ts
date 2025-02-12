@@ -21,6 +21,7 @@ export type RootStackParamList = {
   'company-configuration': undefined
   'bank-details': undefined
   'contact-details': undefined
+  'performer-registration-screen': undefined
 }
 
 export type TabsParamList = {
