@@ -10,7 +10,6 @@ import { FromWhereScreen } from '@src/screens/FromWhereScreen';
 import { IdentityScreen } from '@src/screens/IdentityScreen';
 import { InvoiceSentScreen } from '@src/screens/InvoiceSentScreen';
 import { OrderAcceptedScreen } from '@src/screens/OrderAcceptedScreen';
-import { PerformerRegistrationScreen } from '@src/screens/PerformerRegistrationScreen';
 import { PowerOfAttorneyScreen } from '@src/screens/PowerOfAttorneyScreen';
 import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
 import { SearchForNewOrder } from '@src/screens/SearchForOrdersScreen/SearchForNewOrderScreen';
@@ -117,10 +116,6 @@ export const RootStack = () => {
         options={{ headerTitle: t('contact-details') }}
         name="contact-details"
         component={ContactDetails}
-      />
-      <Stack.Screen
-        name="performer-registration-screen"
-        component={PerformerRegistrationScreen}
       />
     </Stack.Navigator>
   );

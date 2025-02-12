@@ -21,7 +21,6 @@ export type RootStackParamList = {
   'company-configuration': undefined
   'bank-details': undefined
   'contact-details': undefined
-  'performer-registration-screen': undefined
 }
 
 export type TabsParamList = {
@@ -48,6 +47,7 @@ export type UnauthorizedStackParamList = {
   'personal-identifier': undefined;
   'registration-finished': undefined
   'add-drivers-license': undefined;
+  'performer-registration': undefined
 };
 
 export type AllStackParamList = RootStackParamList & TabsParamList & UnauthorizedStackParamList 

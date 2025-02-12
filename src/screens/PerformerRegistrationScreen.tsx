@@ -1,5 +1,5 @@
 import React from 'react';
-import { Controller,useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { ScreenProps } from '@src/navigation/types';
 import { useLocalization } from '@src/translations/i18n';
@@ -13,12 +13,19 @@ interface PerformerRegistrationFormData {
   phone: string;
 }
 
+interface PerformerRegistrationScreenProps extends ScreenProps<'performer-registration'> {
+  initialValues?: PerformerRegistrationFormData;
+}
+
 export const PerformerRegistrationScreen = ({
   navigation,
-}: ScreenProps<'bank-details'>) => {
+  initialValues = { iin: '', organizationName: '', generalDirector: '', email: '', phone: '' },
+}: PerformerRegistrationScreenProps) => {
   const { t } = useLocalization();
 
-  const { control, handleSubmit } = useForm<PerformerRegistrationFormData>();
+  const { control, handleSubmit } = useForm<PerformerRegistrationFormData>({
+    defaultValues: initialValues,
+  });
 
   const onSubmit = (data: PerformerRegistrationFormData) => {
     console.log(data);
@@ -26,14 +33,13 @@ export const PerformerRegistrationScreen = ({
 
   return (
     <Box px={15} py={20} gap={10}>
-      <Box w='full' alignItems='center' >
+      <Box w='full' alignItems='center'>
         <Text mb={15} type='body_500' fontSize={24} children={t('performer-registration')} />
       </Box>
 
       <Controller
         control={control}
         name="iin"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label={t('iin')}
@@ -48,7 +54,6 @@ export const PerformerRegistrationScreen = ({
       <Controller
         control={control}
         name="organizationName"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label={t('organization-name')}
@@ -63,7 +68,6 @@ export const PerformerRegistrationScreen = ({
       <Controller
         control={control}
         name="generalDirector"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label={t('general-director')}
@@ -75,17 +79,14 @@ export const PerformerRegistrationScreen = ({
         )}
       />
 
-      <Box row gap={5}>
-        <Text children={t('enter-email')} /> 
-        <Text color='red' children='*' />
-      </Box>
-
       <Controller
+        rules={{required: true}}
         control={control}
         name="email"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
+            label={t('enter-email')}
+            required={true}
             placeholder=""
             onBlur={onBlur}
             onChangeText={onChange}
@@ -94,18 +95,15 @@ export const PerformerRegistrationScreen = ({
         )}
       />
 
-      <Box row gap={5}>
-        <Text children={t('enter-phone')} /> 
-        <Text color='red' children='*' />
-      </Box>
-
       <Controller
+        rules={{required: true}}
         control={control}
         name="phone"
-        defaultValue=""
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             placeholder=""
+            label={t('enter-phone')}
+            required={true}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
