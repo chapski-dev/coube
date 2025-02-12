@@ -13,17 +13,17 @@ interface ContactFormData {
 }
 
 interface ContactDetailsProps extends ScreenProps<'contact-details'> {
-  initialValues?: ContactFormData; // Добавляем пропс для начальных значений
+  initialValues?: ContactFormData;
 }
 
 export const ContactDetails = ({
   navigation,
-  initialValues = { actualAddress: '', phone: '', email: '', accountingDocuments: '' }, // Устанавливаем значения по умолчанию
+  initialValues = { actualAddress: '', phone: '', email: '', accountingDocuments: '' },
 }: ContactDetailsProps) => {
   const { t } = useLocalization();
 
   const { control, handleSubmit } = useForm<ContactFormData>({
-    defaultValues: initialValues, // Передаем начальные значения в useForm
+    defaultValues: initialValues,
   });
 
   const onSubmit = (data: ContactFormData) => {
