@@ -47,6 +47,7 @@ export type UnauthorizedStackParamList = {
   'personal-identifier': undefined;
   'registration-finished': undefined
   'add-drivers-license': undefined;
+  'performer-registration': undefined
 };
 
 export type AllStackParamList = RootStackParamList & TabsParamList & UnauthorizedStackParamList 
