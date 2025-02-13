@@ -18,7 +18,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-export enum DriverStatue {
+export enum DriverStatusEnum {
   accepted = 'accepted',
   went_to_load = 'went_to_load',
   arrived_for_loading = 'arrived_for_loading',
@@ -38,12 +38,12 @@ export const OrderScreen = ({
 
   const btnText = useMemo(() => {
     switch (route.params?.driver_status) {
-      case DriverStatue.accepted:
-        return 'Отправился на погрузку';
-      case DriverStatue.went_to_load:
-        return 'Прибыл на погрузку';
-      case DriverStatue.arrived_for_loading:
-        return 'Завершить погрузку';
+      case DriverStatusEnum.accepted:
+        return t('went-to-load');
+      case DriverStatusEnum.went_to_load:
+        return t('arrived-for-loading');
+      case DriverStatusEnum.arrived_for_loading:
+        return t('finish-loading');
       default:
         break;
     }
@@ -51,22 +51,22 @@ export const OrderScreen = ({
 
   const driverStatusNavigation = () => {
     switch (route.params?.driver_status) {
-      case DriverStatue.accepted:
+      case DriverStatusEnum.accepted:
         navigation.navigate('order-screen', {
-          driver_status: DriverStatue.went_to_load,
+          driver_status: DriverStatusEnum.went_to_load,
           order_status: OrderStatusEnum.pending,
-          headerTitle: 'Заказ № 15-020342',
+          headerTitle: `${t('order')} № ${'15-020342'}`,
         });
         break;
-      case DriverStatue.went_to_load:
+      case DriverStatusEnum.went_to_load:
         navigation.navigate('order-screen', {
-          driver_status: DriverStatue.arrived_for_loading,
+          driver_status: DriverStatusEnum.arrived_for_loading,
           order_status: OrderStatusEnum.loading,
-          headerTitle: 'Заказ № 15-020342',
+          headerTitle: `${t('order')} № ${'15-020342'}`,
         });
 
         break;
-      case DriverStatue.arrived_for_loading:
+      case DriverStatusEnum.arrived_for_loading:
         navigation.navigate('upload-invoise-for-goods');
         break;
       default:
@@ -95,18 +95,19 @@ export const OrderScreen = ({
               <OrderStatus orderStatus={route.params.order_status} />
             </Box>
           </Box>
-          {route.params?.driver_status === DriverStatue.arrived_for_loading ? (
+          {route.params?.driver_status ===
+          DriverStatusEnum.arrived_for_loading ? (
             <>
               <Box row gap={8} alignItems="center">
                 <Circle />
                 <Text
                   type="body_500"
                   fontSize={18}
-                  children={'Погрузка груза..'}
+                  children={t('order_status.loading')}
                 />
               </Box>
               <Box>
-                <Text children={'Адрес погрузки'} />
+                <Text children={t('loading-address')} />
                 <Text
                   type="body_500"
                   children={'г. Алматы, ул. Абая 11, Сегодня, 15:40'}
@@ -114,25 +115,25 @@ export const OrderScreen = ({
               </Box>
               <Box row gap={8}>
                 <Box>
-                  <Text children={'Вес погрузки'} />
+                  <Text children={t('loading-weight')} />
                   <Text type="body_500" children={'15 тонн'} />
                 </Box>
                 <Box>
-                  <Text children={'Объем погрузки'} />
+                  <Text children={t('loading-volume')} />
                   <Text type="body_500" children={'3000 м3'} />
                 </Box>
               </Box>
               <Box>
-                <Text children={'Способ погрузки'} />
+                <Text children={t('loading-method')} />
                 <Text type="body_500" children={'Ручной'} />
               </Box>
               <Box row gap={8}>
                 <Box flex={1}>
-                  <Text children={'Контактное лицо'} />
+                  <Text children={t('contact-person')} />
                   <Text type="body_500" children={'Ануар '} />
                 </Box>
                 <Box maxWidth={133}>
-                  <Text children={'Телефон'} />
+                  <Text children={t('phone')} />
                   <Text type="body_500" children={'+7 777 777 77 77'} />
                 </Box>
                 <Button
@@ -140,7 +141,7 @@ export const OrderScreen = ({
                     flex: 0.8,
                   }}
                   backgroundColor="blue"
-                  children={'Позвонить'}
+                  children={t('to-ring')}
                 />
               </Box>
             </>
@@ -155,7 +156,7 @@ export const OrderScreen = ({
               </Box>
             </Box>
           )}
-          {route.params?.driver_status === DriverStatue.went_to_load && (
+          {route.params?.driver_status === DriverStatusEnum.went_to_load && (
             <Box gap={7}>
               <Box w="full" row alignItems="center">
                 <Circle />
@@ -187,7 +188,7 @@ export const OrderScreen = ({
                 </Animated.View>
               </Box>
               <Box>
-                <Text children={'Адрес погрузки'} />
+                <Text children={t('loading-address')} />
                 <Text
                   type="body_500"
                   children={'г. Алматы, ул. Абая 11, Сегодня, 15:40'}
@@ -208,11 +209,12 @@ export const OrderScreen = ({
             children={'Дополнительная информация...'}
           />
           <Accordion label={t('documents')} children={'Список документов...'} />
-          {route.params?.driver_status === DriverStatue.arrived_for_loading ? (
+          {route.params?.driver_status ===
+          DriverStatusEnum.arrived_for_loading ? (
             <Button
               backgroundColor="light_red"
               textColor="red"
-              children={'Сообщить о повреждении груза'}
+              children={t('report-carrgo-damage')}
             />
           ) : (
             <Box py={23} alignItems="center">
@@ -232,7 +234,7 @@ export const OrderScreen = ({
         <Button children={btnText} onPress={driverStatusNavigation} />
         <Button
           backgroundColor="grey"
-          children={'Перейти в навигатор'}
+          children={t('go-to-the-navigator')}
           textColor="dark_grey"
           icon={<RhombusArrowIcon />}
         />

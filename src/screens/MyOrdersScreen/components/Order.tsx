@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { Image } from 'react-native';
 import Circle from '@assets/svg/circle.svg';
 import ThreeDots from '@assets/svg/three-dots.svg';
@@ -13,7 +13,7 @@ import { wait } from '@src/utils';
 import RightArrowIcon from '@assets/svg/arrow-right.svg';
 
 import { OrderStatus, OrderStatusEnum } from './OrderStatus';
-import { DriverStatue } from '../../OrderScreen';
+import { DriverStatusEnum } from '../../OrderScreen';
 import { handleCatchError } from '@src/utils/handleCatchError';
 
 type OrderPropsTypes = TransportationDetails;
@@ -30,6 +30,10 @@ export const Order: FC<OrderPropsTypes> = (props) => {
 
   const navigation = useNavigation();
 
+  const mapRef = useRef<YaMap>(null);
+
+  const { navigate } = useNavigation();
+
   const handleDecline = async () => {
     try {
       setLoadingDecline(true);
@@ -42,15 +46,19 @@ export const Order: FC<OrderPropsTypes> = (props) => {
   };
 
   const handleAccept = async () => {
-    setLoadingAccept(true);
-    await wait(1000);
-    setIsOrderAccepted(true),
-      navigation.navigate('order-accepted', {
-        driver_status: DriverStatue.accepted,
-        order_status: OrderStatusEnum.loading,
-        headerTitle: 'Завершить погрузку',
-      });
-    setLoadingAccept(false);
+    try {
+      setLoadingAccept(true);
+      await geolocationService.startTracking();
+      await wait(1000);
+      setIsOrderAccepted(true),
+        navigation.navigate('order-accepted', {
+          driver_status: DriverStatusEnum.accepted,
+          order_status: OrderStatusEnum.loading,
+          headerTitle: `${t('order')} № ${'15-020342'}`,
+        });
+    } catch (error) {
+      setLoadingAccept(false);
+    }
   };
 
   const openTransportationDetails = () =>
@@ -79,8 +87,7 @@ export const Order: FC<OrderPropsTypes> = (props) => {
             />
           </Box>
           <Box row w="full" justifyContent="flex-end">
-            <Text children={t('distance')} />
-            <Text children=": " />
+            <Text children={`${t('distance')}: `} />
             <Text fontWeight={500} children={distance} />
           </Box>
         </>
@@ -135,24 +142,17 @@ export const Order: FC<OrderPropsTypes> = (props) => {
 
       {isOrderAccepted ? (
         <Button
+          children={t('to-be-executed')}
+          icon={<RightArrowIcon color={colors.white} />}
           backgroundColor={'green'}
           onPress={() =>
             navigation.navigate('order-screen', {
-              driver_status: DriverStatue.accepted,
+              driver_status: DriverStatusEnum.accepted,
               order_status: OrderStatusEnum.pending,
-              headerTitle: 'Заказ № 15-020342',
+              headerTitle: `${t('order')} № ${'15-020342'}`,
             })
           }
-        >
-          <Box row alignItems={'center'} gap={10}>
-            <Text
-              type="body_500"
-              color={colors.white}
-              children={'К выполнению'}
-            />
-            <RightArrowIcon color={colors.white} />
-          </Box>
-        </Button>
+        />
       ) : (
         <>
           <Text children={t('transportation-time')} />

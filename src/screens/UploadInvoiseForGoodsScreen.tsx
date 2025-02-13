@@ -8,11 +8,13 @@ import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { Box, Button, Text } from '@src/ui';
 import ImagePickerModal from '@src/widgets/ImagePickerModal';
+import { useLocalization } from '@src/translations/i18n';
 
 const UploadInvoiseForGoodsScreen = ({
   navigation,
 }: ScreenProps<'upload-invoise-for-goods'>) => {
   const { colors } = useAppTheme();
+  const { t } = useLocalization();
 
   const [pickerResponse, setPickerResponse] =
     useState<ImagePickerResponse | null>(null);
@@ -23,7 +25,7 @@ const UploadInvoiseForGoodsScreen = ({
 
   return (
     <>
-      <Box px={16} py={11} alignItems="center" flex={1} gap={27}>
+      <Box px={16} py={45} alignItems="center" flex={1} gap={27}>
         {pickerResponse?.assets ? (
           <>
             <Image
@@ -36,7 +38,7 @@ const UploadInvoiseForGoodsScreen = ({
             <Box row gap={10}>
               <Box flex={1}>
                 <Button
-                  children="Заменить"
+                  children={t('to-replace')}
                   backgroundColor="main_light"
                   textColor="dark_grey"
                   onPress={modalOpen}
@@ -44,7 +46,7 @@ const UploadInvoiseForGoodsScreen = ({
               </Box>
               <Box flex={1}>
                 <Button
-                  children="Отправить"
+                  children={t('to-send')}
                   backgroundColor="main"
                   textColor={'white'}
                   onPress={() => {
@@ -65,14 +67,16 @@ const UploadInvoiseForGoodsScreen = ({
               <WaybillIcon color={colors.disabled} />
             </Box>
             <Box px={40} gap={4}>
-              <Text type="h2" center children="Накладная на товар" />
+              <Text type="h2" center children={t('bill-of-lading')} />
               <Text
                 center
-                children="Загрузите документ, подтверждающий отпуска товара"
+                children={t(
+                  'download-the-document-confirming-the-release-of-the-goods',
+                )}
               />
             </Box>
             <Button
-              children="Загрузить"
+              children={t('to-download')}
               backgroundColor="main_light"
               textColor="dark_grey"
               onPress={modalOpen}

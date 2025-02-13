@@ -4,10 +4,6 @@ import WaybillIcon from '@assets/svg/sheet.svg';
 import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { Box, Button, Text } from '@src/ui';
-import {
-  OrderStatus,
-  OrderStatusEnum,
-} from '../screens/MyOrdersScreen/components/OrderStatus';
 
 export const InvoiceSentScreen = ({
   navigation,

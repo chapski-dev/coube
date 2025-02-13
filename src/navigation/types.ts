@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { OrderStatusEnum } from '@src/screens/MyOrdersScreen/components/OrderStatus';
-import { DriverStatue } from '@src/screens/OrderScreen';
+import { DriverStatusEnum } from '@src/screens/OrderScreen';
 
 import { TransportationDetails } from '@src/screens/TransportationsDetailsScreen';
 
@@ -21,7 +21,7 @@ export type RootStackParamList = {
   'invoice-sent': undefined
   'order-accepted': { onOrderAccepted: () => void }
   'order-screen': { 
-    driver_status: DriverStatue
+    driver_status: DriverStatusEnum
     order_status: OrderStatusEnum
     headerTitle: string
   }
