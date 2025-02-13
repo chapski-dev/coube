@@ -55,7 +55,7 @@ const SelectLanguageModal = forwardRef<BottomSheetModal, SelectLanguageModalProp
               gap={10}
               onPress={handleChangeLanguage(el.lang)}
             >
-              <Text children={el.flag + ' ' + el.title} />
+              <Text children={el.flag + ' ' + t(`profile_languages.${el.lang}`)} />
             </Box>
           ))}
 

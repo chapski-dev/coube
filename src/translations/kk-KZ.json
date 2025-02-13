@@ -11,6 +11,10 @@
     "ru-RU": "Орыс",
     "kk-KZ": "Қазақ"
   },
+  "profile_languages": {
+    "ru-RU": "Орыс",
+    "kk-KZ": "Қазақ"
+  },
   "change_language": "Тілді өзгерту",
   "my_orders_page": "менің тапсырыстарым беті",
   "registration": "Тіркеу",
