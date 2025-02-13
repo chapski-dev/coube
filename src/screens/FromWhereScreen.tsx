@@ -18,26 +18,50 @@ export enum RegionsValue {
 
 const REGIONS = [
   {
+    point: {
+      lat: 51.143964,
+      lon: 71.435819
+    },
     title: 'whole-kazakstan',
-    value: RegionsValue.wholeKazakstan,
+    value: RegionsValue.wholeKazakstan
   },
   {
+    point: {
+      lat: 51.128201,
+      lon: 71.430429
+    },
     title: 'astana',
     value: RegionsValue.astana,
   },
   {
+    point: {
+      lat: 43.273564,
+      lon: 76.914860
+    },
     title: 'almaty',
     value: RegionsValue.almaty,
   },
   {
+    point: {
+      lat: 42.368009,
+      lon: 69.612769
+    },
     title: 'shimkent',
     value: RegionsValue.shimkent,
   },
   {
+    point: {
+      lat: 43.854849,
+      lon:  77.061581
+    },
     title: 'almatynskaya-oblast',
     value: RegionsValue.almatynskayaOblast,
   },
   {
+    point: {
+      lat: 53.285152,
+      lon:  69.375533
+    },
     title: 'akmolinskaya-oblast',
     value: RegionsValue.akmolinskayaOblast,
   },
@@ -66,7 +90,7 @@ export const FromWhereScreen = ({ navigation }: ScreenProps<'from-where'>) => {
       {REGIONS.map((el) => (
         <Box
           key={el.value}
-          onPress={() => handlePick(el.value)}
+          onPress={() => handlePick(el)}
           h={36}
           justifyContent="center"
         >

@@ -62,7 +62,10 @@ export const saveLanguageAsyncStorage = async (language: AppLangEnum) => {
       fallbackLng: AppLangEnum.RU,
       lng: (await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.CURRENT_LANG)) || AppLangEnum.RU,
       ns: [],
-      parseMissingKeyHandler: (key) => `[MISSING KEY] ${key}`,
+      parseMissingKeyHandler: (key) => {
+        console.warn(`[MISSING KEY] ${key}`);
+        return `[MISSING KEY] ${key}`
+      },
       resources,
     });
 })();
