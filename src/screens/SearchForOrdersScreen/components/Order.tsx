@@ -23,7 +23,7 @@ export const Order: FC<OrderPropsTypes> = ({
   cargoName,
   category,
   transportationRoute,
-  cargoWeight,
+  cargoWeight
 }) => {
   const { t } = useLocalization();
   const { colors } = useAppTheme();
@@ -38,9 +38,7 @@ export const Order: FC<OrderPropsTypes> = ({
       <Text type="body_500" children={cargoName} />
 
       <Box row flexWrap="wrap" gap={8}>
-        {category?.map((el) => {
-          return <Chip key={el} children={el} />;
-        })}
+        {category?.map((el) => <Chip key={el} children={el} />)}
       </Box>
 
       <Box row gap={10} alignItems="center">
@@ -50,19 +48,10 @@ export const Order: FC<OrderPropsTypes> = ({
 
       <Box row gap={10} alignItems="center">
         <Circle color="red" />
-        <Text
-          children={
-            transportationRoute[transportationRoute.length - 1].loadingPoint
-          }
-        />
+        <Text children={transportationRoute[transportationRoute.length - 1].loadingPoint} />
       </Box>
 
-      <Text
-        color="black"
-        fontSize={18}
-        fontWeight={900}
-        children={cargoWeight}
-      />
+      <Text color="black" fontSize={18} fontWeight={900} children={cargoWeight} mb={12} />
 
       <Button
         backgroundColor="grey"

@@ -19,6 +19,7 @@ import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
 import { wait } from '@src/utils';
 
+import { CompletedOrderCard } from './components/CompletedOrderCard';
 import { Order } from './components/Order';
 
 const Tabs = createMaterialTopTabNavigator();
@@ -38,12 +39,12 @@ export const MyOrdersScreen = () => {
       <Tabs.Screen
         name="active"
         component={Active}
-        options={() => ({ title: 'Активные' })}
+        options={() => ({ lazy: true, title: 'Активные' })}
       />
       <Tabs.Screen
         name="сomplited"
         component={Complited}
-        options={{ title: 'Завершенные' }}
+        options={{ lazy: true, title: 'Завершенные' }}
       />
     </Tabs.Navigator>
   );
@@ -123,7 +124,7 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
         </Box>
       }
       renderItem={() => <Order {...orderDetails} />}
-      data={Array.from({ length: 5 })}
+      data={Array.from({ length: 1 })}
       stickyHeaderHiddenOnScroll={false}
     />
   );
@@ -146,7 +147,7 @@ const Complited = ({ navigation }: ScreenProps<'orders'>) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
-      renderItem={() => <Order {...orderDetails} />}
+      renderItem={() => <CompletedOrderCard />}
       data={Array.from({ length: 5 })}
     />
   );

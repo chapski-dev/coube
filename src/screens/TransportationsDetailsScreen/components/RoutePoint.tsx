@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';

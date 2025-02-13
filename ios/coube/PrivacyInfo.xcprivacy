@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>NSPrivacyCollectedDataTypes</key>
-  <array/>
+	<array/>
 	<key>NSPrivacyTracking</key>
 	<false/>
 </dict>
