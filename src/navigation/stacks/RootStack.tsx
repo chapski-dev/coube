@@ -18,6 +18,7 @@ import { useLocalization } from '@src/translations/i18n';
 import { DocumentsScreen } from '../../screens/DocumentsScreen';
 import { Tabs } from '../Tabs';
 import { RootStackParamList } from '../types';
+import { OrderScreen } from '@src/screens/OrderScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -101,6 +102,13 @@ export const RootStack = () => {
         options={{ headerTitle: t('bill-of-lading') }}
         name="upload-invoise-for-goods"
         component={UploadInvoiseForGoodsScreen}
+      />
+      <Stack.Screen
+        options={({ route }) => ({
+          headerTitle: route.params?.headerTitle,
+        })}
+        name="order-screen"
+        component={OrderScreen}
       />
     </Stack.Navigator>
   );

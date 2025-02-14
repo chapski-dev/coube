@@ -1,4 +1,3 @@
-
 {
   "continue": "Продолжить",
   "confirm": "Подтвердить",
@@ -198,5 +197,25 @@
   "company-customization": "Настройка компании",
   "performer-registration": "Регистрация исполнителя",
   "organization-name": "Название организации",
-  "enter-email": "Введите e-mail"
+  "enter-email": "Введите e-mail",
+  "loading-address": "Адрес погрузки",
+  "loading-weight": "Вес погрузки",
+  "loading-volume": "Объем погрузки",
+  "contact-person": "контактное лицо",
+  "to-ring": "Позвонить",
+  "report-carrgo-damage": "Сообщить о повреждении груза",
+  "go-to-the-navigator": "Перейти в навигатор",
+  "finish-loading": "Завершить погрузку",
+  "went-to-load": "Отправился на погрузку",
+  "arrived-for-loading": "Прибыл на погрузку",
+  "order": "Заказ",
+  "to-be-executed": "К выпалнению ",
+  "order-accepted": "Заказ принят!",
+  "order-number": "Номер заказа",
+  "date-and-time-of-loading": "Дата и время погрузки",
+  "perfectly": "Отлично !",
+  "to-download": "Загрузить",
+  "download-the-document-confirming-the-release-of-the-goods": "Загрузите документ, подтверждающий отпуска товара",
+  "to-replace": "Заменить",
+  "to-send": "Отправить"
 }

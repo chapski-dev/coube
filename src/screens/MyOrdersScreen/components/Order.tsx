@@ -15,6 +15,9 @@ import { useLocalization } from '@src/translations/i18n';
 import { OrderStatusEnum } from '@src/types/order';
 import { Box, Button, Text } from '@src/ui';
 import { wait } from '@src/utils';
+import RightArrowIcon from '@assets/svg/arrow-right.svg';
+
+import { DriverStatusEnum } from '../../OrderScreen';
 import { handleCatchError } from '@src/utils/handleCatchError';
 import { extractRouteCoordinates } from '@src/utils/yandex-maps';
 
@@ -31,8 +34,10 @@ export const Order: FC<OrderPropsTypes> = (props) => {
   const { colors } = useAppTheme();
   const [loadingAccept, setLoadingAccept] = useState(false);
   const [loadingDecline, setLoadingDecline] = useState(false);
+  const [isOrderAccepted, setIsOrderAccepted] = useState(false);
 
   const mapRef = useRef<YaMap>(null);
+
   const { setOrderStatus } = useTransportationStore();
   const { navigate } = useNavigation();
 
@@ -53,10 +58,16 @@ export const Order: FC<OrderPropsTypes> = (props) => {
       await geolocationService.startTracking();
       setOrderStatus(OrderStatusEnum.pending);
       await wait(1000);
-      navigate('order-accepted');
-      setLoadingAccept(false);
+      setIsOrderAccepted(true);
+      navigation.navigate('order-accepted', {
+        driver_status: DriverStatusEnum.accepted,
+        order_status: OrderStatusEnum.loading,
+        headerTitle: `${t('order')} № ${'15-020342'}`,
+      });
     } catch (error) {
       handleCatchError(error);
+    } finally {
+      setLoadingAccept(false);
     }
   };
 
@@ -92,12 +103,14 @@ export const Order: FC<OrderPropsTypes> = (props) => {
 
   return (
     <Box backgroundColor={colors.white} p={15} gap={8} flex={1}>
-      <Box row w="full" justifyContent="space-between" alignItems='center'>
-        <Box row gap={10} alignItems='center'>
+      <Box row w="full" justifyContent="space-between" alignItems="center">
+        <Box row gap={10} alignItems="center">
           <Text fontSize={12} color={colors.textSecondary} children="№" />
           <Text color={colors.text} fontWeight="bold" children={order_number} />
         </Box>
-        <OrderStatusLabel status={order_status} />
+        <OrderStatusLabel
+          status={isOrderAccepted ? OrderStatusEnum.pending : order_status}
+        />
       </Box>
 
       <Box w="full" alignItems="center" flex={1}>
@@ -198,33 +211,53 @@ export const Order: FC<OrderPropsTypes> = (props) => {
         <Text type="body_500" children="12.07.2024-30.07.2024" />
       </Box>
 
-      <Button
-        children={t('transportation-details')}
-        onPress={openTransportationDetails}
-        textColor="black"
-        backgroundColor="grey"
-        disabled={loadingAccept || loadingDecline}
-      />
-
-      <Box row w="full" gap={20} flexGrow={1}>
+      {isOrderAccepted ? (
         <Button
-          disabled={loadingAccept || loadingDecline}
-          loading={loadingDecline}
-          children={t('decline')}
-          backgroundColor="red"
-          wrapperStyle={{ flex: 1 }}
-          onPress={handleDecline}
+          children={t('to-be-executed')}
+          icon={<RightArrowIcon color={colors.white} />}
+          backgroundColor={'green'}
+          onPress={() =>
+            navigation.navigate('order-screen', {
+              driver_status: DriverStatusEnum.accepted,
+              order_status: OrderStatusEnum.pending,
+              headerTitle: `${t('order')} № ${'15-020342'}`,
+            })
+          }
         />
+      ) : (
+        <>
+          <Text children={t('transportation-time')} />
 
-        <Button
-          disabled={loadingAccept || loadingDecline}
-          loading={loadingAccept}
-          children={t('accept')}
-          backgroundColor="green"
-          wrapperStyle={{ flex: 1 }}
-          onPress={handleAccept}
-        />
-      </Box>
+          <Text type="body_500" children="12.07.2024-30.07.2024" />
+          <Button
+            children={t('transportation-details')}
+            onPress={openTransportationDetails}
+            textColor="black"
+            backgroundColor="grey"
+            disabled={loadingAccept || loadingDecline}
+          />
+
+          <Box row w="full" gap={20} flexGrow={1}>
+            <Button
+              disabled={loadingAccept || loadingDecline}
+              loading={loadingDecline}
+              children={t('decline')}
+              backgroundColor="red"
+              wrapperStyle={{ flex: 1 }}
+              onPress={handleDecline}
+            />
+
+            <Button
+              disabled={loadingAccept || loadingDecline}
+              loading={loadingAccept}
+              children={t('accept')}
+              backgroundColor="green"
+              wrapperStyle={{ flex: 1 }}
+              onPress={handleAccept}
+            />
+          </Box>
+        </>
+      )}
     </Box>
   );
 };
