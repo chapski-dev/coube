@@ -1,37 +1,35 @@
-import { ScreenProps } from '@src/navigation/types';
-import { Accordion, Box, Button, Text } from '@src/ui';
-import React, { useMemo } from 'react';
-import {
-  OrderStatus,
-  OrderStatusEnum,
-} from './MyOrdersScreen/components/OrderStatus';
-import { useAppTheme } from '@src/theme/theme';
-import { Image } from 'react-native';
-import { useLocalization } from '@src/translations/i18n';
-import SwipeButton from '@src/components/SwipeButton';
-import RhombusArrowIcon from '@assets/svg/arrow-in-a-rhombus.svg';
+import React, { useMemo, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
-import Circle from '@assets/svg/circle.svg';
-import Animated, {
+import {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import RhombusArrowIcon from '@assets/svg/arrow-in-a-rhombus.svg';
+import Circle from '@assets/svg/circle.svg';
 
-export enum DriverStatusEnum {
-  accepted = 'accepted',
-  went_to_load = 'went_to_load',
-  arrived_for_loading = 'arrived_for_loading',
-  finish_loading = 'finish_loading',
-  arrived_for_unloading = 'arrived_for_unloading',
-  finish_unloading = 'finish_uoloading',
-}
+import MapWithDistance from '@src/components/MapWithDistance';
+import SosModal from '@src/components/SosModal';
+import SwipeButton from '@src/components/SwipeButton';
+import { ScreenProps } from '@src/navigation/types';
+import { useAppTheme } from '@src/theme/theme';
+import { useLocalization } from '@src/translations/i18n';
+import { DriverStatusEnum, OrderStatusEnum } from '@src/types/order';
+import { Accordion, Box, Button, Text } from '@src/ui';
+import { modal } from '@src/ui/Layouts/ModalLayout';
+import { wait } from '@src/utils';
+import { handleCatchError } from '@src/utils/handleCatchError';
+import { openYandexMaps } from '@src/utils/yandex-maps';
+
+import { OrderStatusLabel } from './MyOrdersScreen/components/OrderStatusLabel';
+
+
 
 export const OrderScreen = ({
   navigation,
   route,
 }: ScreenProps<'order-screen'>) => {
-  const { colors } = useAppTheme();
+  const { colors, insets } = useAppTheme();
   const { t } = useLocalization();
 
   const squarePosition = useSharedValue(0);
@@ -47,22 +45,22 @@ export const OrderScreen = ({
       default:
         break;
     }
-  }, [route.params?.driver_status]);
+  }, [route.params?.driver_status, t]);
 
   const handleSubmit = () => {
     switch (route.params?.driver_status) {
       case DriverStatusEnum.accepted:
         navigation.navigate('order-screen', {
+          ...route.params,
           driver_status: DriverStatusEnum.went_to_load,
           order_status: OrderStatusEnum.pending,
-          headerTitle: `${t('order')} № ${'15-020342'}`,
         });
         break;
       case DriverStatusEnum.went_to_load:
         navigation.navigate('order-screen', {
+          ...route.params,
           driver_status: DriverStatusEnum.arrived_for_loading,
           order_status: OrderStatusEnum.loading,
-          headerTitle: `${t('order')} № ${'15-020342'}`,
         });
 
         break;
@@ -82,6 +80,131 @@ export const OrderScreen = ({
     transform: [{ translateX: squarePosition.value }],
   }));
 
+  const handleOpenYandexMaps = () => {
+    const pointA = route.params.route[0].point;
+    const pointB = route.params.route[route.params.route.length - 1].point;
+
+    openYandexMaps(pointA, pointB);
+  };
+
+  const [loadingSos, setLoadingSos] = useState(false);
+  const handleSwipeSos = async () => {
+    try {
+      setLoadingSos(true);
+      await wait(1000);
+
+      const Element = <SosModal />;
+
+      modal().setupModal?.({
+        element: Element,
+        justifyContent: 'center',
+        marginHorizontal: 20,
+      });
+    } catch (error) {
+      handleCatchError(error);
+    } finally {
+      setLoadingSos(false);
+    }
+  };
+
+  const renderContent = () => {
+
+    if(route.params?.driver_status ===
+      DriverStatusEnum.arrived_for_loading) {
+        return (
+          <>
+          <Box row gap={8} alignItems="center">
+            <Circle />
+            <Text
+              type="body_500"
+              fontSize={18}
+              children={t('order_status.loading')}
+            />
+          </Box>
+          <Box>
+            <Text children={t('loading-address')} />
+            <Text
+              type="body_500"
+              children={'г. Алматы, ул. Абая 11, Сегодня, 15:40'}
+            />
+          </Box>
+          <Box row gap={8}>
+            <Box>
+              <Text children={t('loading-weight')} />
+              <Text type="body_500" children={'15 тонн'} />
+            </Box>
+            <Box>
+              <Text children={t('loading-volume')} />
+              <Text type="body_500" children={'3000 м3'} />
+            </Box>
+          </Box>
+          <Box>
+            <Text children={t('loading-method')} />
+            <Text type="body_500" children={'Ручной'} />
+          </Box>
+          <Box row gap={8}>
+            <Box flex={1}>
+              <Text children={t('contact-person')} />
+              <Text type="body_500" children={'Ануар '} />
+            </Box>
+            <Box maxWidth={133}>
+              <Text children={t('phone')} />
+              <Text type="body_500" children={'+7 777 777 77 77'} />
+            </Box>
+            <Button
+              wrapperStyle={{ flex: 0.8 }}
+              backgroundColor="blue"
+              children={t('to-ring')}
+            />
+          </Box>
+        </>
+        )
+      }
+
+      // {route.params?.driver_status === DriverStatusEnum.went_to_load && (
+      //   <Box gap={7}>
+      //     <Box w="full" row alignItems="center">
+      //       <Circle />
+      //       <Box w={'90%'} height={8} backgroundColor={colors.disabled} />
+      //       <Circle color={colors.red} />
+      //       <Animated.View
+      //         style={[
+      //           {
+      //             alignItems: 'center',
+      //             backgroundColor: 'white',
+      //             borderColor: colors.dark_grey,
+      //             borderRadius: 5,
+      //             borderWidth: 1.3,
+      //             height: 20,
+      //             justifyContent: 'center',
+      //             left: 15,
+      //             position: 'absolute',
+      //             width: 20,
+      //           },
+      //           animatedSquareStyle,
+      //         ]}
+      //       >
+      //         <Text
+      //           color={colors.dark_grey}
+      //           fontSize={9}
+      //           fontWeight={700}
+      //           children={'1'}
+      //         />
+      //       </Animated.View>
+      //     </Box>
+      //     <Box>
+      //       <Text children={t('loading-address')} />
+      //       <Text
+      //         type="body_500"
+      //         children={'г. Алматы, ул. Абая 11, Сегодня, 15:40'}
+      //       />
+      //     </Box>
+      //   </Box>
+      // )}
+
+      return (<MapWithDistance route={route.params.route} />)
+  }
+
   return (
     <Box justifyContent="space-between" flex={1}>
       <ScrollView>
@@ -92,110 +215,10 @@ export const OrderScreen = ({
               <Text children={'15-020342'} fontWeight={700} color="black" />
             </Box>
             <Box>
-              <OrderStatus orderStatus={route.params.order_status} />
+              <OrderStatusLabel status={route.params.order_status} />
             </Box>
           </Box>
-          {route.params?.driver_status ===
-          DriverStatusEnum.arrived_for_loading ? (
-            <>
-              <Box row gap={8} alignItems="center">
-                <Circle />
-                <Text
-                  type="body_500"
-                  fontSize={18}
-                  children={t('order_status.loading')}
-                />
-              </Box>
-              <Box>
-                <Text children={t('loading-address')} />
-                <Text
-                  type="body_500"
-                  children={'г. Алматы, ул. Абая 11, Сегодня, 15:40'}
-                />
-              </Box>
-              <Box row gap={8}>
-                <Box>
-                  <Text children={t('loading-weight')} />
-                  <Text type="body_500" children={'15 тонн'} />
-                </Box>
-                <Box>
-                  <Text children={t('loading-volume')} />
-                  <Text type="body_500" children={'3000 м3'} />
-                </Box>
-              </Box>
-              <Box>
-                <Text children={t('loading-method')} />
-                <Text type="body_500" children={'Ручной'} />
-              </Box>
-              <Box row gap={8}>
-                <Box flex={1}>
-                  <Text children={t('contact-person')} />
-                  <Text type="body_500" children={'Ануар '} />
-                </Box>
-                <Box maxWidth={133}>
-                  <Text children={t('phone')} />
-                  <Text type="body_500" children={'+7 777 777 77 77'} />
-                </Box>
-                <Button
-                  wrapperStyle={{
-                    flex: 0.8,
-                  }}
-                  backgroundColor="blue"
-                  children={t('to-ring')}
-                />
-              </Box>
-            </>
-          ) : (
-            <Box alignItems="center">
-              <Image
-                source={require('@assets/png/map-orders-search-screen.png')}
-              />
-              <Box row w="full" justifyContent="flex-end">
-                <Text children={`${t('distance')}: `} />
-                <Text fontWeight={500} children={'844 км'} />
-              </Box>
-            </Box>
-          )}
-          {route.params?.driver_status === DriverStatusEnum.went_to_load && (
-            <Box gap={7}>
-              <Box w="full" row alignItems="center">
-                <Circle />
-                <Box w={'90%'} height={8} backgroundColor={colors.disabled} />
-                <Circle color={colors.red} />
-                <Animated.View
-                  style={[
-                    {
-                      width: 20,
-                      height: 20,
-                      borderWidth: 1.3,
-                      borderRadius: 5,
-                      borderColor: colors.dark_grey,
-                      backgroundColor: 'white',
-                      position: 'absolute',
-                      left: 15,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    },
-                    animatedSquareStyle,
-                  ]}
-                >
-                  <Text
-                    color={colors.dark_grey}
-                    fontSize={9}
-                    fontWeight={700}
-                    children={'1'}
-                  />
-                </Animated.View>
-              </Box>
-              <Box>
-                <Text children={t('loading-address')} />
-                <Text
-                  type="body_500"
-                  children={'г. Алматы, ул. Абая 11, Сегодня, 15:40'}
-                />
-              </Box>
-            </Box>
-          )}
+          {renderContent()}
           <Accordion
             label={t('cargo-information')}
             children={'Подробная информация о грузе...'}
@@ -215,10 +238,11 @@ export const OrderScreen = ({
               backgroundColor="light_red"
               textColor="red"
               children={t('report-carrgo-damage')}
+              onPress={()=> navigation.navigate('damage-to-cargo')}
             />
           ) : (
             <Box py={23} alignItems="center">
-              <SwipeButton onSwipe={() => null} loading={false} />
+              <SwipeButton onSwipe={handleSwipeSos} loading={loadingSos} />
             </Box>
           )}
         </Box>
@@ -226,6 +250,7 @@ export const OrderScreen = ({
       <Box
         w="full"
         py={12}
+        pb={insets.bottom}
         px={16}
         gap={16}
         borderColor={colors.border}
@@ -237,6 +262,7 @@ export const OrderScreen = ({
           children={t('go-to-the-navigator')}
           textColor="dark_grey"
           icon={<RhombusArrowIcon />}
+          onPress={handleOpenYandexMaps}
         />
       </Box>
     </Box>

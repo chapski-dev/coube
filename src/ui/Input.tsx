@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   input: {
     flexGrow: 1,
     fontSize: 15,
-    height: 50,
+    minHeight: 50,
   },
   inputError: {
     borderColor: 'red',

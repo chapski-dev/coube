@@ -2,11 +2,11 @@
 import { create } from 'zustand';
 
 import { RouteObjectType } from '@src/screens/TransportationsDetailsScreen';
-import { OrderStatusEnum } from '@src/types/order';
+import { DriverStatusEnum,OrderStatusEnum } from '@src/types/order';
 
 export interface ITransportationOrderData {
-  order_number: string | undefined;
-  driver_status: null;
+  order_number: string;
+  driver_status: DriverStatusEnum;
   order_status: OrderStatusEnum;
   name_of_cargo: string;
   type_of_cargo: string;
@@ -25,13 +25,13 @@ export interface ITransportationOrderData {
 
 interface ITransportationOrderState extends ITransportationOrderData {
   setOrderStatus: (status: OrderStatusEnum) => void;
-  setDriverStatus: (status: null) => void;
+  setDriverStatus: (status: DriverStatusEnum) => void;
   setRoute: (route: RouteObjectType[]) => void;
 }
 
 const initialState: ITransportationOrderData = {
   order_number: '0',
-  driver_status: null,
+  driver_status: DriverStatusEnum.accepted,
   order_status: OrderStatusEnum.new,
   name_of_cargo: '',
   type_of_cargo: '',
@@ -55,7 +55,7 @@ const useTransportationStore = create<ITransportationOrderState>((set) => ({
   setOrderStatus: (status: OrderStatusEnum) =>
     set((state) => ({ ...state, order_status: status })),
 
-  setDriverStatus: (status: null) =>
+  setDriverStatus: (status: DriverStatusEnum) =>
     set((state) => ({ ...state, driver_status: status })),
 
   setRoute: (route: RouteObjectType[]) =>
@@ -66,7 +66,7 @@ export default useTransportationStore;
 
 export const STATE_MOCK: ITransportationOrderData = {
   order_number: '15-020342',
-  driver_status: null,
+  driver_status: DriverStatusEnum.accepted,
   order_status: OrderStatusEnum.new,
   name_of_cargo: 'Медицинское оборудование',
   type_of_cargo: 'Деревянный короб',

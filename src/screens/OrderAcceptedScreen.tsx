@@ -1,13 +1,15 @@
 import React from 'react';
 import OrdersIcon from '@assets/svg/orders.svg';
+import dayjs from 'dayjs';
 
 import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
-import { Box, Button, Text } from '@src/ui';
 import { useLocalization } from '@src/translations/i18n';
+import { Box, Button, Text } from '@src/ui';
 
 export const OrderAcceptedScreen = ({
   navigation,
+  route,
 }: ScreenProps<'order-accepted'>) => {
   const { colors } = useAppTheme();
   const { t } = useLocalization();
@@ -27,11 +29,11 @@ export const OrderAcceptedScreen = ({
       </Box>
       <Text type="h2" children={t('order-accepted')} />
       <Box row>
-        <Text children={`${t('order-number')}: 15-020342 `} />
+        <Text children={`${t('order-number')}: ${route.params.order_number}`} />
       </Box>
       <Box mb={16} alignItems="center">
         <Text center children={`${t('date-and-time-of-loading')}:`} />
-        <Text center children=" 12.07.2024, 15:40" />
+        <Text center children={dayjs().format('DD.MM.YYYY, HH:mm')} />
       </Box>
       <Button
         children={t('perfectly')}

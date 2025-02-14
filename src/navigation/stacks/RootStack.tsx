@@ -2,10 +2,12 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { CounterOfferScreen } from '@src/screens/CounterOfferScreen';
+import DamageToCargoScreen from '@src/screens/DamageToCargoScreen';
 import { FiltersForOrdersScreen } from '@src/screens/FiltersForOrdersScreen';
 import { FromWhereScreen } from '@src/screens/FromWhereScreen';
 import { IdentityScreen } from '@src/screens/IdentityScreen';
 import { OrderAcceptedScreen } from '@src/screens/OrderAcceptedScreen';
+import { OrderScreen } from '@src/screens/OrderScreen';
 import { PowerOfAttorneyScreen } from '@src/screens/PowerOfAttorneyScreen';
 import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
 import { SearchForNewOrder } from '@src/screens/SearchForOrdersScreen/SearchForNewOrderScreen';
@@ -18,7 +20,6 @@ import { useLocalization } from '@src/translations/i18n';
 import { DocumentsScreen } from '../../screens/DocumentsScreen';
 import { Tabs } from '../Tabs';
 import { RootStackParamList } from '../types';
-import { OrderScreen } from '@src/screens/OrderScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -105,11 +106,17 @@ export const RootStack = () => {
       />
       <Stack.Screen
         options={({ route }) => ({
-          headerTitle: route.params?.headerTitle,
+          headerTitle: `Заказ № ${route.params.order_number}`,
         })}
         name="order-screen"
         component={OrderScreen}
       />
+      <Stack.Screen
+        options={{ headerTitle: 'Повреждение груза', presentation: 'modal' }}
+        name='damage-to-cargo'
+        component={DamageToCargoScreen}
+      />
+
     </Stack.Navigator>
   );
 };

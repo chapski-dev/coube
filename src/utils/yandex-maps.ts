@@ -3,9 +3,11 @@ import { DrivingInfo, Point, RoutesFoundEvent } from 'react-native-yamap';
 
 import { handleCatchError } from './handleCatchError';
 
-export const extractRouteCoordinates = (routeData: RoutesFoundEvent<DrivingInfo>) => {
-  if(routeData.status === 'error') {
-    return handleCatchError('Не удалось отобразить маршрут')
+export const extractRouteCoordinates = (
+  routeData: RoutesFoundEvent<DrivingInfo>,
+) => {
+  if (routeData.status === 'error') {
+    return handleCatchError('Не удалось отобразить маршрут');
   }
   // routeData.routes – массив маршрутов
   if (!routeData || !routeData.routes || routeData.routes.length === 0) return;
@@ -26,26 +28,21 @@ export const extractRouteCoordinates = (routeData: RoutesFoundEvent<DrivingInfo>
 
   return {
     routeCoordinates: routePoints,
-    routeDistance: distanceInKm
+    routeDistance: distanceInKm,
   };
 };
 
 export const openYandexMaps = (pointA: Point, pointB: Point) => {
-  // Формируем deep link для нативного приложения
-  const deepLinkUrl = `yandexmaps://maps.yandex.ru/?rtext=${pointA.lat},${pointA.lon}~${pointB.lat},${pointB.lon}&rtt=auto`;
-  // Формируем URL для веб-версии Яндекс.Карт
   const webUrl = `https://yandex.ru/maps/?rtext=${pointA.lat},${pointA.lon}~${pointB.lat},${pointB.lon}&rtt=auto`;
 
   // Проверяем, можно ли открыть deep link
-  Linking.canOpenURL(deepLinkUrl)
+  Linking.canOpenURL(webUrl)
     .then((supported) => {
       if (supported) {
-        // Если приложение установлено, открываем его
-        return Linking.openURL(deepLinkUrl);
-      } else {
-        // Если нет – открываем веб-версию
         return Linking.openURL(webUrl);
       }
     })
-    .catch(() => handleCatchError('Ошибка при открытии Яндекс.Карт', 'openYandexMaps'));
-}
+    .catch(() =>
+      handleCatchError('Ошибка при открытии Яндекс.Карт', 'openYandexMaps'),
+    );
+};
