@@ -2,6 +2,9 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import AddDriversLicenseScreen from '@src/screens/AddDriversLicenseScreen';
+import { BankDetailsScreen } from '@src/screens/BankDetailsScreen';
+import { CompanyConfigurationScreen } from '@src/screens/CompanyConfigurationScreen';
+import { ContactDetails } from '@src/screens/ContactDetailsScreen';
 import LaunchScreen from '@src/screens/LaunchScreen';
 import LoginScreen from '@src/screens/LoginScreen';
 import LoginViaPhoneScreen from '@src/screens/LoginViaPhoneScreen';
@@ -14,6 +17,7 @@ import RegistrationScreen from '@src/screens/RegistrationScreen';
 import RegistrationUserData from '@src/screens/RegistrationUserData';
 import SettingsProfileScreen from '@src/screens/SettingsProfileScreen';
 import { useAppTheme } from '@src/theme/theme';
+import { useLocalization } from '@src/translations/i18n';
 
 import { UnauthorizedStackParamList } from '../types';
 
@@ -21,6 +25,8 @@ const Stack = createNativeStackNavigator<UnauthorizedStackParamList>();
 
 export const UnauthorizedStack = () => {
   const { colors } = useAppTheme();
+  const { t } = useLocalization();
+
   return (
     <Stack.Navigator screenOptions={{
       headerTintColor: colors.main,
@@ -82,7 +88,21 @@ export const UnauthorizedStack = () => {
         name="performer-registration"
         component={PerformerRegistrationScreen}
       />
-
+      <Stack.Screen
+        options={{ headerTitle: t('company-customization') }}
+        name="company-configuration"
+        component={CompanyConfigurationScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: t('bank-details') }}
+        name="bank-details"
+        component={BankDetailsScreen}
+      />
+      <Stack.Screen
+        options={{ headerTitle: t('contact-details') }}
+        name="contact-details"
+        component={ContactDetails}
+      />
     </Stack.Navigator>
   );
 };

@@ -11,6 +11,10 @@
     "ru-RU": "русском",
     "kk-KZ": "казахском"
   },
+  "profile_languages": {
+    "ru-RU": "Русский",
+    "kk-KZ": "Казахский"
+  },
   "change_language": "Сменить язык",
   "my_orders_page": "страница мои заказы",
   "registration": "Регистрация",

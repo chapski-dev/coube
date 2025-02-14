@@ -11,14 +11,15 @@ import SheetIcon from '@assets/svg/sheet.svg';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import { EventBusEvents } from '@src/events';
-import { orderDetails } from '@src/mocks/order-details';
 import { ScreenProps } from '@src/navigation/types';
-import ordersService, { SectionData } from '@src/service/orders';
+import ordersService from '@src/service/orders';
+import { ITransportationOrderData } from '@src/service/transportation-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
 import { wait } from '@src/utils';
 
+import { CompletedOrderCard } from './components/CompletedOrderCard';
 import { Order } from './components/Order';
 
 const Tabs = createMaterialTopTabNavigator();
@@ -38,12 +39,12 @@ export const MyOrdersScreen = () => {
       <Tabs.Screen
         name="active"
         component={Active}
-        options={() => ({ title: 'Активные' })}
+        options={() => ({ lazy: true, title: 'Активные' })}
       />
       <Tabs.Screen
         name="сomplited"
         component={Complited}
-        options={{ title: 'Завершенные' }}
+        options={{ lazy: true, title: 'Завершенные' }}
       />
     </Tabs.Navigator>
   );
@@ -63,16 +64,14 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
     }
   };
 
-  const [ordersSections, setTransactionSections] = useState(
-    ordersService.orderSections,
-  );
+  const [orders, setOrders] = useState(ordersService.orders);
 
   useEffect(() => {
-    return ordersService.subscribe<SectionData[]>(
-      EventBusEvents.getOrderSections,
+    return ordersService.subscribe<ITransportationOrderData[]>(
+      EventBusEvents.getOrders,
       ({ payload }) => {
-        payload && setTransactionSections(payload);
-      },
+        payload && setOrders(payload);
+      }
     ).unsubscribe;
   }, []);
 
@@ -106,10 +105,7 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
           {searchOrderLoading ? <ActivityIndicator /> : <ArrowIcon />}
         </Box>
       )}
-      contentContainerStyle={{
-        gap: 16,
-        paddingBottom: insets.bottom,
-      }}
+      contentContainerStyle={{ gap: 16, paddingBottom: insets.bottom }}
       stickyHeaderIndices={[0]}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -122,8 +118,8 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
           </Box>
         </Box>
       }
-      renderItem={() => <Order {...orderDetails} />}
-      data={Array.from({ length: 5 })}
+      renderItem={({ item }) => <Order {...item} />}
+      data={orders}
       stickyHeaderHiddenOnScroll={false}
     />
   );
@@ -146,7 +142,7 @@ const Complited = ({ navigation }: ScreenProps<'orders'>) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
-      renderItem={() => <Order {...orderDetails} />}
+      renderItem={() => <CompletedOrderCard />}
       data={Array.from({ length: 5 })}
     />
   );
