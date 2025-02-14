@@ -11,8 +11,9 @@ import YaMap, { Geocoder, Marker, Point } from 'react-native-yamap';
 import Filter from '@assets/svg/filter.svg';
 import MapPointerIcon from '@assets/svg/map-pointer.svg';
 
-import { mapRoutes, orderDetails } from '@src/mocks/order-details';
+import { mapRoutes } from '@src/mocks/order-details';
 import { ScreenProps } from '@src/navigation/types';
+import { ITransportationOrderData, STATE_MOCK } from '@src/service/transportation-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
@@ -20,7 +21,6 @@ import { wait } from '@src/utils';
 import { handleCatchError } from '@src/utils/handleCatchError';
 
 import { RegionsValue } from '../FromWhereScreen';
-import { TransportationDetails } from '../TransportationsDetailsScreen';
 
 import { Order } from './components/Order';
 
@@ -55,7 +55,7 @@ export const SearchForNewOrder = ({
   const openFilters = () => navigation.push('filters-for-orders');
   const openFromWhere = () => navigation.push('from-where');
 
-  const openTransportationDetails = (details: TransportationDetails) =>
+  const openTransportationDetails = (details: ITransportationOrderData) =>
     navigation.push('transportation-details', details);
 
   const [searchingRegion, setSearchingRegion] = useState<{
@@ -197,19 +197,18 @@ export const SearchForNewOrder = ({
         renderItem={() => (
           <Order
             openTransportationDetails={() =>
-              openTransportationDetails(orderDetails)
+              openTransportationDetails(STATE_MOCK)
             }
-            companyName="ТОО «FISO»"
+            company_name="ТОО «FISO»"
             rating="4.9"
-            cargoName="Медицинское оборудование"
             category={[
               'Бытовая техника',
               '15 тонн',
               'Полуприцеп',
               '12.07.2024-30.07.2024',
             ]}
-            transportationRoute={orderDetails.transportationRoute}
-            cargoWeight="1 000 000 T"
+            price="1 000 000 ₸"
+            {...STATE_MOCK}
           />
         )}
         data={Array.from({ length: 5 })}

@@ -79,7 +79,11 @@ export const RootStack = () => {
         component={FromWhereScreen}
       />
       <Stack.Screen
-        options={{ headerTitle: '' }}
+        options={({ route }) => ({
+          headerTitle: route.params.order_number
+            ? `Заказ № ${route.params.order_number}`
+            : '',
+        })}
         name="transportation-details"
         component={TransportationDetailsScreen}
       />
@@ -98,7 +102,6 @@ export const RootStack = () => {
         name="upload-invoise-for-goods"
         component={UploadInvoiseForGoodsScreen}
       />
-
     </Stack.Navigator>
   );
 };

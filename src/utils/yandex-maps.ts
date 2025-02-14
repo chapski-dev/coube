@@ -4,6 +4,9 @@ import { DrivingInfo, Point, RoutesFoundEvent } from 'react-native-yamap';
 import { handleCatchError } from './handleCatchError';
 
 export const extractRouteCoordinates = (routeData: RoutesFoundEvent<DrivingInfo>) => {
+  if(routeData.status === 'error') {
+    return handleCatchError('Не удалось отобразить маршрут')
+  }
   // routeData.routes – массив маршрутов
   if (!routeData || !routeData.routes || routeData.routes.length === 0) return;
   const mainRoute = routeData.routes[0];

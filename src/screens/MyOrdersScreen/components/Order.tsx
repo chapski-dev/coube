@@ -6,21 +6,24 @@ import ThreeDots from '@assets/svg/three-dots.svg';
 import { useNavigation } from '@react-navigation/native';
 
 import { mapRoutes } from '@src/mocks/order-details';
-import { TransportationDetails } from '@src/screens/TransportationsDetailsScreen';
 import geolocationService from '@src/service/geolocation-service';
+import useTransportationStore, {
+  ITransportationOrderData,
+} from '@src/service/transportation-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
+import { OrderStatusEnum } from '@src/types/order';
 import { Box, Button, Text } from '@src/ui';
 import { wait } from '@src/utils';
 import { handleCatchError } from '@src/utils/handleCatchError';
 import { extractRouteCoordinates } from '@src/utils/yandex-maps';
 
-import { OrderStatus } from './OrderStatus';
+import { OrderStatusLabel } from './OrderStatusLabel';
 
-type OrderPropsTypes = TransportationDetails;
+type OrderPropsTypes = ITransportationOrderData;
 
 export const Order: FC<OrderPropsTypes> = (props) => {
-  const { orderStatus, orderNumber, cargoName, transportationRoute } = props;
+  const { order_status, order_number, name_of_cargo, route } = props;
 
   const navigation = useNavigation();
 
@@ -30,7 +33,7 @@ export const Order: FC<OrderPropsTypes> = (props) => {
   const [loadingDecline, setLoadingDecline] = useState(false);
 
   const mapRef = useRef<YaMap>(null);
-
+  const { setOrderStatus } = useTransportationStore();
   const { navigate } = useNavigation();
 
   const handleDecline = async () => {
@@ -48,6 +51,7 @@ export const Order: FC<OrderPropsTypes> = (props) => {
     try {
       setLoadingAccept(true);
       await geolocationService.startTracking();
+      setOrderStatus(OrderStatusEnum.pending);
       await wait(1000);
       navigate('order-accepted');
       setLoadingAccept(false);
@@ -87,15 +91,13 @@ export const Order: FC<OrderPropsTypes> = (props) => {
   }, [markersPints]);
 
   return (
-    <Box backgroundColor={colors.white} p={15} gap={7} flex={1}>
-      <Box row w="full" justifyContent="space-between">
-        <Box row gap={10}>
-          <Text children="№" />
-          <Text children={orderNumber} fontWeight={700} color="black" />
+    <Box backgroundColor={colors.white} p={15} gap={8} flex={1}>
+      <Box row w="full" justifyContent="space-between" alignItems='center'>
+        <Box row gap={10} alignItems='center'>
+          <Text fontSize={12} color={colors.textSecondary} children="№" />
+          <Text color={colors.text} fontWeight="bold" children={order_number} />
         </Box>
-        <Box>
-          <OrderStatus orderStatus={orderStatus} />
-        </Box>
+        <OrderStatusLabel status={order_status} />
       </Box>
 
       <Box w="full" alignItems="center" flex={1}>
@@ -113,10 +115,10 @@ export const Order: FC<OrderPropsTypes> = (props) => {
           }}
           style={{ height: 182, width: Dimensions.get('screen').width }}
         >
-          {markersPints.map((el, i, arr) => (
+          {route.map((el, i, arr) => (
             <Marker
-              key={el.lat + el.lon}
-              point={el}
+              key={el.action_address}
+              point={el.point}
               source={
                 i === 0
                   ? require('@assets/png/circle-red.png')
@@ -138,45 +140,63 @@ export const Order: FC<OrderPropsTypes> = (props) => {
         </YaMap>
       </Box>
 
-      <Box row w="full" justifyContent="flex-end">
-        <Text children={t('distance')} />
-        <Text children=": " />
-        <Text fontWeight={500} children={`${distance} км.`} />
+      <Text color={colors.dark_grey} right>
+        <Text children={`${t('distance')}: `} />
+        <Text type="body_500" children={`${distance} км.`} />
+      </Text>
+      <Box gap={4}>
+        <Text color={colors.textSecondary} children={t('cargo-name')} />
+        <Text type="body_500" children={name_of_cargo} />
       </Box>
 
-      <Text children={t('cargo-name')} />
-      <Text type="body_500" children={cargoName} />
+      <Box w="full" h={0.5} backgroundColor={colors.disabled} />
 
-      <Box w="full" h={0.5} backgroundColor={colors.dark_grey} />
-
-      <Text children={t('route')} />
-
-      <Box row gap={10} alignItems="center">
-        <Circle color="dark_grey" />
-        <Text type="body_500" children={transportationRoute[0].loadingPoint} />
-      </Box>
-
-      <Box row gap={10} alignItems="center">
-        <ThreeDots />
-        <Box row gap={5}>
-          <Text type="body_500" children="Ещё" />
-          <Text type="body_500" children={transportationRoute.length - 2} />
+      <Box gap={4}>
+        <Text color={colors.textSecondary} children={t('route')} />
+        <Box gap={8}>
+          {route.map((el, i, arr) => {
+            const isFirst = i === 0;
+            const isLast = i === arr.length - 1;
+            if (isFirst) {
+              return (
+                <Box key={i} row gap={10} alignItems="center">
+                  <Circle color="dark_grey" />
+                  <Text type="body_500" children={el.action_address} />
+                </Box>
+              );
+            }
+            if (arr.length > 2 && !isLast)
+              return (
+                <Box key={i} row gap={10} alignItems="center">
+                  <ThreeDots />
+                  <Box row gap={5}>
+                    <Text type="body_500" children="Ещё" />
+                    <Text type="body_500" children={arr.length - 2} />
+                  </Box>
+                </Box>
+              );
+            if (isLast) {
+              return (
+                <Box key={i} row gap={10} alignItems="center">
+                  <Circle color="red" />
+                  <Text
+                    type="body_500"
+                    children={route[route.length - 1].action_address}
+                  />
+                </Box>
+              );
+            }
+          })}
         </Box>
       </Box>
 
-      <Box row gap={10} alignItems="center">
-        <Circle color="red" />
+      <Box gap={4}>
         <Text
-          type="body_500"
-          children={
-            transportationRoute[transportationRoute.length - 1].loadingPoint
-          }
+          color={colors.textSecondary}
+          children={t('transportation-time')}
         />
+        <Text type="body_500" children="12.07.2024-30.07.2024" />
       </Box>
-
-      <Text children={t('transportation-time')} />
-
-      <Text type="body_500" children="12.07.2024-30.07.2024" />
 
       <Button
         children={t('transportation-details')}

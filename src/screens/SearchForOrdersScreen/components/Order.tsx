@@ -1,29 +1,27 @@
 import React, { FC } from 'react';
 import Circle from '@assets/svg/circle.svg';
 
-import { RouteObjectType } from '@src/screens/TransportationsDetailsScreen';
+import { ITransportationOrderData } from '@src/service/transportation-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Chip, Text } from '@src/ui';
 
-type OrderPropsTypes = {
+type OrderPropsTypes = ITransportationOrderData & {
   openTransportationDetails?: () => void;
-  companyName?: string;
   rating?: string;
-  cargoName?: string;
-  category?: string[];
-  transportationRoute: RouteObjectType[];
-  cargoWeight?: string;
+  category: string[]
+  company_name: string
+  price: string;
 };
 
 export const Order: FC<OrderPropsTypes> = ({
   openTransportationDetails,
-  companyName,
+  company_name,
   rating,
-  cargoName,
+  name_of_cargo,
   category,
-  transportationRoute,
-  cargoWeight
+  route,
+  price
 }) => {
   const { t } = useLocalization();
   const { colors } = useAppTheme();
@@ -31,11 +29,11 @@ export const Order: FC<OrderPropsTypes> = ({
   return (
     <Box backgroundColor={colors.white} p={15} gap={5}>
       <Box row gap={5}>
-        <Text type="body_500" children={companyName} />
+        <Text type="body_500" children={company_name} />
         <Text type="body_500" color="green" children={rating} />
       </Box>
 
-      <Text type="body_500" children={cargoName} />
+      <Text type="body_500" children={name_of_cargo} />
 
       <Box row flexWrap="wrap" gap={8}>
         {category?.map((el) => <Chip key={el} children={el} />)}
@@ -43,15 +41,15 @@ export const Order: FC<OrderPropsTypes> = ({
 
       <Box row gap={10} alignItems="center">
         <Circle color="dark_grey" />
-        <Text children={transportationRoute[0].loadingPoint} />
+        <Text children={route[0].action_address} />
       </Box>
 
       <Box row gap={10} alignItems="center">
         <Circle color="red" />
-        <Text children={transportationRoute[transportationRoute.length - 1].loadingPoint} />
+        <Text children={route[route.length - 1].action_address} />
       </Box>
 
-      <Text color="black" fontSize={18} fontWeight={900} children={cargoWeight} mb={12} />
+      <Text color="black" fontSize={18} fontWeight={900} children={price} mb={12} />
 
       <Button
         backgroundColor="grey"

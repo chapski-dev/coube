@@ -11,9 +11,9 @@ import SheetIcon from '@assets/svg/sheet.svg';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import { EventBusEvents } from '@src/events';
-import { orderDetails } from '@src/mocks/order-details';
 import { ScreenProps } from '@src/navigation/types';
-import ordersService, { SectionData } from '@src/service/orders';
+import ordersService from '@src/service/orders';
+import { ITransportationOrderData } from '@src/service/transportation-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
@@ -64,16 +64,14 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
     }
   };
 
-  const [ordersSections, setTransactionSections] = useState(
-    ordersService.orderSections,
-  );
+  const [orders, setOrders] = useState(ordersService.orders);
 
   useEffect(() => {
-    return ordersService.subscribe<SectionData[]>(
-      EventBusEvents.getOrderSections,
+    return ordersService.subscribe<ITransportationOrderData[]>(
+      EventBusEvents.getOrders,
       ({ payload }) => {
-        payload && setTransactionSections(payload);
-      },
+        payload && setOrders(payload);
+      }
     ).unsubscribe;
   }, []);
 
@@ -107,10 +105,7 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
           {searchOrderLoading ? <ActivityIndicator /> : <ArrowIcon />}
         </Box>
       )}
-      contentContainerStyle={{
-        gap: 16,
-        paddingBottom: insets.bottom,
-      }}
+      contentContainerStyle={{ gap: 16, paddingBottom: insets.bottom }}
       stickyHeaderIndices={[0]}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -123,8 +118,8 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
           </Box>
         </Box>
       }
-      renderItem={() => <Order {...orderDetails} />}
-      data={Array.from({ length: 1 })}
+      renderItem={({ item }) => <Order {...item} />}
+      data={orders}
       stickyHeaderHiddenOnScroll={false}
     />
   );

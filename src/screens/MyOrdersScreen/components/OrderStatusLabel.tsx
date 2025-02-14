@@ -1,22 +1,15 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
+import { OrderStatusEnum } from '@src/types/order';
 import { Box, Text } from '@src/ui';
 
 interface PropsType {
-	orderStatus: OrderStatusEnum
+	status: OrderStatusEnum
 }
 
-export enum OrderStatusEnum {
-	new = 'new',
-	pending = 'pending',
-	loading = 'loading',
-	processing = 'processing',
-	unloading = 'unloading'
-}
-
-export const OrderStatus: FC<PropsType> = ({ orderStatus }) => {
+export const OrderStatusLabel: FC<PropsType> = ({ status }) => {
 	const {colors} = useAppTheme()
 	const { t } = useLocalization()
 
@@ -37,8 +30,8 @@ export const OrderStatus: FC<PropsType> = ({ orderStatus }) => {
 	}
 
 	return (
-		<Box backgroundColor={colorStatus[orderStatus]} p={3} borderRadius={8} >
-			<Text color="white" children={t(statusToLocalizationKey[orderStatus])} />
+		<Box backgroundColor={colorStatus[status]} py={4} px={8} borderRadius={8} >
+			<Text color="white" children={t(statusToLocalizationKey[status])} />
 		</Box>
 	);
 };
