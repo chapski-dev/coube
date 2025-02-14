@@ -50,13 +50,15 @@ export const Order: FC<OrderPropsTypes> = (props) => {
       setLoadingAccept(true);
       await geolocationService.startTracking();
       await wait(1000);
-      setIsOrderAccepted(true),
-        navigation.navigate('order-accepted', {
-          driver_status: DriverStatusEnum.accepted,
-          order_status: OrderStatusEnum.loading,
-          headerTitle: `${t('order')} № ${'15-020342'}`,
-        });
+      setIsOrderAccepted(true);
+      navigation.navigate('order-accepted', {
+        driver_status: DriverStatusEnum.accepted,
+        order_status: OrderStatusEnum.loading,
+        headerTitle: `${t('order')} № ${'15-020342'}`,
+      });
     } catch (error) {
+      handleCatchError(error);
+    } finally {
       setLoadingAccept(false);
     }
   };

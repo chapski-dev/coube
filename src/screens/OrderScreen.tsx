@@ -49,7 +49,7 @@ export const OrderScreen = ({
     }
   }, [route.params?.driver_status]);
 
-  const driverStatusNavigation = () => {
+  const handleSubmit = () => {
     switch (route.params?.driver_status) {
       case DriverStatusEnum.accepted:
         navigation.navigate('order-screen', {
@@ -231,7 +231,7 @@ export const OrderScreen = ({
         borderColor={colors.border}
         style={{ borderTopWidth: 1 }}
       >
-        <Button children={btnText} onPress={driverStatusNavigation} />
+        <Button children={btnText} onPress={handleSubmit} />
         <Button
           backgroundColor="grey"
           children={t('go-to-the-navigator')}

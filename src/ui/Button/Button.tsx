@@ -121,7 +121,7 @@ export const Button: FC<PropsType> = ({
               style={[styles.text, { color: generateTextColor }, textStyle]}
               children={children}
             />
-            {icon && <View>{icon}</View>}
+            {icon}
           </View>
         )}
       </TouchableOpacity>
