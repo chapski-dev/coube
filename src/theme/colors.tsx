@@ -6,6 +6,7 @@ export const DefaultColors = {
   dark_grey: '#494D4E',
   disabled: '#D7D6D6',
   green: '#81CC20',
+  light_green: '#81CC20',
   grey: '#EDEDED',
   label: '#798391',
   light_grey: '#EEEEEE',

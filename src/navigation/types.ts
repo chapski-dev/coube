@@ -21,6 +21,7 @@ export type RootStackParamList = {
   'company-configuration': undefined
   'bank-details': undefined
   'contact-details': undefined
+  'signing-order-details': undefined
 }
 
 export type TabsParamList = {
