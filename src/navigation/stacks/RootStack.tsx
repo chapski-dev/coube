@@ -1,14 +1,10 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { BankDetailsScreen } from '@src/screens/BankDetailsScreen';
-import { CompanyConfigurationScreen } from '@src/screens/CompanyConfigurationScreen';
-import { ContactDetails } from '@src/screens/ContactDetailsScreen';
 import { CounterOfferScreen } from '@src/screens/CounterOfferScreen';
 import { FiltersForOrdersScreen } from '@src/screens/FiltersForOrdersScreen';
 import { FromWhereScreen } from '@src/screens/FromWhereScreen';
 import { IdentityScreen } from '@src/screens/IdentityScreen';
-import { InvoiceSentScreen } from '@src/screens/InvoiceSentScreen';
 import { OrderAcceptedScreen } from '@src/screens/OrderAcceptedScreen';
 import { PowerOfAttorneyScreen } from '@src/screens/PowerOfAttorneyScreen';
 import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
@@ -102,21 +98,7 @@ export const RootStack = () => {
         name="upload-invoise-for-goods"
         component={UploadInvoiseForGoodsScreen}
       />
-      <Stack.Screen
-        options={{ headerTitle: t('company-customization') }}
-        name="company-configuration"
-        component={CompanyConfigurationScreen}
-      />
-      <Stack.Screen
-        options={{ headerTitle: t('bank-details') }}
-        name="bank-details"
-        component={BankDetailsScreen}
-      />
-      <Stack.Screen
-        options={{ headerTitle: t('contact-details') }}
-        name="contact-details"
-        component={ContactDetails}
-      />
+
     </Stack.Navigator>
   );
 };
