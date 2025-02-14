@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Alert,
   Animated,
@@ -7,13 +7,21 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
-import YaMap, { Geocoder, Marker, Point } from 'react-native-yamap';
+import YaMap, {
+  CameraPosition,
+  Geocoder,
+  Marker,
+  Point,
+} from 'react-native-yamap';
 import Filter from '@assets/svg/filter.svg';
 import MapPointerIcon from '@assets/svg/map-pointer.svg';
 
 import { mapRoutes } from '@src/mocks/order-details';
 import { ScreenProps } from '@src/navigation/types';
-import { ITransportationOrderData, STATE_MOCK } from '@src/service/transportation-service';
+import {
+  ITransportationOrderData,
+  STATE_MOCK,
+} from '@src/service/transportation-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
@@ -29,7 +37,8 @@ export let setSearchingRegionRef: React.Dispatch<
     point: Point;
     title: string;
     value: RegionsValue;
-  }>
+    zoom: number;
+  } | null>
 > | null = null;
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
@@ -62,14 +71,8 @@ export const SearchForNewOrder = ({
     point: Point;
     title: string;
     value: RegionsValue;
-  }>({
-    point: {
-      lat: 51.143964,
-      lon: 71.435819,
-    },
-    title: 'whole-kazakstan',
-    value: RegionsValue.wholeKazakstan,
-  });
+    zoom: number;
+  } | null>(null);
 
   useEffect(() => {
     setSearchingRegionRef = setSearchingRegion;
@@ -79,10 +82,32 @@ export const SearchForNewOrder = ({
     };
   }, []);
 
+  const zoomDown = useCallback(async (zoom: number) => {
+    const position = await getCurrentPosition();
+    await wait(300);
+
+    if (mapRef.current) {
+      mapRef.current.setZoom(position.zoom * (zoom / 10), 0.3);
+    }
+  }, []);
+
   useEffect(() => {
-    onRefresh();
-    mapRef.current?.fitMarkers([searchingRegion.point])
-  }, [searchingRegion]);
+    if (searchingRegion) {
+      onRefresh();
+      mapRef.current?.fitMarkers([searchingRegion.point]);
+      zoomDown(searchingRegion.zoom);
+    }
+  }, [searchingRegion, zoomDown]);
+
+  function getCurrentPosition() {
+    return new Promise<CameraPosition>((resolve) => {
+      if (mapRef.current) {
+        mapRef.current.getCameraPosition((position) => {
+          resolve(position);
+        });
+      }
+    });
+  }
 
   const mapRef = useRef<YaMap>(null);
 
@@ -99,7 +124,7 @@ export const SearchForNewOrder = ({
 
   useEffect(() => {
     if (markersPints.length && mapRef?.current) {
-      mapRef?.current?.fitAllMarkers();
+      mapRef.current.fitAllMarkers();
     }
   }, [markersPints]);
 
@@ -154,7 +179,7 @@ export const SearchForNewOrder = ({
       <Box row justifyContent="space-between" px={15}>
         <Box row alignItems="center" gap={3} onPress={openFromWhere}>
           <MapPointerIcon />
-          <Text children={t(searchingRegion.title)} />
+          <Text children={t(searchingRegion?.title || 'whole-kazakstan')} />
         </Box>
         <Box row alignItems="center" gap={3} onPress={openFilters}>
           <Filter />

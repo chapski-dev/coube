@@ -23,7 +23,8 @@ const REGIONS = [
       lon: 71.435819
     },
     title: 'whole-kazakstan',
-    value: RegionsValue.wholeKazakstan
+    value: RegionsValue.wholeKazakstan,
+    zoom: 2,
   },
   {
     point: {
@@ -32,6 +33,7 @@ const REGIONS = [
     },
     title: 'astana',
     value: RegionsValue.astana,
+    zoom: 6.5,
   },
   {
     point: {
@@ -40,6 +42,7 @@ const REGIONS = [
     },
     title: 'almaty',
     value: RegionsValue.almaty,
+    zoom: 6.5,
   },
   {
     point: {
@@ -48,6 +51,7 @@ const REGIONS = [
     },
     title: 'shimkent',
     value: RegionsValue.shimkent,
+    zoom: 6.5,
   },
   {
     point: {
@@ -56,6 +60,7 @@ const REGIONS = [
     },
     title: 'almatynskaya-oblast',
     value: RegionsValue.almatynskayaOblast,
+    zoom: 3,
   },
   {
     point: {
@@ -64,6 +69,7 @@ const REGIONS = [
     },
     title: 'akmolinskaya-oblast',
     value: RegionsValue.akmolinskayaOblast,
+    zoom: 3,
   },
 ];
 
