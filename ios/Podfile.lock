@@ -1350,7 +1350,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context (5.1.0):
+  - react-native-safe-area-context (5.2.0):
     - React-Core
   - React-nativeconfig (0.75.4)
   - React-NativeModulesApple (0.75.4):
@@ -1619,7 +1619,7 @@ PODS:
     - React-Core
   - RNBootSplash (6.3.3):
     - React-Core
-  - RNCAsyncStorage (2.1.0):
+  - RNCAsyncStorage (2.1.1):
     - React-Core
   - RNFBApp (21.7.1):
     - Firebase/CoreOnly (= 11.7.0)
@@ -1787,7 +1787,11 @@ PODS:
     - Yoga
   - RNSVG (15.11.1):
     - React-Core
+  - RNYamap (4.8.3):
+    - React
+    - YandexMapsMobile (= 4.8.0-full)
   - SocketRocket (0.7.0)
+  - YandexMapsMobile (4.8.0-full)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1872,6 +1876,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - RNYamap (from `../node_modules/react-native-yamap`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1888,6 +1893,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - SocketRocket
+    - YandexMapsMobile
 
 EXTERNAL SOURCES:
   boost:
@@ -2049,6 +2055,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  RNYamap:
+    :path: "../node_modules/react-native-yamap"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -2104,7 +2112,7 @@ SPEC CHECKSUMS:
   react-native-month-year-picker: 8b72e984757e47e08fece220fa09fcdf1816203d
   react-native-netinfo: cec9c4e86083cb5b6aba0e0711f563e2fbbff187
   react-native-pager-view: 1b70e63833fef9845f895d5ca0bad88cb4267938
-  react-native-safe-area-context: e134b241010ebe2aacdcea013565963d13826faa
+  react-native-safe-area-context: 3e33e7c43c8b74dba436a5a32651cb8d7064c740
   React-nativeconfig: 31072ab0146e643594f6959c7f970a04b6c9ddd0
   React-NativeModulesApple: 356d0eb7e3b79603e9d611cd3bac658a998c71db
   React-perflogger: 59e1a3182dca2cee7b9f1f7aab204018d46d1914
@@ -2134,7 +2142,7 @@ SPEC CHECKSUMS:
   RNBackgroundFetch: 005d4742a64a511ea54cf2929ace9f0804a7c511
   RNBackgroundGeolocation: d0caaa6cfd309e1e76757001ba8eda858cb60ab3
   RNBootSplash: 2a9d2de139a6f8a84a0f1728ac40f3e7b167e15a
-  RNCAsyncStorage: c91d753ede6dc21862c4922cd13f98f7cfde578e
+  RNCAsyncStorage: af7b591318005069c3795076addc83a4dd5c0a2e
   RNFBApp: 32f7425af42aef99472dd46e14222cb0a8a17504
   RNFBMessaging: 993c913f7a037104b5ae02cadf7fc191545ceb51
   RNGestureHandler: 49f8b57c9492409c46b30585dfa2120626963ffb
@@ -2143,7 +2151,9 @@ SPEC CHECKSUMS:
   RNReanimated: 6a154e630ecc4c87c287f6eeda201f06b01428ba
   RNScreens: ede3944a7dc2e9e548010c23c18b70b1c84e41a4
   RNSVG: 46769c92d1609e617dbf9326ad8a0cff912d0982
+  RNYamap: e9e022763db4b546333d68af89f93d3313d028dd
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
+  YandexMapsMobile: 576340ead47bb112b6387eac1e605cfe7565c162
   Yoga: a9ef4f5c2cd79ad812110525ef61048be6a582a4
 
 PODFILE CHECKSUM: f258a61208fd28d62a6a913f92e82ae7b35a781a

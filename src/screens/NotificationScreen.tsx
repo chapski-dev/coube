@@ -6,48 +6,43 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
 import { useAppTheme } from '@src/theme/theme';
+import { OrderStatusEnum } from '@src/types/order';
 import { Box, Text } from '@src/ui';
 
-export enum OrderStatus {
-  OrderAccepted = 'Заказ принят!',
-  NewOrder = 'У вас новый заказ!',
-  NewTransport = 'Назначен новый транспорт',
-}
-
 type OrderData =
-  | { status: OrderStatus; orderNumber: string }
-  | { status: OrderStatus; carModel?: string; stateNumber?: string };
+  | { status: OrderStatusEnum; orderNumber: string }
+  | { status: OrderStatusEnum; carModel?: string; stateNumber?: string };
 
 const DATA: OrderData[] = [
-  { orderNumber: '№ 15-020342', status: OrderStatus.OrderAccepted },
-  { orderNumber: '№ 15-020342', status: OrderStatus.NewOrder },
+  { orderNumber: '№ 15-020342', status: OrderStatusEnum.pending },
+  { orderNumber: '№ 15-020342', status: OrderStatusEnum.new },
   {
     carModel: 'FAW J7',
     stateNumber: '123 BOK 02',
-    status: OrderStatus.NewTransport,
+    status: OrderStatusEnum.processing,
   },
 ];
 
 export const NotificationScreen = () => {
-  const { colors } = useAppTheme();
+  const { colors, insets } = useAppTheme();
   const today = format(new Date(), 'dd MMMM', { locale: ru });
 
-  const getStatusIcon = (status: OrderStatus) => {
+  const getStatusIcon = (status: OrderStatusEnum) => {
     const iconProps = { borderRadius: 4, px: 6, py: 6 };
     switch (status) {
-      case OrderStatus.OrderAccepted:
+      case OrderStatusEnum.pending:
         return (
           <Box backgroundColor={colors.green} {...iconProps}>
             <Orders color={colors.white} />
           </Box>
         );
-      case OrderStatus.NewOrder:
+      case OrderStatusEnum.new:
         return (
           <Box backgroundColor={colors.blue} {...iconProps}>
             <Orders color={colors.white} />
           </Box>
         );
-      case OrderStatus.NewTransport:
+      case OrderStatusEnum.processing:
         return (
           <Box backgroundColor={colors.blue} {...iconProps}>
             <Transport color={colors.white} />
@@ -60,16 +55,19 @@ export const NotificationScreen = () => {
 
   return (
     <SectionList
-      sections={[{ data: DATA, title: today }]}
+      ListFooterComponent={() => <Box h={insets.bottom} />}
+      sections={[
+        { data: DATA, title: today },
+        { data: DATA, title: today },
+        { data: [...DATA, ...DATA], title: today },
+      ]}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({ item }) => (
         <Box
           borderWidth={1}
           borderRadius={4}
           borderColor={colors.border}
-          mx={17}
           p={8}
-          mt={8}
           gap={8}
           row
           alignItems="flex-start"
@@ -94,16 +92,23 @@ export const NotificationScreen = () => {
           </Box>
         </Box>
       )}
+      stickySectionHeadersEnabled={false}
       renderSectionHeader={({ section: { title } }) => (
-        <Box mt={16} mx={17}>
-          <Text type="label" color={colors.dark_grey} children={title} />
-        </Box>
+        <Text
+          mt={17}
+          mb={4}
+          type="label"
+          color={colors.dark_grey}
+          children={title}
+        />
       )}
-      contentContainerStyle={{flexGrow: 1}}
+      contentContainerStyle={{ flexGrow: 1, marginHorizontal: 16 }}
+      ItemSeparatorComponent={() => <Box h={5} />}
       ListEmptyComponent={
-        <Box flex={1} justifyContent='center' alignItems='center'>
+        <Box flex={1} justifyContent="center" alignItems="center">
           <Text children="У вас пока нет уведомлений" />
-        </Box>}
+        </Box>
+      }
     />
   );
 };

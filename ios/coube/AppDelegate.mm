@@ -4,6 +4,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <Firebase.h>
 #import <TSBackgroundFetch/TSBackgroundFetch.h>
+#import <YandexMapsMobile/YMKMapKitFactory.h>
 
 @implementation AppDelegate
 
@@ -13,6 +14,9 @@
   [[TSBackgroundFetch sharedInstance] didFinishLaunching];
 
   [FIRApp configure];
+  [YMKMapKit setLocale:@"ru_RU"];
+  [YMKMapKit setApiKey:@"API_KEY"];
+  
   self.moduleName = @"coube";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.

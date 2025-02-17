@@ -9,6 +9,7 @@ export const InvoiceSentScreen = ({
   navigation,
 }: ScreenProps<'invoice-sent'>) => {
   const { colors } = useAppTheme();
+
   return (
     <Box
       pt={45}
@@ -31,7 +32,7 @@ export const InvoiceSentScreen = ({
         borderColor={colors.border}
         style={{ borderTopWidth: 1 }}
       >
-        <Button children="Перейти к заказу" />
+        <Button children="Перейти к заказу" onPress={navigation.goBack} />
       </Box>
     </Box>
   );

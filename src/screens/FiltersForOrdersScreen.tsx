@@ -1,44 +1,13 @@
-import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
+import { Alert, ScrollView } from 'react-native';
 
 import { ScreenProps } from '@src/navigation/types';
+import { useFiltersForOrdersStore } from '@src/service/filters-for-order';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
-import { Box, Button, Input, Text } from '@src/ui';
-import Checkbox from '@src/ui/Checkbox';
+import { Box, Button, Checkbox,Input, Text } from '@src/ui';
 import { wait } from '@src/utils';
 import { handleCatchError } from '@src/utils/handleCatchError';
-
-const initialFiltersState = {
-  FAWJ7: false,
-  FTLTransportations: false,
-  Gaz2310Sobol: false,
-  LTLTransportations: false,
-  SanySYZ320: false,
-  board: false,
-  buildingMaterials: false,
-  bulkMaterials: false,
-  cargoWeightFrom: '',
-  cargoWeightTo: '',
-  cityTransportations: false,
-  container: false,
-  deliveryPriceFrom: '',
-  deliveryPriceTo: '',
-  foodProducts: false,
-  householdAppliances: false,
-  industrial: false,
-  isotherm: false,
-  lateral: false,
-  loadCapacityFrom: '',
-  loadCapacityTo: '',
-  manual: false,
-  rear: false,
-  refrigerator: false,
-  routeFrom: '',
-  routeTo: '',
-  tent: false,
-  upper: false,
-};
 
 export const FiltersForOrdersScreen = ({
   navigation,
@@ -46,7 +15,8 @@ export const FiltersForOrdersScreen = ({
   const { t } = useLocalization();
   const { colors, insets } = useAppTheme();
 
-  const [statesObject, setStatesObject] = useState(initialFiltersState);
+  const filter = useFiltersForOrdersStore();
+  const { setFilter, resetFilters } = filter;
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
@@ -60,6 +30,28 @@ export const FiltersForOrdersScreen = ({
       setLoading(false);
     }
   };
+
+  const handleOpenResetFiltersAlert = useCallback(() => {
+    Alert.alert('Желаете сбросить фильтры?', undefined, [
+      {
+        onPress: () => null,
+        text: 'Отмена',
+      },
+      {
+        onPress: resetFilters,
+        style: 'destructive',
+        text: 'Сбросить',
+      },
+    ]);
+  },[resetFilters])
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <Text children="Сбросить" onPress={handleOpenResetFiltersAlert} />
+    })
+  }, [navigation, handleOpenResetFiltersAlert])
+  
+
   return (
     <ScrollView
       contentContainerStyle={{
@@ -73,183 +65,161 @@ export const FiltersForOrdersScreen = ({
         <Box gap={10}>
           <Checkbox
             children={t('bulk-materials')}
-            selected={statesObject.bulkMaterials}
+            selected={filter.bulk_materials}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                bulkMaterials: !state.bulkMaterials,
-              }))
+              setFilter({
+                bulk_materials: !filter.bulk_materials,
+              })
             }
           />
           <Checkbox
             children={t('ftl-transportations')}
-            selected={statesObject.FTLTransportations}
+            selected={filter.ftl_transportations}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                FTLTransportations: !state.FTLTransportations,
-              }))
+              setFilter({
+                ftl_transportations: !filter.ftl_transportations,
+              })
             }
           />
           <Checkbox
-            children="БоковПеревозки по городу"
-            selected={statesObject.cityTransportations}
+            children="Перевозки по городу"
+            selected={filter.city_transportations}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                cityTransportations: !state.cityTransportations,
-              }))
+              setFilter({
+                city_transportations: !filter.city_transportations,
+              })
             }
           />
           <Checkbox
             children={t('ltl-transportations')}
-            selected={statesObject.LTLTransportations}
+            selected={filter.ltl_transportations}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                LTLTransportations: !state.LTLTransportations,
-              }))
+              setFilter({
+                ltl_transportations: !filter.ltl_transportations,
+              })
             }
           />
         </Box>
       </Box>
-
+  
       <Box gap={10}>
         <Text type="body_500" children={t('transportation-route')} />
         <Box gap={10}>
           <Input
             placeholder={t('from-where')}
-            value={statesObject.routeFrom}
-            onChangeText={(text) => {
-              setStatesObject((state) => ({ ...state, routeFrom: text }));
-            }}
+            value={filter.route_from}
+            onChangeText={(text) => setFilter({ route_from: text })}
           />
           <Input
             placeholder={t('to-where')}
-            value={statesObject.routeTo}
-            onChangeText={(text) => {
-              setStatesObject((state) => ({ ...state, routeTo: text }));
-            }}
+            value={filter.route_to}
+            onChangeText={(text) => setFilter({ route_to: text })}
           />
         </Box>
       </Box>
-
+  
       <Box gap={10}>
         <Text type="body_500" children={t('payload-capacity')} />
         <Box gap={10}>
           <Input
             placeholder={t('from-where')}
-            value={statesObject.loadCapacityFrom}
+            value={filter.load_capacity_from}
             onChangeText={(text) => {
-              setStatesObject((state) => ({
-                ...state,
-                loadCapacityFrom: text,
-              }));
+              setFilter({
+                load_capacity_from: text,
+              });
             }}
           />
           <Input
             placeholder={t('to-where')}
-            value={statesObject.loadCapacityTo}
-            onChangeText={(text) => {
-              setStatesObject((state) => ({ ...state, loadCapacityTo: text }));
-            }}
+            value={filter.load_capacity_to}
+            onChangeText={(text) => setFilter({ load_capacity_to: text })}
           />
         </Box>
       </Box>
-
+  
       <Box gap={10}>
         <Text type="body_500" children={t('cargo-type')} />
         <Box gap={10}>
           <Checkbox
             children={t('food-products')}
-            selected={statesObject.foodProducts}
+            selected={filter.food_products}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                foodProducts: !state.foodProducts,
-              }))
+              setFilter({
+                food_products: !filter.food_products,
+              })
             }
           />
           <Checkbox
             children={t('building-materials')}
-            selected={statesObject.buildingMaterials}
+            selected={filter.building_materials}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                buildingMaterials: !state.buildingMaterials,
-              }))
+              setFilter({
+                building_materials: !filter.building_materials,
+              })
             }
           />
           <Checkbox
             children={t('household-appliances')}
-            selected={statesObject.householdAppliances}
+            selected={filter.household_appliances}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                householdAppliances: !state.householdAppliances,
-              }))
+              setFilter({
+                household_appliances: !filter.household_appliances,
+              })
             }
           />
           <Text type="body_500" color={colors.main} children={t('load-more')} />
         </Box>
       </Box>
-
+  
       <Box gap={10}>
         <Text type="body_500" children={t('vehicle-body-type')} pt={20} />
         <Box gap={10}>
           <Checkbox
             children={t('container')}
-            selected={statesObject.container}
+            selected={filter.container}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                container: !state.container,
-              }))
+              setFilter({
+                container: !filter.container,
+              })
             }
           />
           <Checkbox
             children={t('isotherm')}
-            selected={statesObject.isotherm}
+            selected={filter.isotherm}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                isotherm: !state.isotherm,
-              }))
+              setFilter({
+                isotherm: !filter.isotherm,
+              })
             }
           />
           <Checkbox
             children={t('refrigerator')}
-            selected={statesObject.refrigerator}
+            selected={filter.refrigerator}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                refrigerator: !state.refrigerator,
-              }))
+              setFilter({
+                refrigerator: !filter.refrigerator,
+              })
             }
           />
           <Checkbox
             children={t('tent')}
-            selected={statesObject.tent}
-            onPress={() =>
-              setStatesObject((state) => ({ ...state, tent: !state.tent }))
-            }
+            selected={filter.tent}
+            onPress={() => setFilter({ tent: !filter.tent })}
           />
           <Checkbox
             children={t('industrial')}
-            selected={statesObject.industrial}
+            selected={filter.industrial}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                industrial: !state.industrial,
-              }))
+              setFilter({
+                industrial: !filter.industrial,
+              })
             }
           />
           <Checkbox
             children={t('board')}
-            selected={statesObject.board}
-            onPress={() =>
-              setStatesObject((state) => ({ ...state, board: !state.board }))
-            }
+            selected={filter.board}
+            onPress={() => setFilter({ board: !filter.board })}
           />
         </Box>
       </Box>
@@ -258,117 +228,105 @@ export const FiltersForOrdersScreen = ({
         <Box gap={10}>
           <Input
             placeholder={t('from-where')}
-            value={statesObject.cargoWeightFrom}
+            value={filter.cargo_weight_from}
             onChangeText={(text) => {
-              setStatesObject((state) => ({ ...state, cargoWeightFrom: text }));
+              setFilter({ cargo_weight_from: text });
             }}
           />
           <Input
             placeholder={t('to-where')}
-            value={statesObject.cargoWeightTo}
+            value={filter.cargo_weight_to}
             onChangeText={(text) => {
-              setStatesObject((state) => ({ ...state, cargoWeightTo: text }));
+              setFilter({ cargo_weight_to: text });
             }}
           />
         </Box>
       </Box>
-
+  
       <Box gap={10}>
         <Text type="body_500" children={t('price-of-delivery')} />
         <Box gap={10}>
           <Input
             placeholder={t('from-where')}
-            value={statesObject.deliveryPriceFrom}
+            value={filter.delivery_price_from}
             onChangeText={(text) => {
-              setStatesObject((state) => ({
-                ...state,
-                deliveryPriceFrom: text,
-              }));
+              setFilter({
+                delivery_price_from: text,
+              });
             }}
           />
           <Input
             placeholder={t('to-where')}
-            value={statesObject.deliveryPriceTo}
+            value={filter.delivery_price_to}
             onChangeText={(text) => {
-              setStatesObject((state) => ({ ...state, deliveryPriceTo: text }));
+              setFilter({ delivery_price_to: text });
             }}
           />
         </Box>
       </Box>
-
+  
       <Box gap={10}>
         <Text type="body_500" children={t('loading-method')} />
         <Box gap={10}>
           <Checkbox
             children={t('manual')}
-            selected={statesObject.manual}
-            onPress={() =>
-              setStatesObject((state) => ({ ...state, manual: !state.manual }))
-            }
+            selected={filter.manual}
+            onPress={() => setFilter({ manual: !filter.manual })}
           />
           <Checkbox
             children={t('upper')}
-            selected={statesObject.upper}
-            onPress={() =>
-              setStatesObject((state) => ({ ...state, upper: !state.upper }))
-            }
+            selected={filter.upper}
+            onPress={() => setFilter({ upper: !filter.upper })}
           />
           <Checkbox
             children={t('lateral')}
-            selected={statesObject.lateral}
+            selected={filter.lateral}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                lateral: !state.lateral,
-              }))
+              setFilter({
+                lateral: !filter.lateral,
+              })
             }
           />
           <Checkbox
             children={t('rear')}
-            selected={statesObject.rear}
-            onPress={() =>
-              setStatesObject((state) => ({ ...state, rear: !state.rear }))
-            }
+            selected={filter.rear}
+            onPress={() => setFilter({ rear: !filter.rear })}
           />
         </Box>
       </Box>
-
+  
       <Box gap={10}>
         <Text type="body_500" children={t('outside-my-transport')} />
-
+  
         <Box gap={10}>
           <Checkbox
             children={t('fawj7')}
-            selected={statesObject.FAWJ7}
-            onPress={() =>
-              setStatesObject((state) => ({ ...state, FAWJ7: !state.FAWJ7 }))
-            }
+            selected={filter.fawj7}
+            onPress={() => setFilter({ fawj7: !filter.fawj7 })}
           />
           <Checkbox
             children={t('sanysyz320')}
-            selected={statesObject.SanySYZ320}
+            selected={filter.sany_syz_320}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                SanySYZ320: !state.SanySYZ320,
-              }))
+              setFilter({
+                sany_syz_320: !filter.sany_syz_320,
+              })
             }
           />
           <Checkbox
             children={t('gaz2310sobol')}
-            selected={statesObject.Gaz2310Sobol}
+            selected={filter.gaz_2310_sobol}
             onPress={() =>
-              setStatesObject((state) => ({
-                ...state,
-                Gaz2310Sobol: !state.Gaz2310Sobol,
-              }))
+              setFilter({
+                gaz_2310_sobol: !filter.gaz_2310_sobol,
+              })
             }
           />
         </Box>
       </Box>
-
+  
       <Box />
-
+  
       <Button
         children={t('show')}
         onPress={handleSubmit}

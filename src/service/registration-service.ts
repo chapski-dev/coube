@@ -13,40 +13,55 @@ const registrationService = () => {
   let _driversLicencePhotoUri = '';
   let _isDriverLicenceSended = false;
 
+  const setPhone = (phone: string) => {
+    _phone = phone;
+  };
+  const setIin = (iin: string) => {
+    _iin = iin;
+  };
+  const setFirstName = (firstName: string) => {
+    _firstName = firstName;
+  };
+  const setSurname = (surname: string) => {
+    _surname = surname;
+  };
+  const setMiddleName = (middleName: string) => {
+    _middleName = middleName;
+  };
 
-  const setPhone = (phone: string) => { _phone = phone };
-  const setIin = (iin: string) => { _iin = iin };
-  const setFirstName = (firstName: string) => { _firstName = firstName };
-  const setSurname = (surname: string) => { _surname = surname };
-  const setMiddleName = (middleName: string) => { _middleName = middleName };
+  const setPasportIssuedBy = (pasportIssuedBy: string) => {
+    _pasportIssuedBy = pasportIssuedBy;
+  };
 
-  const setPasportIssuedBy = (pasportIssuedBy: string) => { _pasportIssuedBy = pasportIssuedBy };
-
-  const setIsRezident = (isRezident: boolean) => { _isRezident = isRezident };
+  const setIsRezident = (isRezident: boolean) => {
+    _isRezident = isRezident;
+  };
   const getIsRezident = () => _isRezident;
 
   const setPersonalIdentifierPhotoBase64 = (photo: string) => {
-     _personalIdentifierPhotoBase64 = photo 
+    _personalIdentifierPhotoBase64 = photo;
   };
   const getPersonalIdentifierPhotoBase64 = () => _personalIdentifierPhotoBase64;
 
   const setPersonalIdentifierPhotoUri = (uri: string) => {
-    _personalIdentifierPhotoUri = uri 
- };
- const getPersonalIdentifierPhotoUri = () => _personalIdentifierPhotoUri;
+    _personalIdentifierPhotoUri = uri;
+  };
+  const getPersonalIdentifierPhotoUri = () => _personalIdentifierPhotoUri;
 
+  const setDriversLicencePhotoBase64 = (photo: string) => {
+    _driversLicencePhotoBase64 = photo;
+  };
+  const getDriversLicencePhotoBase64 = () => _driversLicencePhotoBase64;
 
- const setDriversLicencePhotoBase64 = (photo: string) => {
-  _driversLicencePhotoBase64 = photo 
-};
-const getDriversLicencePhotoBase64 = () => _driversLicencePhotoBase64;
-
-const setDriversLicencePhotoUri = (uri: string) => {
- _driversLicencePhotoUri = uri 
-};
-const getDriversLicencePhotoUri = () => _driversLicencePhotoUri;
-const setIsDriverLicenceSended = (val: boolean) => { _isDriverLicenceSended = val }
-const getIsDriverLicenceSended = () => _isDriverLicenceSended;
+  const setDriversLicencePhotoUri = (uri: string) => {
+    _driversLicencePhotoUri = uri;
+  };
+  const getDriversLicencePhotoUri = () => _driversLicencePhotoUri;
+  
+  const setIsDriverLicenceSended = (val: boolean) => {
+    _isDriverLicenceSended = val;
+  };
+  const getIsDriverLicenceSended = () => _isDriverLicenceSended;
 
   const getUserData = () => ({
     citizenship: _citizenship,
@@ -57,7 +72,7 @@ const getIsDriverLicenceSended = () => _isDriverLicenceSended;
     pasportIssuedBy: _pasportIssuedBy,
     personalIdentifierPhotoBase64: _personalIdentifierPhotoBase64,
     phone: _phone,
-    surname: _surname
+    surname: _surname,
   });
 
   const wipeData = () => {
@@ -69,8 +84,7 @@ const getIsDriverLicenceSended = () => _isDriverLicenceSended;
     _pasportIssuedBy = '';
     _citizenship = '';
     _isRezident = false;
-    _personalIdentifierPhotoBase64 = ''
-    
+    _personalIdentifierPhotoBase64 = '';
   };
 
   return {
@@ -97,4 +111,4 @@ const getIsDriverLicenceSended = () => _isDriverLicenceSended;
   };
 };
 
-export default registrationService()
+export default registrationService();

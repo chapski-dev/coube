@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, ReactNode } from 'react';
 import {
   ActivityIndicator,
   StyleProp,
@@ -13,10 +13,14 @@ import { merge } from 'lodash';
 
 import { AppLightTheme, useAppTheme } from '@src/theme/theme';
 
-import { clearStyle, commonStytle, filledStyle, outlineStyle } from './Button.styles';
+import {
+  clearStyle,
+  commonStytle,
+  filledStyle,
+  outlineStyle,
+} from './Button.styles';
 
 type ButtonType = keyof typeof typeStyle;
-
 
 interface PropsType extends ViewProps {
   disabled?: boolean;
@@ -26,10 +30,11 @@ interface PropsType extends ViewProps {
   buttonStyle?: StyleProp<ViewStyle>;
   buttonDisabledStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
-  type?: ButtonType
+  type?: ButtonType;
   backgroundColor?: keyof typeof AppLightTheme.colors;
   textColor?: keyof typeof AppLightTheme.colors;
   borderColor?: keyof typeof AppLightTheme.colors;
+  icon?: ReactNode;
 }
 
 const typeStyle = {
@@ -51,6 +56,7 @@ export const Button: FC<PropsType> = ({
   backgroundColor,
   textColor,
   borderColor,
+  icon,
 }) => {
   const { colors } = useAppTheme();
   const styles = useMemo(() => typeStyle[type], [type]);
@@ -67,9 +73,9 @@ export const Button: FC<PropsType> = ({
   }, [backgroundColor, colors, type]);
 
   const generateTextColor = useMemo(() => {
-    if(textColor){
+    if (textColor) {
       return colors[textColor];
-    } else if (type === 'filled' && !textColor ) {
+    } else if (type === 'filled' && !textColor) {
       return colors.textDefaultReverse;
     } else {
       return colors.textDefault;
@@ -77,9 +83,9 @@ export const Button: FC<PropsType> = ({
   }, [colors, textColor, type]);
 
   const generateBorderColor = useMemo(() => {
-    if(borderColor){
+    if (borderColor) {
       return colors[borderColor];
-    } else if (type === 'outline' && !borderColor ) {
+    } else if (type === 'outline' && !borderColor) {
       return colors.black;
     }
   }, [colors, borderColor]);
@@ -88,20 +94,36 @@ export const Button: FC<PropsType> = ({
     <View style={[styles.wrapper, wrapperStyle]}>
       <TouchableOpacity
         activeOpacity={0.3}
-        style={disabled ? [
-          styles.button,
-          buttonStyle,
-          styles.buttonDisabled,
-          buttonDisabledStyle,
-          { backgroundColor: generateBgColor },
-        ] : [styles.button,
-          buttonStyle,
-        { backgroundColor: generateBgColor },
-        { borderColor: generateBorderColor },
-        ]}
+        style={
+          disabled
+            ? [
+                styles.button,
+                buttonStyle,
+                styles.buttonDisabled,
+                buttonDisabledStyle,
+                { backgroundColor: generateBgColor },
+              ]
+            : [
+                styles.button,
+                buttonStyle,
+                { backgroundColor: generateBgColor },
+                { borderColor: generateBorderColor },
+              ]
+        }
         disabled={disabled}
-        onPress={onPress}>
-        {loading ? <ActivityIndicator color="white" /> : <Text style={[styles.text, {color: generateTextColor}, textStyle]} children={children} />}
+        onPress={onPress}
+      >
+        {loading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+            <Text
+              style={[styles.text, { color: generateTextColor }, textStyle]}
+              children={children}
+            />
+            {icon}
+          </View>
+        )}
       </TouchableOpacity>
     </View>
   );

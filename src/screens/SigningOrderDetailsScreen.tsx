@@ -4,13 +4,12 @@ import CompanyLogoIcon from '@assets/svg/company-logo.svg';
 
 import { TransportationRoute } from '@src/components/TransportationRoute';
 import { extendedOrderDetails } from '@src/mocks/extended-order-details';
-import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
+import { OrderStatusEnum } from '@src/types/order';
 import { Box, Button, Text } from '@src/ui';
 import { Accordion } from '@src/ui/Accordion';
 
-import { OrderStatusEnum } from './MyOrdersScreen/components/OrderStatus';
 import { RouteObjectType } from './TransportationsDetailsScreen';
 
 export type SigningTransportationDetails = {
@@ -31,8 +30,8 @@ export type SigningTransportationDetails = {
   cargo_name: string;
   cargo_type: string;
   tare_type: string;
-  cargo_weight: string;
-  cargo_volume: string;
+  cargo_weight_gross: string;
+  cargo_volume_gross: string;
   additional_cargo_information: string;
   transportation_route: RouteObjectType[];
   moving_service: string;
@@ -62,8 +61,8 @@ export const SigningOrderDetailsScreen = () => {
     cargo_name,
     cargo_type,
     tare_type,
-    cargo_weight,
-    cargo_volume,
+    cargo_weight_gross,
+    cargo_volume_gross,
     additional_cargo_information,
     transportation_route,
     moving_service,
@@ -234,11 +233,11 @@ export const SigningOrderDetailsScreen = () => {
           <Box>
             <Box>
               <Text children={t('cargo-weight-brutto')} />
-              <Text type="body_500" children={cargo_weight} />
+              <Text type="body_500" children={cargo_weight_gross} />
             </Box>
             <Box>
               <Text children={t('cargo-volume-brutto')} />
-              <Text type="body_500" children={cargo_volume} />
+              <Text type="body_500" children={cargo_volume_gross} />
             </Box>
           </Box>
 

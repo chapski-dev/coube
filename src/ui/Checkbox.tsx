@@ -14,10 +14,10 @@ const Checkbox = ({ selected, children, onPress }: SelectProps) => {
   const { colors } = useAppTheme();
 
   return (
-    <Box onPress={onPress} row gap={8} alignItems="center" w="full">
+    <Box onPress={onPress} row gap={8} h={30} alignItems="center" w="full" >
       <Box
-        w={15}
-        h={15}
+        w={20}
+        h={20}
         borderColor={colors.disabled}
         borderWidth={1}
         alignItems="center"
@@ -25,7 +25,7 @@ const Checkbox = ({ selected, children, onPress }: SelectProps) => {
         borderRadius={5}
       >
         {selected && (
-          <Box w={10} h={10} backgroundColor={colors.main} borderRadius={3} />
+          <Box w={15} h={15} backgroundColor={colors.main} borderRadius={4} />
         )}
       </Box>
       <Text color="black" fontWeight={400} children={children} />
