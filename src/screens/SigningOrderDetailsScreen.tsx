@@ -1,8 +1,8 @@
 import React from 'react';
 import { Image, ScrollView } from 'react-native';
-import Circle from '@assets/svg/circle.svg';
 import CompanyLogoIcon from '@assets/svg/company-logo.svg';
 
+import { TransportationRoute } from '@src/components/TransportationRoute';
 import { extendedOrderDetails } from '@src/mocks/extended-order-details';
 import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
@@ -11,7 +11,6 @@ import { Box, Button, Text } from '@src/ui';
 import { Accordion } from '@src/ui/Accordion';
 
 import { OrderStatusEnum } from './MyOrdersScreen/components/OrderStatus';
-import { RoutePoint } from './TransportationsDetailsScreen/components/RoutePoint';
 import { RouteObjectType } from './TransportationsDetailsScreen';
 
 export type SigningTransportationDetails = {
@@ -24,7 +23,7 @@ export type SigningTransportationDetails = {
   legal_adress: string;
   actual_adress: string;
   phone: string;
-  email:string;
+  email: string;
   general_director_email: string;
   account_number: string;
   bank: string;
@@ -95,95 +94,123 @@ export const SigningOrderDetailsScreen = () => {
             <Text children={performer} />
           </Box>
         </Box>
-        <Text type='body_500' children={t('about-company')} />
+        <Text type="body_500" children={t('about-company')} />
         <Box py={10} gap={10}>
           <Box>
             <Text children={t('bin')} />
             <Text type="body_500" children={bin} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} />
+          <Box h={1} w="full" backgroundColor={colors.grey} />
           <Box>
             <Text children={t('company')} />
             <Text type="body_500" children={company_name} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} />
+          <Box h={1} w="full" backgroundColor={colors.grey} />
           <Box>
             <Text children={t('general-director')} />
             <Text type="body_500" children={general_director_name} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} />
+          <Box h={1} w="full" backgroundColor={colors.grey} />
           <Box>
             <Text children={t('general-director')} />
             <Text type="body_500" children={general_director_email} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} />
+          <Box h={1} w="full" backgroundColor={colors.grey} />
           <Box>
             <Text children={t('legal-adress')} />
             <Text type="body_500" children={legal_adress} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} mb={10} />
+          <Box h={1} w="full" backgroundColor={colors.grey} mb={10} />
 
-          <Text type='body_500' children={t('company-contact-details')} />
+          <Text type="body_500" children={t('company-contact-details')} />
 
           <Box>
             <Text children={t('actual-adress')} />
             <Text type="body_500" children={actual_adress} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} />
+          <Box h={1} w="full" backgroundColor={colors.grey} />
           <Box>
             <Text children={t('phone')} />
             <Text type="body_500" children={phone} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} />
+          <Box h={1} w="full" backgroundColor={colors.grey} />
           <Box>
             <Text children={t('email')} />
             <Text type="body_500" children={email} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} />
+          <Box h={1} w="full" backgroundColor={colors.grey} />
           <Box>
             <Text children={t('general-director')} />
             <Text type="body_500" children={general_director_email} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} mb={10} />
-          <Text type='body_500' children={t('bank-details')} />
+          <Box h={1} w="full" backgroundColor={colors.grey} mb={10} />
+          <Text type="body_500" children={t('bank-details')} />
 
           <Box>
             <Text children={t('account-number')} />
             <Text type="body_500" children={account_number} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} />
+          <Box h={1} w="full" backgroundColor={colors.grey} />
           <Box>
             <Text children={t('bank')} />
             <Text type="body_500" children={bank} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} />
+          <Box h={1} w="full" backgroundColor={colors.grey} />
           <Box>
             <Text children={t('bik')} />
             <Text type="body_500" children={bik} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} mb={15} />
+          <Box h={1} w="full" backgroundColor={colors.grey} mb={15} />
           <Box gap={5}>
-            <Text color={colors.black} children={t('certificate-of-registration')} />
-            <Text fontWeight='bold' color={colors.light_green} children={t('document-verified')} />
-            <Button type='outline' children={t('download')} />
+            <Text
+              color={colors.black}
+              children={t('certificate-of-registration')}
+            />
+            <Text
+              fontWeight="bold"
+              color={colors.light_green}
+              children={t('document-verified')}
+            />
+            <Button type="outline" children={t('download')} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} mb={15} />
+          <Box h={1} w="full" backgroundColor={colors.grey} mb={15} />
           <Box gap={5}>
-            <Text color={colors.black} children={t('order-on-appointment-of-the-general-director')} />
-            <Text fontWeight='bold' color={colors.light_green} children={t('document-verified')} />
-            <Button type='outline' children={t('download')} />
+            <Text
+              color={colors.black}
+              children={t('order-on-appointment-of-the-general-director')}
+            />
+            <Text
+              fontWeight="bold"
+              color={colors.light_green}
+              children={t('document-verified')}
+            />
+            <Button type="outline" children={t('download')} />
           </Box>
-          <Box h={1} w='full' backgroundColor={colors.grey} mb={15} />
+          <Box h={1} w="full" backgroundColor={colors.grey} mb={15} />
           <Box gap={5}>
-            <Text color={colors.black} children={t('articles-of-association')} />
-            <Text fontWeight='bold' color={colors.light_green} children={t('document-verified')} />
+            <Text
+              color={colors.black}
+              children={t('articles-of-association')}
+            />
+            <Text
+              fontWeight="bold"
+              color={colors.light_green}
+              children={t('document-verified')}
+            />
             <Box row flexGrow={1} gap={5}>
-              <Button wrapperStyle={{ flex: 1 }} type='outline' children={t('download')} />
-              <Button wrapperStyle={{ flex: 1 }} type='outline' children={t('substitute')} />
+              <Button
+                wrapperStyle={{ flex: 1 }}
+                type="outline"
+                children={t('download')}
+              />
+              <Button
+                wrapperStyle={{ flex: 1 }}
+                type="outline"
+                children={t('substitute')}
+              />
             </Box>
-            <Box h={1} w='full' backgroundColor={colors.grey} />
+            <Box h={1} w="full" backgroundColor={colors.grey} />
           </Box>
-
         </Box>
       </Accordion>
 
@@ -223,40 +250,7 @@ export const SigningOrderDetailsScreen = () => {
       </Accordion>
 
       <Accordion label={t('route')}>
-        <Box>
-          {transportation_route.map((data, index) => {
-            const lastElement = transportation_route.length - 1;
-            const isFirstElement = index === 0;
-            return (
-              <Box row gap={15} key={index}>
-                <Box alignItems="center">
-                  {isFirstElement ? (
-                    <Circle color="dark_grey" />
-                  ) : index === lastElement ? (
-                    <Circle color="red" />
-                  ) : (
-                    <Box
-                      w={15}
-                      h={15}
-                      alignItems="center"
-                      justifyContent="center"
-                      borderColor={colors.dark_grey}
-                      borderWidth={1}
-                      borderRadius={5}
-                    >
-                      <Text fontSize={8} color="black" children={index} />
-                    </Box>
-                  )}
-                  {index !== lastElement && (
-                    <Box flex={1} w={1} backgroundColor={colors.dark_grey} />
-                  )}
-                </Box>
-
-                <RoutePoint key={index} {...data} />
-              </Box>
-            );
-          })}
-        </Box>
+        <TransportationRoute transportation_route={transportation_route} />
       </Accordion>
 
       <Accordion label={t('additional-info')}>
@@ -283,10 +277,7 @@ export const SigningOrderDetailsScreen = () => {
       </Accordion>
 
       <Box p={10} gap={10}>
-        <Button
-          children={t('sign-a-contract')}
-          backgroundColor='green'
-        />
+        <Button children={t('sign-a-contract')} backgroundColor="green" />
       </Box>
     </ScrollView>
   );

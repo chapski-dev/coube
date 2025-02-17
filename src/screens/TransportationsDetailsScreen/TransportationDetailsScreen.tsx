@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, ScrollView } from 'react-native';
-import Circle from '@assets/svg/circle.svg';
 
+import { TransportationRoute } from '@src/components/TransportationRoute';
 import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
@@ -9,8 +9,6 @@ import { Box, Button, Text } from '@src/ui';
 import { Accordion } from '@src/ui/Accordion';
 
 import { OrderStatusEnum } from '../MyOrdersScreen/components/OrderStatus';
-
-import { RoutePoint } from './components/RoutePoint';
 
 export type RouteObjectType = {
   placeType: 'load' | 'unload';
@@ -112,40 +110,7 @@ export const TransportationDetailsScreen = ({
         </Box>
       </Accordion>
       <Accordion label={t('route')}>
-        <Box>
-          {transportationRoute.map((data, index) => {
-            const lastElement = transportationRoute.length - 1;
-            const isFirstElement = index === 0;
-            return (
-              <Box row gap={15} key={index}>
-                <Box alignItems="center">
-                  {isFirstElement ? (
-                    <Circle color="dark_grey" />
-                  ) : index === lastElement ? (
-                    <Circle color="red" />
-                  ) : (
-                    <Box
-                      w={15}
-                      h={15}
-                      alignItems="center"
-                      justifyContent="center"
-                      borderColor={colors.dark_grey}
-                      borderWidth={1}
-                      borderRadius={5}
-                    >
-                      <Text fontSize={8} color="black" children={index} />
-                    </Box>
-                  )}
-                  {index !== lastElement && (
-                    <Box flex={1} w={1} backgroundColor={colors.dark_grey} />
-                  )}
-                </Box>
-
-                <RoutePoint key={index} {...data} />
-              </Box>
-            );
-          })}
-        </Box>
+        <TransportationRoute transportation_route={transportationRoute} />
       </Accordion>
 
       <Accordion label={t('additional-info')}>
