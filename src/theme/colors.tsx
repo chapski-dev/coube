@@ -8,7 +8,9 @@ export const DefaultColors = {
   green: '#81CC20',
   grey: '#EDEDED',
   label: '#798391',
+  light_green: '#81CC20',
   light_grey: '#EEEEEE',
+  light_red: '#FFCCCC',
   main: '#FAB54D',
   main_light: '#FAB54D26',
   red: '#EC1B2E',
@@ -16,7 +18,6 @@ export const DefaultColors = {
   textDefaultReverse: '#FFFFFF',
   textSecondary: '#979797',
   white: '#FFFFFF',
-  light_red: '#FFCCCC',
 } as const;
 
 export const lightColors = {

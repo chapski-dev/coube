@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, Dimensions, Image, ScrollView } from 'react-native';
 import YaMap, { Marker, Point, Polyline } from 'react-native-yamap';
-import Circle from '@assets/svg/circle.svg';
 
+import { TransportationRoute } from '@src/components/TransportationRoute';
 import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
@@ -12,8 +12,6 @@ import { wait } from '@src/utils';
 import { extractRouteCoordinates } from '@src/utils/yandex-maps';
 
 import { OrderStatusLabel } from '../MyOrdersScreen/components/OrderStatusLabel';
-
-import { RoutePoint } from './components/RoutePoint';
 
 export type RouteObjectType = {
   placeType: 'load' | 'unload';
@@ -185,41 +183,9 @@ export const TransportationDetailsScreen = ({
             </Box>
           </Box>
         </Accordion>
-        <Accordion label={t('route')}>
-          <Box>
-            {route.params.route.map((data, index, arr) => {
-              const lastElement = arr.length - 1;
-              const isFirstElement = index === 0;
-              return (
-                <Box row gap={15} key={index}>
-                  <Box alignItems="center">
-                    {isFirstElement ? (
-                      <Circle color={colors.dark_grey} />
-                    ) : index === lastElement ? (
-                      <Circle color={colors.red} />
-                    ) : (
-                      <Box
-                        w={15}
-                        h={15}
-                        alignItems="center"
-                        justifyContent="center"
-                        borderColor={colors.dark_grey}
-                        borderWidth={1}
-                        borderRadius={5}
-                      >
-                        <Text fontSize={8} color="black" children={index} />
-                      </Box>
-                    )}
-                    {index !== lastElement && (
-                      <Box flex={1} w={1} backgroundColor={colors.dark_grey} />
-                    )}
-                  </Box>
 
-                  <RoutePoint key={index} {...data} />
-                </Box>
-              );
-            })}
-          </Box>
+        <Accordion label={t('route')}>
+          <TransportationRoute transportation_route={route.params.route} />
         </Accordion>
 
         <Accordion label={t('additional-info')}>

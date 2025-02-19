@@ -43,7 +43,7 @@ export const Accordion: FC<AccordionProps> = ({
         activeOpacity={0.5}
         onPress={_onPress}
       >
-        <Text children={label} style={styles.buttonLabel} />
+        <Text children={label} style={[styles.buttonLabel, {color: colors.black}]} />
         <Animated.View style={arrowStyle}>
           <ArrowIcon />
         </Animated.View>

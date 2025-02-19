@@ -23,6 +23,7 @@ export type RootStackParamList = {
   'contact-details': undefined;
   'order-accepted': { order_number: string };
   'damage-to-cargo': undefined
+  'signing-order-details': undefined
 };
 
 export type TabsParamList = {
