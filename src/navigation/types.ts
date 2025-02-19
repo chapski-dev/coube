@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { ITransportationOrderData } from '@src/service/transportation-service';
+import { IExtendedTransportationOrderData, ITransportationOrderData } from '@src/service/transportation-service';
 
 export type RootStackParamList = {
   tabs: undefined;
@@ -23,7 +23,7 @@ export type RootStackParamList = {
   'contact-details': undefined;
   'order-accepted': { order_number: string };
   'damage-to-cargo': undefined
-  'signing-order-details': undefined
+  'signing-order-details': IExtendedTransportationOrderData
 };
 
 export type TabsParamList = {

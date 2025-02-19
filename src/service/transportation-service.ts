@@ -23,6 +23,23 @@ export interface ITransportationOrderData {
   documents: string[];
 }
 
+export interface IExtendedTransportationOrderData extends ITransportationOrderData {
+  distance: string,
+  performer: string,
+  bin: string,
+  company_name: string,
+  general_director_name: string,
+  legal_adress: string,
+  actual_adress: string,
+  phone: string,
+  email: string,
+  general_director_email: string,
+  account_number: string,
+  bank: string,
+  bik: string,
+  moving_service: string,
+} 
+
 interface ITransportationOrderState extends ITransportationOrderData {
   setOrderStatus: (status: OrderStatusEnum) => void;
   setDriverStatus: (status: DriverStatusEnum) => void;

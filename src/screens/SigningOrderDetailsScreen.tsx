@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Image, ScrollView } from 'react-native';
+import YaMap, { Marker, Point, Polyline } from 'react-native-yamap';
 import CompanyLogoIcon from '@assets/svg/company-logo.svg';
 
 import { TransportationRoute } from '@src/components/TransportationRoute';
-import { extendedOrderDetails } from '@src/mocks/extended-order-details';
+import { ScreenProps } from '@src/navigation/types';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { OrderStatusEnum } from '@src/types/order';
 import { Box, Button, Text } from '@src/ui';
 import { Accordion } from '@src/ui/Accordion';
+import { wait } from '@src/utils';
+import { extractRouteCoordinates } from '@src/utils/yandex-maps';
 
 import { RouteObjectType } from './TransportationsDetailsScreen';
 
@@ -40,12 +43,14 @@ export type SigningTransportationDetails = {
   transportation_period?: string;
 };
 
-export const SigningOrderDetailsScreen = () => {
+export const SigningOrderDetailsScreen = ({
+  navigation,
+  route,
+}: ScreenProps<'signing-order-details'>) => {
   const { t } = useLocalization();
   const { colors, insets } = useAppTheme();
 
   const {
-    distance,
     performer,
     bin,
     company_name,
@@ -58,25 +63,78 @@ export const SigningOrderDetailsScreen = () => {
     account_number,
     bank,
     bik,
-    cargo_name,
-    cargo_type,
-    tare_type,
+    name_of_cargo,
+    type_of_cargo,
+    type_of_loading_container,
     cargo_weight_gross,
     cargo_volume_gross,
     additional_cargo_information,
-    transportation_route,
     moving_service,
     documents,
-  } = extendedOrderDetails;
+  } = route.params;
+
+  const mapRef = useRef<YaMap>(null);
+
+  const [markersPints, setMarkersPints] = useState<Point[]>([]);
+
+  const getPoints = useCallback(async () => {
+    await wait(50);
+    setMarkersPints(route.params.route.map((el) => el.point));
+  }, [route.params.route]);
+
+  useEffect(() => {
+    getPoints();
+  }, [getPoints]);
+
+  const [routeCoordinates, setRouteCoordinates] = useState<Point[]>([]);
+  const [distance, setDistance] = useState('0');
+
+  useEffect(() => {
+    if (markersPints.length && mapRef?.current) {
+      mapRef?.current?.fitAllMarkers();
+      mapRef?.current?.findDrivingRoutes(markersPints, (routeData) => {
+        const result = extractRouteCoordinates(routeData);
+        setRouteCoordinates((state) =>
+          result ? result.routeCoordinates : state,
+        );
+        setDistance((state) => (result ? result.routeDistance : state));
+      });
+    }
+  }, [markersPints]);
 
   return (
     <ScrollView
       contentContainerStyle={{ gap: 5, paddingBottom: insets.bottom }}
     >
       <Box alignItems="center" justifyContent="center" pt={10}>
-        <Image
-          source={require('@assets/png/map-for-transportation-details.png')}
-        />
+        <YaMap
+          ref={mapRef}
+          showUserPosition
+          userLocationIconScale={0.2}
+          rotateGesturesEnabled={false}
+          style={{ height: 182, width: Dimensions.get('screen').width }}
+        >
+          {markersPints.map((el, i, arr) => (
+            <Marker
+              key={i}
+              point={el}
+              source={
+                i === 0
+                  ? require('@assets/png/circle-red.png')
+                  : i === arr.length - 1
+                    ? require('@assets/png/circle-gray.png')
+                    : require('@assets/png/stop-point.png')
+              }
+              scale={2}
+            />
+          ))}
+          <Polyline
+            points={routeCoordinates}
+            strokeColor={colors.green}
+            strokeWidth={1}
+            zIndex={4}
+          />
+        </YaMap>
       </Box>
 
       <Box justifyContent="flex-end" row px={20}>
@@ -217,17 +275,17 @@ export const SigningOrderDetailsScreen = () => {
         <Box py={10} gap={10}>
           <Box>
             <Text children={t('cargo-name')} />
-            <Text type="body_500" children={cargo_name} />
+            <Text type="body_500" children={name_of_cargo} />
           </Box>
 
           <Box>
             <Text children={t('cargo-type')} />
-            <Text type="body_500" children={cargo_type} />
+            <Text type="body_500" children={type_of_cargo} />
           </Box>
 
           <Box>
             <Text children={t('loading-container-type')} />
-            <Text type="body_500" children={tare_type} />
+            <Text type="body_500" children={type_of_loading_container} />
           </Box>
 
           <Box>
@@ -249,7 +307,7 @@ export const SigningOrderDetailsScreen = () => {
       </Accordion>
 
       <Accordion label={t('route')}>
-        <TransportationRoute transportation_route={transportation_route} />
+        <TransportationRoute transportation_route={route.params.route} />
       </Accordion>
 
       <Accordion label={t('additional-info')}>

@@ -8,15 +8,15 @@ import { Box, Text } from '@src/ui';
 import { RouteObjectType } from '../screens/TransportationsDetailsScreen/TransportationDetailsScreen';
 
 interface TransportationRouteProps {
-  transportation_route: RouteObjectType[];
+  route: RouteObjectType[];
 }
 
-export const TransportationRoute: React.FC<TransportationRouteProps> = ({ transportation_route }) => {
+export const TransportationRoute: React.FC<TransportationRouteProps> = ({ route }) => {
   const { colors } = useAppTheme();
   return (
     <Box>
-          {transportation_route.map((data, index) => {
-            const lastElement = transportation_route.length - 1;
+          {route.map((data, index) => {
+            const lastElement = route.length - 1;
             const isFirstElement = index === 0;
             return (
               <Box row gap={15} key={index}>
