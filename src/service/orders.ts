@@ -1,5 +1,6 @@
 import { EventBus } from '@trutoo/event-bus';
 
+import { getDriverOrders } from '@src/api';
 // import { getOrdersByUserId } from '@src/api';
 import { EventBusEvents } from '@src/events';
 
@@ -47,8 +48,18 @@ class Orders extends EventBus {
     // this.has_more = res.has_more;
     // this.orders = this.next_cursor ? [...this.orders, ...res.data] : res.data || [];
     // this.next_cursor = res.next_cursor;
-    this.orders = defaultOrders;
-  };
+    // this.orders = defaultOrders;
+
+    try {
+      const res = await getDriverOrders()
+      this.has_more = res.page.totalPages > 1
+      this.orders = res.content || []
+      this.next_cursor = res.page.number < res.page.totalPages ? res.page.number + 1 : undefined
+    } catch (error) {
+      console.error('Error fetching orders:', error)
+      this.orders = []
+    }
+  }
 
   loadMore = async () => {
     if (!this.has_more) {

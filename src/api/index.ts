@@ -28,3 +28,22 @@ export const setNotificationSettings = (data: NotificationSettings) =>
  */
 export const registerFCMToken = (data: { token: string }) =>
   api.post<{ message: 'Token registered successfully' }>('/fcm', data).then((res) => res.data)
+
+
+// driver api's
+export const getDriverOrders = async (page = 1, size = 10, sort = ['string']) => {
+  try {
+    const response = await api.get('/api/v1/driver/orders', {
+      params: {
+        page,
+        size,
+        sort: JSON.stringify(sort),
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.error('Error fetching driver orders:', error)
+    throw error
+  }
+}
+
