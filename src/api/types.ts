@@ -41,3 +41,8 @@ export type DriverOrderResponse = {
     totalPages: number
   }
 }
+
+export type DriverOrderAcceptOrDecline = {
+  status: string;
+  id: number;
+}

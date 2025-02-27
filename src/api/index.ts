@@ -1,5 +1,5 @@
 import api from './config';
-import { DriverOrderRequest, DriverOrderResponse, NotificationSettings } from './types';
+import { DriverOrderAcceptOrDecline, DriverOrderRequest, DriverOrderResponse, NotificationSettings } from './types';
 
 export const getOrdersByUserId = async (params: { cursor?: string, limit: number }) => 
   api.get<{has_more: boolean, next_cursor?: string, data: []}>('/orders', { params })
@@ -34,3 +34,8 @@ export const registerFCMToken = (data: { token: string }) =>
 export const getDriverOrders = (data: DriverOrderRequest) =>
   api.get<DriverOrderResponse>('/api/v1/driver/orders', {params: {page: data.page ?? 1, size: data.size ?? 10, sort: JSON.stringify(data.sort ?? ['string'])}}).then((res) => res.data)
 
+export const acceptDriverOrder = (transportationId: number) => 
+  api.put<DriverOrderAcceptOrDecline>(`/api/v1/driver/orders/${transportationId}/accept`).then(res => res.data)
+
+export const rejectDriverOrder = (transportationId: number) => 
+  api.put<DriverOrderAcceptOrDecline>(`/api/v1/driver/orders/${transportationId}/reject`).then(res => res.data)
