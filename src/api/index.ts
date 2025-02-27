@@ -31,19 +31,6 @@ export const registerFCMToken = (data: { token: string }) =>
 
 
 // driver api's
-export const getDriverOrders = async (page = 1, size = 10, sort = ['string']) => {
-  try {
-    const response = await api.get('/api/v1/driver/orders', {
-      params: {
-        page,
-        size,
-        sort: JSON.stringify(sort),
-      },
-    });
-    return response.data
-  } catch (error) {
-    console.error('Error fetching driver orders:', error)
-    throw error
-  }
-}
+export const getDriverOrders = (page = 1, size = 10, sort = ['string']) =>
+  api.get('/api/v1/driver/orders', {params: {page, size, sort: JSON.stringify(sort)}}).then((res) => res.data)
 
