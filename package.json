@@ -8,7 +8,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "build:apk": "cd android && ./gradlew assembleRelease",
+    "open-apk": "open ./android/app/build/outputs/apk/release/"
   },
   "dependencies": {
     "@backpackapp-io/react-native-toast": "^0.13.0",
