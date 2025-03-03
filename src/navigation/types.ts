@@ -43,6 +43,7 @@ export type UnauthorizedStackParamList = {
   'otp-verify': {
     action: 'invite' | 'phone-verify' | 'login' | 'registration';
     resident?: boolean;
+    phone?: string
   };
   'pick-country': { handlePick: (val: string) => void };
   'login-via-phone': undefined;

@@ -100,7 +100,7 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
             <Text type='h2' children={t('confirm_the_number')} />
             <Box row flexWrap='wrap' justifyContent='center'>
               <Text children={t('we_sent_it_to_a_number')} />
-              <Text children="+7 777 777 77 77" />
+              <Text children={route.params?.phone} />
               <Text children={t('confirmation_code_enter_it_below')} />
             </Box>
 
