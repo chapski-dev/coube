@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TextStyle,
-  TouchableOpacity,
-  ViewStyle,
-} from 'react-native';
+import { StyleSheet, Text, TextInput, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
+
+import { useAppTheme } from '@src/theme/theme';
 
 import { Box } from './Box';
 
@@ -29,15 +24,16 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
   onButtonPress,
   inputStyle,
   buttonStyle,
-  buttonTextStyle,
+  buttonTextStyle
 }) => {
   const isMultipleButtons = Array.isArray(buttonText);
+  const { colors } = useAppTheme();
 
   return (
     <Box w="full" row flexGrow={1}>
       <Box flex={1}>
         <TextInput
-          style={[styles.input, inputStyle]}
+          style={[styles.input, inputStyle, { color: colors.textDefault }]}
           placeholder={placeholder}
           placeholderTextColor="#999"
           value={value}
@@ -52,29 +48,25 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
                 style={[styles.button, styles.additionalButton, buttonStyle]}
                 onPress={onButtonPress}
               >
-                <Text style={[styles.buttonText, buttonTextStyle]}>
-                  {buttonText[0]}
-                </Text>
+                <Text
+                  style={[styles.buttonText, { color: colors.textDefault }, buttonTextStyle]}
+                  children={buttonText[0]}
+                />
               </TouchableOpacity>
             </Box>
             <Box flex={1}>
-              <TouchableOpacity
-                style={[styles.button, buttonStyle]}
-                onPress={onButtonPress}
-              >
-                <Text style={[styles.buttonText, buttonTextStyle]}>
-                  {buttonText[1]}
-                </Text>
+              <TouchableOpacity style={[styles.button, buttonStyle]} onPress={onButtonPress}>
+                <Text
+                  style={[styles.buttonText, { color: colors.textDefault }, buttonTextStyle]}
+                  children={buttonText[1]}
+                />
               </TouchableOpacity>
             </Box>
           </Box>
         ) : (
           <Box flex={1}>
-            <TouchableOpacity
-              style={[styles.button, buttonStyle]}
-              onPress={onButtonPress}
-            >
-              <Text style={[styles.buttonText, buttonTextStyle]}>
+            <TouchableOpacity style={[styles.button, buttonStyle]} onPress={onButtonPress}>
+              <Text style={[styles.buttonText, { color: colors.textDefault }, buttonTextStyle]}>
                 {buttonText}
               </Text>
             </TouchableOpacity>
@@ -90,7 +82,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
+    borderTopRightRadius: 0
   },
   button: {
     borderBottomLeftRadius: 0,
@@ -101,11 +93,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
     borderWidth: 1,
     height: 40,
-    padding: 10,
+    padding: 10
   },
   buttonText: {
-    color: 'black',
-    fontSize: 16,
+    fontSize: 16
   },
   input: {
     backgroundColor: '#fff',
@@ -117,6 +108,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     fontSize: 16,
     height: 40,
-    padding: 10,
-  },
+    padding: 10
+  }
 });

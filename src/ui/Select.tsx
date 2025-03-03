@@ -1,10 +1,9 @@
 import React from 'react';
+import { Text, TouchableOpacity } from 'react-native';
 import TickIcon from '@assets/svg/tick-fill.svg';
 
 import { useAppTheme } from '@src/theme/theme';
 
-import { Box } from './Box';
-import { Text } from './Text';
 
 interface SelectProps {
   selected?: boolean;
@@ -19,22 +18,23 @@ const Select = ({
   const { colors } = useAppTheme();
 
   return (
-    <Box
-      h={72}
+    <TouchableOpacity
+      style={{
+        alignItems: 'center',
+        borderColor: selected ? colors.main : colors.disabled,
+        borderRadius: 15,
+        borderWidth: 1,
+        flexDirection: 'row',
+        gap: 8,
+        height: 72,
+        paddingHorizontal: 8,
+        width: '100%'
+      }}
       onPress={onPress}
-      pr={8}
-      pl={8}
-      borderWidth={1}
-      borderRadius={15}
-      borderColor={selected ? colors.main : colors.disabled}
-      row
-      gap={8}
-      alignItems="center"
-      w="full"
       >
         <TickIcon color={selected ? colors.main : colors.disabled} width={15} height={15} />
-        <Text children={children} />
-    </Box>
+        <Text children={children} style={{color: colors.textDefault}} />
+    </TouchableOpacity>
   );
 };
 

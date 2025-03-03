@@ -37,7 +37,6 @@ export const AppDarkTheme = {
   fonts: DefaultTheme.fonts,
 } as const;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type CheckForValidColors =
   keyof typeof AppLightTheme.colors extends keyof typeof AppDarkTheme.colors
     ? keyof typeof AppDarkTheme.colors extends keyof typeof AppLightTheme.colors

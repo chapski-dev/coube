@@ -1,4 +1,4 @@
-import React, { FC, useMemo, ReactNode } from 'react';
+import React, { FC, ReactNode, useMemo } from 'react';
 import {
   ActivityIndicator,
   StyleProp,
@@ -7,18 +7,13 @@ import {
   TouchableOpacity,
   View,
   ViewProps,
-  ViewStyle,
+  ViewStyle
 } from 'react-native';
 import { merge } from 'lodash';
 
 import { AppLightTheme, useAppTheme } from '@src/theme/theme';
 
-import {
-  clearStyle,
-  commonStytle,
-  filledStyle,
-  outlineStyle,
-} from './Button.styles';
+import { clearStyle, commonStytle, filledStyle, outlineStyle } from './Button.styles';
 
 type ButtonType = keyof typeof typeStyle;
 
@@ -40,7 +35,7 @@ interface PropsType extends ViewProps {
 const typeStyle = {
   clear: merge({}, commonStytle, clearStyle),
   filled: merge({}, commonStytle, filledStyle),
-  outline: merge({}, commonStytle, outlineStyle),
+  outline: merge({}, commonStytle, outlineStyle)
 };
 
 export const Button: FC<PropsType> = ({
@@ -56,11 +51,11 @@ export const Button: FC<PropsType> = ({
   backgroundColor,
   textColor,
   borderColor,
-  icon,
+  icon
 }) => {
   const { colors } = useAppTheme();
   const styles = useMemo(() => typeStyle[type], [type]);
-  const generateBgColor = useMemo(() => {
+  const _bgColor = useMemo(() => {
     if (backgroundColor && type !== 'filled') {
       return colors[backgroundColor];
     } else if (!backgroundColor && type === 'filled') {
@@ -72,7 +67,7 @@ export const Button: FC<PropsType> = ({
     }
   }, [backgroundColor, colors, type]);
 
-  const generateTextColor = useMemo(() => {
+  const _textColor = useMemo(() => {
     if (textColor) {
       return colors[textColor];
     } else if (type === 'filled' && !textColor) {
@@ -82,13 +77,13 @@ export const Button: FC<PropsType> = ({
     }
   }, [colors, textColor, type]);
 
-  const generateBorderColor = useMemo(() => {
+  const _borderColor = useMemo(() => {
     if (borderColor) {
       return colors[borderColor];
     } else if (type === 'outline' && !borderColor) {
       return colors.black;
     }
-  }, [colors, borderColor]);
+  }, [borderColor, type, colors]);
 
   return (
     <View style={[styles.wrapper, wrapperStyle]}>
@@ -101,13 +96,13 @@ export const Button: FC<PropsType> = ({
                 buttonStyle,
                 styles.buttonDisabled,
                 buttonDisabledStyle,
-                { backgroundColor: generateBgColor },
+                { backgroundColor: _bgColor }
               ]
             : [
                 styles.button,
                 buttonStyle,
-                { backgroundColor: generateBgColor },
-                { borderColor: generateBorderColor },
+                { backgroundColor: _bgColor },
+                { borderColor: _borderColor }
               ]
         }
         disabled={disabled}
@@ -116,9 +111,9 @@ export const Button: FC<PropsType> = ({
         {loading ? (
           <ActivityIndicator color="white" />
         ) : (
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <View style={{ alignItems: 'center', flexDirection: 'row', gap: 10 }}>
             <Text
-              style={[styles.text, { color: generateTextColor }, textStyle]}
+              style={[styles.text, { color: _textColor }, textStyle]}
               children={children}
             />
             {icon}
