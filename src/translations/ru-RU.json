@@ -61,6 +61,7 @@
     "unloading": "Ожидает погрузки"
   },
   "active": "Активные",
+  "completed": "Завершенные",
   "archived": "Архив",
   "new-orders-search": "Поиск нового заказа",
   "distance": "Расстояние",
@@ -127,6 +128,8 @@
   "point": "Место",
   "load": "погрузки",
   "unload": "выгрузки",
+  "reset": "Сбросить",
+  "do-you-want-to-reset-filters?": "Желаете сбросить фильтры?",
   "add-photo": "Добавить фото",
   "later": "Позже",
   "enter-phone": "Введите телефон",
@@ -229,5 +232,9 @@
   "to-download": "Загрузить",
   "download-the-document-confirming-the-release-of-the-goods": "Загрузите документ, подтверждающий отпуска товара",
   "to-replace": "Заменить",
-  "to-send": "Отправить"
+  "to-send": "Отправить",
+  "do-you-want-to-delete-your-account?": "Желаете удалить аккаунт?",
+  "delete": "Удалить",
+  "do-you-want-to-logout?": "Желаете выйти?",
+  "there-are-currently-no-active-orders": "На данный момент активных заказов нет"
 }

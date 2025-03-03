@@ -83,7 +83,7 @@ export const Order: FC<OrderPropsTypes> = (props) => {
       <Box row w="full" justifyContent="space-between" alignItems="center">
         <Box row gap={10} alignItems="center">
           <Text fontSize={12} color={colors.textSecondary} children="№" />
-          <Text color={colors.text} fontWeight="bold" children={order_number} />
+          <Text color={colors.textDefault} fontWeight="bold" children={order_number} />
         </Box>
         <OrderStatusLabel
           status={isOrderAccepted ? OrderStatusEnum.pending : order_status}
@@ -160,7 +160,7 @@ export const Order: FC<OrderPropsTypes> = (props) => {
             textColor="black"
             backgroundColor="grey"
             disabled={loadingAccept || loadingDecline}
-            icon={<RightArrowIcon color={colors.text} />}
+            icon={<RightArrowIcon color={colors.textDefault} />}
           />
 
           <Box row w="full" gap={20} flexGrow={1}>

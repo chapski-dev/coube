@@ -30,7 +30,7 @@ const DamageToCargoScreen = ({
       <KeyboardAwareScrollView
         contentContainerStyle={{
           flex: 1,
-          paddingBottom: insets.bottom,
+          paddingBottom: insets.bottom || 15,
           paddingHorizontal: 16,
         }}
       >

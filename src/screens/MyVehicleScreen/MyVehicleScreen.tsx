@@ -21,7 +21,7 @@ export const MyVehicleScreen = () => {
 
   return (
     <FlatList
-      contentContainerStyle={{ gap: 16, paddingBottom: insets.bottom }}
+      contentContainerStyle={{ gap: 15, paddingBottom: insets.bottom || 15 }}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }

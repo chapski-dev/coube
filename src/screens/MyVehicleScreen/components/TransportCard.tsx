@@ -20,7 +20,7 @@ export const TransportCard = () => {
         <Box h={150} borderRadius={12} overflow="hidden">
           <Image source={require('@assets/png/car.png')} />
         </Box>
-        <Box gap={8}>
+        <Box gap={8} flex={1}>
           <Text type="h3" children={carModel} />
           <Box>
             <Text type="label" children={t('licence-plate')} />
@@ -38,8 +38,8 @@ export const TransportCard = () => {
             <Text type="label" children={t('semi-trailer-model')} />
             <Text fontWeight={500} children="Krone" />
           </Box>
-          <Box>
-            <Text type="label" children={t('semi-trailer-licence')} />
+          <Box flex={1}>
+            <Text style={{flex: 1}} type="label" children={t('semi-trailer-licence')} />
             <Text fontWeight={500} children="123 BOK 02" />
           </Box>
         </Box>
@@ -54,7 +54,7 @@ export const TransportCard = () => {
         style={{ borderBottomWidth: 1, borderTopWidth: 1 }}
         onPress={() => navigation.navigate('documents', { carModel })}
       >
-        <Text fontWeight={500} children="Документы" />
+        <Text fontWeight={500} children={t('documents')} />
         <RightArrowIcon />
       </Box>
     </Box>

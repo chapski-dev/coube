@@ -31,7 +31,7 @@ export const RootStack = () => {
       initialRouteName="tabs"
       screenOptions={{
         headerTintColor: colors.main,
-        headerTitleStyle: { color: colors.text },
+        headerTitleStyle: { color: colors.textDefault },
         title: '',
       }}
     >
@@ -56,7 +56,7 @@ export const RootStack = () => {
         options={{ headerTitle: t('power-of-attorney') }}
       />
       <Stack.Screen
-        options={{ headerTitle: t('power-of-attorney') }}
+        options={{ headerTitle: t('profile-data') }}
         name="profile-data"
         component={ProfileDataScreen}
       />

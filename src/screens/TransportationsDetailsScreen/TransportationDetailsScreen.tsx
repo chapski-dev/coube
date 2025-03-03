@@ -127,7 +127,7 @@ export const TransportationDetailsScreen = ({
       <ScrollView
         contentContainerStyle={{
           gap: 5,
-          paddingBottom: insets.bottom,
+          paddingBottom: insets.bottom || 15,
           paddingTop: 10,
         }}
       >

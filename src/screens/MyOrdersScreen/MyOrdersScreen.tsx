@@ -26,7 +26,7 @@ const Tabs = createMaterialTopTabNavigator();
 
 export const MyOrdersScreen = () => {
   const { colors } = useAppTheme();
-
+  const { t } = useLocalization()
   return (
     <Tabs.Navigator
       screenOptions={{
@@ -39,12 +39,12 @@ export const MyOrdersScreen = () => {
       <Tabs.Screen
         name="active"
         component={Active}
-        options={() => ({ lazy: true, title: 'Активные' })}
+        options={() => ({ lazy: true, title: t('active') })}
       />
       <Tabs.Screen
         name="сomplited"
         component={Complited}
-        options={{ lazy: true, title: 'Завершенные' }}
+        options={{ lazy: true, title: t('completed') }}
       />
     </Tabs.Navigator>
   );
@@ -114,7 +114,7 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
         <Box justifyContent="center" gap={16} alignItems="center">
           <SheetIcon color={colors.disabled} width={40} height={40} />
           <Box maxWidth={183}>
-            <Text center children="На данный момент активных заказов нет!" />
+            <Text center children={t('there-are-currently-no-active-orders') + '!'} />
           </Box>
         </Box>
       }

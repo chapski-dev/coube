@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Image } from 'react-native';
 import { ImagePickerResponse } from 'react-native-image-picker';
 import NoAvatarIcon from '@assets/svg/no-avatar.svg'
@@ -67,7 +67,7 @@ export const ProfileDataScreen = ({ navigation }: ScreenProps<'profile-data'>) =
           </Box>
         </Box>
 
-        <Button type='clear' textColor='red' children='Удалить аккаунт' />
+        <Button type='clear' textColor='red' children={t('delete-account')} />
       </Box>
 
       <ImagePickerModal

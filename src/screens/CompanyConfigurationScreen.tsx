@@ -107,7 +107,7 @@ export const CompanyConfigurationScreen = ({
           <Box gap={3}>
             <Box row gap={6}>
               <Text color="black" children={t('certificate-of-registration')} />
-              <Text color="red" children="*" />
+              <Text colorName="red" children="*" />
             </Box>
             {pickerResponse?.assets ? (
               <Image
@@ -117,7 +117,7 @@ export const CompanyConfigurationScreen = ({
             ) : (
               <Box gap={3}>
                 <Text
-                  color="red"
+                  colorName="red"
                   children={t('document-has-not-been-uploaded')}
                 />
                 <Button
@@ -135,7 +135,7 @@ export const CompanyConfigurationScreen = ({
                 color="black"
                 children={t('order-on-appointment-of-the-general-director')}
               />
-              <Text color="red" children="*" />
+              <Text colorName="red" children="*" />
             </Box>
             {pickerResponse?.assets ? (
               <Image
@@ -145,7 +145,7 @@ export const CompanyConfigurationScreen = ({
             ) : (
               <Box gap={3}>
                 <Text
-                  color="red"
+                  colorName="red"
                   children={t('document-has-not-been-uploaded')}
                 />
                 <Button
@@ -160,7 +160,7 @@ export const CompanyConfigurationScreen = ({
           <Box gap={3}>
             <Box row gap={6}>
               <Text color="black" children={t('articles-of-association')} />
-              <Text color="red" children="*" />
+              <Text colorName="red" children="*" />
             </Box>
             {pickerResponse?.assets ? (
               <Image
@@ -170,7 +170,7 @@ export const CompanyConfigurationScreen = ({
             ) : (
               <Box gap={3}>
                 <Text
-                  color="red"
+                  colorName="red"
                   children={t('document-has-not-been-uploaded')}
                 />
                 <Button

@@ -55,7 +55,7 @@ export const NotificationScreen = () => {
 
   return (
     <SectionList
-      ListFooterComponent={() => <Box h={insets.bottom} />}
+      ListFooterComponent={() => <Box h={insets.bottom || 15} />}
       sections={[
         { data: DATA, title: today },
         { data: DATA, title: today },

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ActivityIndicator, Alert, Switch } from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, Switch } from 'react-native';
 import { HapticFeedbackTypes } from 'react-native-haptic-feedback/src/types';
 import ArrowIcon from '@assets/svg/arrow-right.svg';
 import NoAvatarIcon from '@assets/svg/no-avatar.svg';
@@ -20,7 +20,7 @@ import { handleCatchError } from '@src/utils/handleCatchError';
 import SelectLanguageModal from '@src/widgets/SelectLanguageModal';
 
 export enum NotifictationOption {
-  push_notifications = 'push_notifications',
+  push_notifications = 'push_notifications'
 }
 
 const isAvatarExist = false;
@@ -32,9 +32,9 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
   const form = useForm({
     defaultValues: {
       settings: {
-        [NotifictationOption.push_notifications]: messaging.isEnabled(),
-      },
-    },
+        [NotifictationOption.push_notifications]: messaging.isEnabled()
+      }
+    }
   });
   const { setValue, getValues, watch } = form;
 
@@ -44,13 +44,11 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
       : false;
     return {
       ...val,
-      [NotifictationOption.push_notifications]: push_notifications,
+      [NotifictationOption.push_notifications]: push_notifications
     };
   };
 
-  const togglePushNotification = async (
-    val: NotificationSettings['settings'],
-  ) => {
+  const togglePushNotification = async (val: NotificationSettings['settings']) => {
     const newValues = valuesWithPermission(val);
     await handleSubmitForm(newValues);
   };
@@ -59,7 +57,7 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
     try {
       setLoading(true);
       await wait(1000);
-      messaging.togglePushNotifications(values.push_notifications)
+      messaging.togglePushNotifications(values.push_notifications);
       // await setNotificationSettings({ settings: values });
       setValue('settings', values);
     } catch (e) {
@@ -78,10 +76,10 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
   const modalOpen = () => modal?.current?.present();
 
   const onLogoutPress = () =>
-    Alert.alert('Желаете выйти?', undefined, [
+    Alert.alert(t('do-you-want-to-logout?'), undefined, [
       {
         onPress: () => null,
-        text: 'Отмена',
+        text: t('cancel')
       },
       {
         onPress: () => {
@@ -89,15 +87,15 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
           app.logout();
         },
         style: 'destructive',
-        text: 'Выйти',
-      },
+        text: t('exit')
+      }
     ]);
 
   const onDeleteAccountPress = () =>
-    Alert.alert('Желаете удалить аккаут?', undefined, [
+    Alert.alert(t('do-you-want-to-delete-your-account?'), undefined, [
       {
         onPress: () => null,
-        text: 'Отмена',
+        text: t('cancel')
       },
       {
         onPress: () => {
@@ -105,177 +103,155 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
           app.logout();
         },
         style: 'destructive',
-        text: 'Удалить',
-      },
+        text: t('delete')
+      }
     ]);
 
   return (
     <>
-      <Box
-        flex={1}
-        alignItems="center"
-        justifyContent="space-between"
-        backgroundColor={colors.background}
-        pb={250}
-        pt={20}
-        gap={15}
-      >
+      <ScrollView>
         <Box
-          onPress={openProfileData}
-          w="full"
-          h={50}
-          px={15}
-          row
+          flex={1}
           alignItems="center"
           justifyContent="space-between"
+          backgroundColor={colors.background}
+          pb={250}
+          pt={20}
+          gap={15}
         >
-          <Box row alignItems="center" gap={15}>
-            {isAvatarExist ? <NoAvatarIcon /> : <NoAvatarIcon />}
-            <Text type="body_500" fontSize={18} children="Сергей" />
-          </Box>
-          <ArrowIcon />
-        </Box>
-
-        <Box row w="full" gap={5} px={15}>
           <Box
-            backgroundColor={colors.grey}
-            borderRadius={9}
-            justifyContent="center"
-            alignItems="flex-start"
-            gap={3}
-            p={10}
-            w={126}
-            h={72}
+            onPress={openProfileData}
+            w="full"
+            h={50}
+            px={15}
+            row
+            alignItems="center"
+            justifyContent="space-between"
           >
-            <Box
-              backgroundColor={colors.green}
-              borderRadius={35}
-              px={10}
-              py={3}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Text color={colors.white} fontWeight={700} children="4.5" />
+            <Box row alignItems="center" gap={15}>
+              {isAvatarExist ? <NoAvatarIcon /> : <NoAvatarIcon />}
+              <Text type="body_500" fontSize={18} children="Сергей" />
             </Box>
-            <Text fontSize={10} fontWeight={400} children={t('my_rating')} />
+            <ArrowIcon />
           </Box>
 
-          <Box
-            backgroundColor={colors.grey}
-            borderRadius={9}
-            justifyContent="center"
-            alignItems="flex-start"
-            gap={3}
-            p={10}
-            w={126}
-            h={72}
-          >
+          <Box row w="full" gap={5} px={15}>
             <Box
-              backgroundColor={colors.dark_grey}
-              borderRadius={35}
-              px={10}
-              py={3}
-              alignItems="center"
+              backgroundColor={colors.grey}
+              borderRadius={9}
               justifyContent="center"
+              alignItems="flex-start"
+              gap={3}
+              p={10}
+              w={126}
+              h={72}
             >
-              <Text color={colors.white} fontWeight={700} children="115" />
+              <Box
+                backgroundColor={colors.green}
+                borderRadius={35}
+                px={10}
+                py={3}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Text color={colors.white} fontWeight={700} children="4.5" />
+              </Box>
+              <Text fontSize={10} fontWeight={400} children={t('my_rating')} />
             </Box>
-            <Text
-              fontSize={10}
-              fontWeight={400}
-              children={t('transportations')}
-            />
+
+            <Box
+              backgroundColor={colors.grey}
+              borderRadius={9}
+              justifyContent="center"
+              alignItems="flex-start"
+              gap={3}
+              p={10}
+              w={126}
+              h={72}
+            >
+              <Box
+                backgroundColor={colors.dark_grey}
+                borderRadius={35}
+                px={10}
+                py={3}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Text color={colors.white} fontWeight={700} children="115" />
+              </Box>
+              <Text fontSize={10} fontWeight={400} children={t('transportations')} />
+            </Box>
+
+            <Box
+              backgroundColor={colors.grey}
+              borderRadius={9}
+              justifyContent="center"
+              alignItems="flex-start"
+              gap={3}
+              p={10}
+              w={126}
+              h={72}
+            >
+              <Box
+                backgroundColor={colors.dark_grey}
+                borderRadius={35}
+                px={10}
+                py={3}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Text color={colors.white} fontWeight={700} children="351 тыс." />
+              </Box>
+              <Text fontSize={10} fontWeight={400} children={t('traveled_kilometers')} />
+            </Box>
           </Box>
 
-          <Box
-            backgroundColor={colors.grey}
-            borderRadius={9}
-            justifyContent="center"
-            alignItems="flex-start"
-            gap={3}
-            p={10}
-            w={126}
-            h={72}
-          >
-            <Box
-              backgroundColor={colors.dark_grey}
-              borderRadius={35}
-              px={10}
-              py={3}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Text color={colors.white} fontWeight={700} children="351 тыс." />
-            </Box>
-            <Text
-              fontSize={10}
-              fontWeight={400}
-              children={t('traveled_kilometers')}
-            />
+          <Box backgroundColor={colors.white}>
+            <SectionListItemWithArrow title={t('reports')} onPress={() => null} />
+            <SectionListItemWithArrow title={t('identity')} onPress={openIdentityData} />
           </Box>
-        </Box>
 
-        <Box backgroundColor={colors.white}>
-          <SectionListItemWithArrow title={t('reports')} onPress={() => null} />
-          <SectionListItemWithArrow
-            title={t('identification_card')}
-            onPress={openIdentityData}
+          <Box backgroundColor={colors.white}>
+            <SectionListItemWithArrow title={t('drivers_licence')} onPress={() => null} />
+            <SectionListItemWithArrow title={t('apps_language')} onPress={modalOpen} />
+          </Box>
+
+          <Box w="full" h={50} px={15} row alignItems="center" justifyContent="space-between">
+            <Text type="body_500" children={t('push_notifications')} />
+            {loading ? (
+              <Box mr={20}>
+                <ActivityIndicator />
+              </Box>
+            ) : (
+              <Switch
+                trackColor={{ false: colors.grey, true: colors.main }}
+                thumbColor={colors.white}
+                onValueChange={(val) =>
+                  togglePushNotification({
+                    ...getValues().settings,
+                    [NotifictationOption.push_notifications]: val
+                  })
+                }
+                value={watch('settings.push_notifications')}
+              />
+            )}
+          </Box>
+
+          <Button
+            backgroundColor="white"
+            textColor="red"
+            children={t('exit')}
+            onPress={onLogoutPress}
+          />
+
+          <Button
+            type="clear"
+            textColor="textSecondary"
+            children={t('delete-account')}
+            onPress={onDeleteAccountPress}
           />
         </Box>
-
-        <Box backgroundColor={colors.white}>
-          <SectionListItemWithArrow
-            title={t('drivers_licence')}
-            onPress={() => null}
-          />
-          <SectionListItemWithArrow
-            title={t('apps_language')}
-            onPress={modalOpen}
-          />
-        </Box>
-
-        <Box
-          w="full"
-          h={50}
-          px={15}
-          row
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Text type="body_500" children={t('push_notifications')} />
-          {loading ? (
-            <Box mr={20}>
-              <ActivityIndicator />
-            </Box>
-          ) : (
-            <Switch
-              trackColor={{ false: colors.grey, true: colors.main }}
-              thumbColor={colors.white}
-              onValueChange={(val) =>
-                togglePushNotification({
-                  ...getValues().settings,
-                  [NotifictationOption.push_notifications]: val,
-                })
-              }
-              value={watch('settings.push_notifications')}
-            />
-          )}
-        </Box>
-
-        <Button
-          backgroundColor="white"
-          textColor="red"
-          children="Выйти"
-          onPress={onLogoutPress}
-        />
-
-        <Button
-          type="clear"
-          textColor="textSecondary"
-          children="Удалить аккаунт"
-          onPress={onDeleteAccountPress}
-        />
-      </Box>
+      </ScrollView>
       <SelectLanguageModal ref={modal} modalClose={modalClose} />
     </>
   );
@@ -285,10 +261,7 @@ type SectionListItemWithArrowProps = {
   title: string;
   onPress: () => void;
 };
-const SectionListItemWithArrow = ({
-  title,
-  onPress,
-}: SectionListItemWithArrowProps) => (
+const SectionListItemWithArrow = ({ title, onPress }: SectionListItemWithArrowProps) => (
   <Box
     w="full"
     h={50}

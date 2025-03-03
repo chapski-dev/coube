@@ -32,24 +32,24 @@ export const FiltersForOrdersScreen = ({
   };
 
   const handleOpenResetFiltersAlert = useCallback(() => {
-    Alert.alert('Желаете сбросить фильтры?', undefined, [
+    Alert.alert(t('do-you-want-to-reset-filters?'), undefined, [
       {
         onPress: () => null,
-        text: 'Отмена',
+        text: t('cancel'),
       },
       {
         onPress: resetFilters,
         style: 'destructive',
-        text: 'Сбросить',
+        text: t('reset'),
       },
     ]);
-  },[resetFilters])
+  },[resetFilters, t])
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => <Text children="Сбросить" onPress={handleOpenResetFiltersAlert} />
+      headerRight: () => <Text children={t('reset')} onPress={handleOpenResetFiltersAlert} />
     })
-  }, [navigation, handleOpenResetFiltersAlert])
+  }, [navigation, handleOpenResetFiltersAlert, t])
   
 
   return (
@@ -57,7 +57,7 @@ export const FiltersForOrdersScreen = ({
       contentContainerStyle={{
         gap: 15,
         padding: 15,
-        paddingBottom: insets.bottom,
+        paddingBottom: insets.bottom || 15,
       }}
     >
       <Box gap={10}>

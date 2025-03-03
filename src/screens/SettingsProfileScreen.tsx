@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ActivityIndicator, Image } from 'react-native';
 import { ImagePickerResponse } from 'react-native-image-picker';
-import UserIcon from '@assets/svg/profile-outline.svg'
+import UserIcon from '@assets/svg/no-avatar.svg'
 import { BottomSheetModal, } from '@gorhom/bottom-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -112,7 +112,7 @@ const SettingsProfileScreen = ({ navigation }: ScreenProps<'settings-profile'>) 
       mb={16}
     >
       {isResident ?
-        <Text children={t('identification_card')} /> :
+        <Text children={t('identity')} /> :
         <Text children={t('passport')} />}
       <Text children='>' />
     </Box>

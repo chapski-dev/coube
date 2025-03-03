@@ -26,7 +26,7 @@ export const Tabs = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: colors.main,
-        tabBarInactiveTintColor: colors.text,
+        tabBarInactiveTintColor: colors.textDefault,
         tabBarLabelStyle: { color: 'black' },
       }}
     >
