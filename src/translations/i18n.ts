@@ -37,16 +37,24 @@ export const LANGUAGE_LIST: {
 ];
 
 
-type TFunctionOptions = Parameters<TFunction>[1]
+type NestedKeyOf<Obj extends object> = {
+  [Key in keyof Obj & string]: 
+    Obj[Key] extends Record<string, any> 
+      ? `${Key}.${NestedKeyOf<Obj[Key]>}`
+      : Key;
+}[keyof Obj & string];
 
-export const useLocalization = useTranslation as (...p: Parameters<typeof useTranslation>) => Omit<
-  ReturnType<typeof useTranslation>,
-  't'
-> & {
-  t: (k: LocalizationKeys, opts?: TFunctionOptions) => string
-}
+export type LocalizationKeys = NestedKeyOf<
+  (typeof resources)[AppLangEnum.RU]['translation']
+>;
 
-export type LocalizationKeys = keyof (typeof resources)[AppLangEnum.RU]['translation']
+type TFunctionOptions = Parameters<TFunction>[1];
+
+export const useLocalization = useTranslation as (
+  ...p: Parameters<typeof useTranslation>
+) => Omit<ReturnType<typeof useTranslation>, 't'> & {
+  t: (k: LocalizationKeys, opts?: TFunctionOptions) => string;
+};
 
 export const saveLanguageAsyncStorage = async (language: AppLangEnum) => {
   await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.CURRENT_LANG, language);

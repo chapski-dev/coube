@@ -236,5 +236,7 @@
   "do-you-want-to-delete-your-account?": "Есептік жазбаны жойғыңыз келе ме?",
   "delete": "Жою",
   "do-you-want-to-logout?": "Шығғыңыз келе ме?",
-  "there-are-currently-no-active-orders": "Қазіргі уақытта белсенді тапсырыстар жоқ."
+  "there-are-currently-no-active-orders": "Қазіргі уақытта белсенді тапсырыстар жоқ.",
+  "the_session_has_timed_out_please_log_in": "Сессия уақыты аяқталды. Өтініш тіркеліңіз.",
+  "skip": "Өткізіп жіберу"
 }

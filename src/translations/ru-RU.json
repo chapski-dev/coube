@@ -236,5 +236,7 @@
   "do-you-want-to-delete-your-account?": "Желаете удалить аккаунт?",
   "delete": "Удалить",
   "do-you-want-to-logout?": "Желаете выйти?",
-  "there-are-currently-no-active-orders": "На данный момент активных заказов нет"
+  "there-are-currently-no-active-orders": "На данный момент активных заказов нет",
+  "the_session_has_timed_out_please_log_in": "Время сессии истекло. Пожалуйста авторизуйтесь.",
+  "skip": "Пропустить"
 }
