@@ -16,12 +16,10 @@ import YaMap, {
 import Filter from '@assets/svg/filter.svg';
 import MapPointerIcon from '@assets/svg/map-pointer.svg';
 
+import { OrderDetails } from '@src/api/types';
 import { mapRoutes } from '@src/mocks/order-details';
 import { ScreenProps } from '@src/navigation/types';
-import {
-  ITransportationOrderData,
-  STATE_MOCK,
-} from '@src/service/transportation-service';
+import { STATE_MOCK } from '@src/service/transportation-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
@@ -64,7 +62,7 @@ export const SearchForNewOrder = ({
   const openFilters = () => navigation.push('filters-for-orders');
   const openFromWhere = () => navigation.push('from-where');
 
-  const openTransportationDetails = (details: ITransportationOrderData) =>
+  const openTransportationDetails = (details: OrderDetails) =>
     navigation.push('transportation-details', details);
 
   const [searchingRegion, setSearchingRegion] = useState<{

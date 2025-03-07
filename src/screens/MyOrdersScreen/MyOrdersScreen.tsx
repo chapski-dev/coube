@@ -10,10 +10,10 @@ import SearchIcon from '@assets/svg/search.svg';
 import SheetIcon from '@assets/svg/sheet.svg';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
+import { OrderDetails } from '@src/api/types';
 import { EventBusEvents } from '@src/events';
 import { ScreenProps } from '@src/navigation/types';
 import ordersService from '@src/service/orders';
-import { ITransportationOrderData } from '@src/service/transportation-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
@@ -53,21 +53,21 @@ export const MyOrdersScreen = () => {
 const Active = ({ navigation }: ScreenProps<'orders'>) => {
   const { t } = useLocalization();
   const { colors, insets } = useAppTheme();
-  const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = async () => {
-    ordersService.refresh();
-    try {
-      setRefreshing(true);
-      await wait(1000);
-    } finally {
-      setRefreshing(false);
-    }
-  };
+  const [refreshing, setRefreshing] = useState(ordersService.loading);
 
   const [orders, setOrders] = useState(ordersService.orders);
 
   useEffect(() => {
-    return ordersService.subscribe<ITransportationOrderData[]>(
+    return ordersService.subscribe<boolean>(
+      EventBusEvents.setOrderLoading,
+      ({ payload }) => {
+        typeof payload === 'boolean' && setRefreshing(payload);
+      }
+    ).unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    return ordersService.subscribe<OrderDetails[]>(
       EventBusEvents.getOrders,
       ({ payload }) => {
         payload && setOrders(payload);
@@ -76,6 +76,7 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
   }, []);
 
   const [searchOrderLoading, setSearchOrderLoading] = useState(false);
+
   const openSearchForNewOrder = async () => {
     setSearchOrderLoading(true);
     await wait(200);
@@ -108,7 +109,7 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
       contentContainerStyle={{ gap: 16, paddingBottom: insets.bottom }}
       stickyHeaderIndices={[0]}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl refreshing={refreshing} onRefresh={ordersService.refresh} />
       }
       ListEmptyComponent={
         <Box justifyContent="center" gap={16} alignItems="center">
@@ -121,6 +122,7 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
       renderItem={({ item }) => <Order {...item} />}
       data={orders}
       stickyHeaderHiddenOnScroll={false}
+      onEndReached={ordersService.loadMore}
     />
   );
 };

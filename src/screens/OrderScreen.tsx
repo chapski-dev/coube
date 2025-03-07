@@ -1,13 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
-import {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
 import RhombusArrowIcon from '@assets/svg/arrow-in-a-rhombus.svg';
 import Circle from '@assets/svg/circle.svg';
 
+import { startDriverOrder } from '@src/api';
 import MapWithDistance from '@src/components/MapWithDistance';
 import SosModal from '@src/components/SosModal';
 import SwipeButton from '@src/components/SwipeButton';
@@ -23,16 +19,9 @@ import { openYandexMaps } from '@src/utils/yandex-maps';
 
 import { OrderStatusLabel } from './MyOrdersScreen/components/OrderStatusLabel';
 
-
-
-export const OrderScreen = ({
-  navigation,
-  route,
-}: ScreenProps<'order-screen'>) => {
+export const OrderScreen = ({ navigation, route }: ScreenProps<'order-screen'>) => {
   const { colors, insets } = useAppTheme();
   const { t } = useLocalization();
-
-  const squarePosition = useSharedValue(0);
 
   const btnText = useMemo(() => {
     switch (route.params?.driver_status) {
@@ -47,42 +36,43 @@ export const OrderScreen = ({
     }
   }, [route.params?.driver_status, t]);
 
-  const handleSubmit = () => {
-    switch (route.params?.driver_status) {
-      case DriverStatusEnum.accepted:
-        navigation.navigate('order-screen', {
-          ...route.params,
-          driver_status: DriverStatusEnum.went_to_load,
-          order_status: OrderStatusEnum.pending,
-        });
-        break;
-      case DriverStatusEnum.went_to_load:
-        navigation.navigate('order-screen', {
-          ...route.params,
-          driver_status: DriverStatusEnum.arrived_for_loading,
-          order_status: OrderStatusEnum.loading,
-        });
+  const handleSubmit = async () => {
+    try {
+      switch (route.params?.driver_status) {
+        case DriverStatusEnum.accepted:
+          await startDriverOrder(route.params.transportationMainInfoResponse.id);
 
-        break;
-      case DriverStatusEnum.arrived_for_loading:
-        navigation.navigate('upload-invoise-for-goods');
-        break;
-      default:
-        break;
+          navigation.navigate('order-screen', {
+            ...route.params,
+            driver_status: DriverStatusEnum.went_to_load,
+            order_status: OrderStatusEnum.pending
+          });
+          break;
+        case DriverStatusEnum.went_to_load:
+          navigation.navigate('order-screen', {
+            ...route.params,
+            driver_status: DriverStatusEnum.arrived_for_loading,
+            order_status: OrderStatusEnum.loading
+          });
+
+          break;
+        case DriverStatusEnum.arrived_for_loading:
+          navigation.navigate('upload-invoise-for-goods');
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      handleCatchError(error, 'order-screen handleSubmit');
     }
   };
 
-  const handleNavigatePress = () => {
-    squarePosition.value = withTiming(100, { duration: 3000 });
-  };
-
-  const animatedSquareStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: squarePosition.value }],
-  }));
-
   const handleOpenYandexMaps = () => {
-    const pointA = route.params.route[0].point;
-    const pointB = route.params.route[route.params.route.length - 1].point;
+    const pointA = route.params.transportationCargoInfoResponse.cargoLoadings[0].point;
+    const pointB =
+      route.params.transportationCargoInfoResponse.cargoLoadings[
+        route.params.transportationCargoInfoResponse.cargoLoadings.length - 1
+      ].point;
 
     openYandexMaps(pointA, pointB);
   };
@@ -98,7 +88,7 @@ export const OrderScreen = ({
       modal().setupModal?.({
         element: Element,
         justifyContent: 'center',
-        marginHorizontal: 20,
+        marginHorizontal: 20
       });
     } catch (error) {
       handleCatchError(error);
@@ -108,25 +98,16 @@ export const OrderScreen = ({
   };
 
   const renderContent = () => {
-
-    if(route.params?.driver_status ===
-      DriverStatusEnum.arrived_for_loading) {
-        return (
-          <>
+    if (route.params?.driver_status === DriverStatusEnum.arrived_for_loading) {
+      return (
+        <>
           <Box row gap={8} alignItems="center">
             <Circle />
-            <Text
-              type="body_500"
-              fontSize={18}
-              children={t('order_status.loading')}
-            />
+            <Text type="body_500" fontSize={18} children={t('order_status.loading')} />
           </Box>
           <Box>
             <Text children={t('loading-address')} />
-            <Text
-              type="body_500"
-              children={'г. Алматы, ул. Абая 11, Сегодня, 15:40'}
-            />
+            <Text type="body_500" children={'г. Алматы, ул. Абая 11, Сегодня, 15:40'} />
           </Box>
           <Box row gap={8}>
             <Box>
@@ -151,59 +132,14 @@ export const OrderScreen = ({
               <Text children={t('phone')} />
               <Text type="body_500" children={'+7 777 777 77 77'} />
             </Box>
-            <Button
-              wrapperStyle={{ flex: 0.8 }}
-              backgroundColor="blue"
-              children={t('to-ring')}
-            />
+            <Button wrapperStyle={{ flex: 0.8 }} backgroundColor="blue" children={t('to-ring')} />
           </Box>
         </>
-        )
-      }
+      );
+    }
 
-      // {route.params?.driver_status === DriverStatusEnum.went_to_load && (
-      //   <Box gap={7}>
-      //     <Box w="full" row alignItems="center">
-      //       <Circle />
-      //       <Box w={'90%'} height={8} backgroundColor={colors.disabled} />
-      //       <Circle color={colors.red} />
-      //       <Animated.View
-      //         style={[
-      //           {
-      //             alignItems: 'center',
-      //             backgroundColor: 'white',
-      //             borderColor: colors.dark_grey,
-      //             borderRadius: 5,
-      //             borderWidth: 1.3,
-      //             height: 20,
-      //             justifyContent: 'center',
-      //             left: 15,
-      //             position: 'absolute',
-      //             width: 20,
-      //           },
-      //           animatedSquareStyle,
-      //         ]}
-      //       >
-      //         <Text
-      //           color={colors.dark_grey}
-      //           fontSize={9}
-      //           fontWeight={700}
-      //           children={'1'}
-      //         />
-      //       </Animated.View>
-      //     </Box>
-      //     <Box>
-      //       <Text children={t('loading-address')} />
-      //       <Text
-      //         type="body_500"
-      //         children={'г. Алматы, ул. Абая 11, Сегодня, 15:40'}
-      //       />
-      //     </Box>
-      //   </Box>
-      // )}
-
-      return (<MapWithDistance route={route.params.route} />)
-  }
+    return <MapWithDistance route={route.params.transportationCargoInfoResponse.cargoLoadings} />;
+  };
 
   return (
     <Box justifyContent="space-between" flex={1}>
@@ -215,30 +151,20 @@ export const OrderScreen = ({
               <Text children={'15-020342'} fontWeight={700} color="black" />
             </Box>
             <Box>
-              <OrderStatusLabel status={route.params.order_status} />
+              <OrderStatusLabel status={route.params.transportationMainInfoResponse.status} />
             </Box>
           </Box>
           {renderContent()}
-          <Accordion
-            label={t('cargo-information')}
-            children={'Подробная информация о грузе...'}
-          />
-          <Accordion
-            label={t('route')}
-            children={'Подробная информация о маршруте...'}
-          />
-          <Accordion
-            label={t('additional-info')}
-            children={'Дополнительная информация...'}
-          />
+          <Accordion label={t('cargo-information')} children={'Подробная информация о грузе...'} />
+          <Accordion label={t('route')} children={'Подробная информация о маршруте...'} />
+          <Accordion label={t('additional-info')} children={'Дополнительная информация...'} />
           <Accordion label={t('documents')} children={'Список документов...'} />
-          {route.params?.driver_status ===
-          DriverStatusEnum.arrived_for_loading ? (
+          {route.params?.driver_status === DriverStatusEnum.arrived_for_loading ? (
             <Button
               backgroundColor="light_red"
               textColor="red"
               children={t('report-carrgo-damage')}
-              onPress={()=> navigation.navigate('damage-to-cargo')}
+              onPress={() => navigation.navigate('damage-to-cargo')}
             />
           ) : (
             <Box py={23} alignItems="center">

@@ -8,7 +8,7 @@ import messaging, {
 } from '@react-native-firebase/messaging';
 
 import { vibrate } from '@src/actions/vibrate.ts';
-// import { registerFCMToken } from '@src/api'
+import { registerFCMToken } from '@src/api'
 import notifications from '@src/service/notifications';
 import { AppStatus, getAppStatus } from '@src/utils/system';
 import { ASYNC_STORAGE_KEYS } from '@src/vars/async_storage_keys';
@@ -123,7 +123,9 @@ const messagingService = () => {
   };
 
   const saveToken = async (token: string) => {
-    // const res = await registerFCMToken({ token })
+    const res = await registerFCMToken(token)
+    console.log('registerFCMToken res: ', res);
+    
     await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.FCM_TOKEN_KEY, token);
   };
 

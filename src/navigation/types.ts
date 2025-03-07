@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { ITransportationOrderData } from '@src/service/transportation-service';
+import { OrderDetails } from '@src/api/types';
 
 export type RootStackParamList = {
   tabs: undefined;
@@ -13,11 +13,11 @@ export type RootStackParamList = {
   'search-for-new-order': undefined;
   'filters-for-orders': undefined;
   'from-where': undefined;
-  'transportation-details': ITransportationOrderData;
+  'transportation-details': OrderDetails;
   'counter-offer': undefined;
   'upload-invoise-for-goods': undefined;
   'invoice-sent': undefined;
-  'order-screen': ITransportationOrderData;
+  'order-screen': OrderDetails;
   'company-configuration': undefined;
   'bank-details': undefined;
   'contact-details': undefined;

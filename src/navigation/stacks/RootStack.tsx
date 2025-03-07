@@ -82,8 +82,8 @@ export const RootStack = () => {
       />
       <Stack.Screen
         options={({ route }) => ({
-          headerTitle: route.params.order_number
-            ? `Заказ № ${route.params.order_number}`
+          headerTitle: route.params.transportationMainInfoResponse.id
+            ? `${t('order')} № ${route.params.transportationMainInfoResponse.id}`
             : '',
         })}
         name="transportation-details"
@@ -106,7 +106,7 @@ export const RootStack = () => {
       />
       <Stack.Screen
         options={({ route }) => ({
-          headerTitle: `Заказ № ${route.params.order_number}`,
+          headerTitle: `Заказ № ${route.params.transportationMainInfoResponse.id}`,
         })}
         name="order-screen"
         component={OrderScreen}

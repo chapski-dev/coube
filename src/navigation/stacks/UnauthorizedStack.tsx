@@ -51,7 +51,6 @@ export const UnauthorizedStack = () => {
         component={RegistrationUserData}
       />
       <Stack.Screen
-        options={{ presentation: 'modal' }}
         name='otp-verify'
         component={OtpVerifyScreen}
       />

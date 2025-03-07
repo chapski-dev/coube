@@ -1,22 +1,40 @@
 import React, { useState } from 'react';
 import { useMaskedInputProps } from 'react-native-mask-input';
 
+import { postOtp } from '@src/api';
 import { ScreenProps } from '@src/navigation/types';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Input, Text } from '@src/ui';
+import { handleCatchError } from '@src/utils/handleCatchError';
 import { phoneMask } from '@src/utils/masks';
 
-const LoginViaPhoneScreen = ({ navigation, route }: ScreenProps<'login-via-phone'>) => {
+const LoginViaPhoneScreen = ({
+  navigation,
+  route,
+}: ScreenProps<'login-via-phone'>) => {
   const { t } = useLocalization();
   const [phone, setPhone] = useState('');
+  const [loading, setLoading] = useState(false);
   const maskedInputProps = useMaskedInputProps({
     mask: phoneMask,
     onChangeText: setPhone,
-    value: phone
+    value: phone,
   });
 
-  const handleSubmit = () => {
-    navigation.navigate('otp-verify', { action: 'login', phone: maskedInputProps.value });
+  const handleSubmit = async () => {
+    try {
+      setLoading(true)
+      await postOtp({ phone: phone.replaceAll(' ', '') });
+      navigation.navigate('otp-verify', {
+        action: 'login',
+        phone: phone,
+      });
+      
+    } catch (error) {
+      handleCatchError(error, 'LoginViaPhoneScreen')
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,7 +51,7 @@ const LoginViaPhoneScreen = ({ navigation, route }: ScreenProps<'login-via-phone
         keyboardType="phone-pad"
         autoFocus
       />
-      <Button children={t('next')} onPress={handleSubmit} />
+      <Button children={t('next')} onPress={handleSubmit} disabled={loading} loading={loading} />
     </Box>
   );
 };

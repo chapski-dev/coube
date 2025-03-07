@@ -1,52 +1,53 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 import { create } from 'zustand';
 
+import {
+  OrderDetails,
+  TransportationCargoInfoResponse,
+  TransportationMainInfoResponse,
+} from '@src/api/types';
 import { RouteObjectType } from '@src/screens/TransportationsDetailsScreen';
-import { DriverStatusEnum,OrderStatusEnum } from '@src/types/order';
+import { DriverStatusEnum, OrderStatusEnum } from '@src/types/order';
 
-export interface ITransportationOrderData {
-  order_number: string;
-  driver_status: DriverStatusEnum;
-  order_status: OrderStatusEnum;
-  name_of_cargo: string;
-  type_of_cargo: string;
-  type_of_loading_container: string;
-  cargo_weight_gross: string;
-  cargo_volume_gross: string;
-  additional_information: string;
-  action_address: string;
-  loading_method: string;
-  customer_contact_name: string;
-  customer_contact_phone: string;
-  route: RouteObjectType[];
-  additional_cargo_information: string;
-  documents: string[];
-}
-
-interface ITransportationOrderState extends ITransportationOrderData {
+interface ITransportationOrderState extends OrderDetails {
   setOrderStatus: (status: OrderStatusEnum) => void;
   setDriverStatus: (status: DriverStatusEnum) => void;
   setRoute: (route: RouteObjectType[]) => void;
 }
 
-const initialState: ITransportationOrderData = {
-  order_number: '0',
-  driver_status: DriverStatusEnum.accepted,
-  order_status: OrderStatusEnum.new,
-  name_of_cargo: '',
-  type_of_cargo: '',
-  type_of_loading_container: '',
-  cargo_weight_gross: '',
-  cargo_volume_gross: '',
-  additional_information: '',
-  action_address: '',
-  loading_method: '',
-  customer_contact_name: '',
-  customer_contact_phone: '',
-  route: [],
-  additional_cargo_information: '',
-  documents: [],
-}
+const initialMainInfo: TransportationMainInfoResponse = {
+  status: 'FORMING',
+  id: 0,
+  contact: {
+    id: 0,
+    name: '',
+    email: '',
+    phoneNumber: '',
+  },
+  cargoName: '',
+  cargoType: { id: 0, nameKk: '', nameRu: '' },
+  tareType: { id: 0, nameKk: '', nameRu: '' },
+  cargoPrice: 0,
+  cargoPriceCurrency: { code: 'KZT', nameKk: 'Теңге', nameRu: 'Тенге' },
+  cargoWeight: 0,
+  cargoWeightUnit: 'TONS',
+  cargoVolume: 0,
+  vehicleBodyType: { id: 0, nameKk: '', nameRu: '' },
+  capacityValue: { id: 0, capacityValue: 0 },
+  capacityUnit: 'TONS',
+  additionalInfo: '',
+};
+
+const initialCargoInfo: TransportationCargoInfoResponse = {
+  vehicleBodyType: { id: 0, nameKk: '', nameRu: '' },
+  cargoLoadings: [],
+};
+
+const initialState: OrderDetails = {
+  transportationMainInfoResponse: initialMainInfo,
+  transportationCargoInfoResponse: initialCargoInfo,
+  hasAlreadyApplied: false,
+};
 
 const useTransportationStore = create<ITransportationOrderState>((set) => ({
   ...initialState,
@@ -58,64 +59,143 @@ const useTransportationStore = create<ITransportationOrderState>((set) => ({
   setDriverStatus: (status: DriverStatusEnum) =>
     set((state) => ({ ...state, driver_status: status })),
 
-  setRoute: (route: RouteObjectType[]) =>
-    set((state) => ({ ...state, route })),
+  setRoute: (route: RouteObjectType[]) => set((state) => ({ ...state, route })),
 }));
 
 export default useTransportationStore;
 
-export const STATE_MOCK: ITransportationOrderData = {
-  order_number: '15-020342',
-  driver_status: DriverStatusEnum.accepted,
-  order_status: OrderStatusEnum.new,
-  name_of_cargo: 'Медицинское оборудование',
-  type_of_cargo: 'Деревянный короб',
-  type_of_loading_container: 'Продукты питания',
-  cargo_weight_gross: '15 тонн',
-  cargo_volume_gross: '3000 м3',
-  additional_information: '12.07.2024-30.07.2024',
-  action_address: 'г. Алматы, улица Желтоксан, 12А',
-  loading_method: 'Ручной',
-  customer_contact_name: 'Анна',
-  customer_contact_phone: '+7 777 77 77 77',
-  route: [
-    {
-      cargo_volume_gross: '2000 м3',
-      cargo_weight_gross: '10 тонн',
-      date_and_place_of_operation: '18.07.2024, 15:40',
-      loading_method: 'Ручной',
-      action_address: 'г. Алматы, улица Желтоксан, 12А',
-      point: {
-        lat: 43.273564,
-        lon: 76.91486,
-      },
-      placeType: 'load'
+export const STATE_MOCK: OrderDetails = {
+  transportationMainInfoResponse: {
+    status: 'FORMING',
+    id: 15_020_342,
+    contact: {
+      id: 1,
+      name: 'Анна',
+      email: 'anna@example.com',
+      phoneNumber: '+7 777 77 77 77',
     },
-    {
-      cargo_volume_gross: '500 м3',
-      cargo_weight_gross: '5 тонн',
-      date_and_place_of_operation: '20.07.2024, 15:40',
-      loading_method: 'Ручной',
-      action_address: 'г. Астана, улица Пушкина, 10',
-      point: {
-        lat: 48.866597,
-        lon: 73.674814,
-      },
-      placeType: 'unload'
+    cargoName: 'Медицинское оборудование',
+    cargoType: {
+      id: 1,
+      nameKk: '',
+      nameRu: 'Деревянный короб',
     },
-    {
-      cargo_volume_gross: '300 м3',
-      cargo_weight_gross: '2 тонн',
-      date_and_place_of_operation: '25.07.2024, 15:40',
-      loading_method: 'Ручной',
-      action_address: 'г. Москва, улица Ленина, 10',
-      point: {
-        lat: 51.128201,
-        lon: 71.430429,
-      },
-      placeType: 'unload',
+    tareType: {
+      id: 2,
+      nameKk: '',
+      nameRu: 'Продукты питания',
     },
-  ],
-  additional_cargo_information: 'Транспортные средства, используемые для перевозки продуктов',
-  documents: [ '№2233411-Артем.pdf' ]
-}
+    cargoPrice: 0,
+    cargoPriceCurrency: {
+      code: 'KZT',
+      nameKk: 'Теңге',
+      nameRu: 'Тенге',
+    },
+    cargoWeight: 15,
+    cargoWeightUnit: 'TONS',
+    cargoVolume: 3000,
+    vehicleBodyType: {
+      id: 3,
+      nameKk: '',
+      nameRu: 'Ручной',
+    },
+    capacityValue: {
+      id: 1,
+      capacityValue: 15,
+    },
+    capacityUnit: 'TONS',
+    additionalInfo:
+      'Транспортные средства, используемые для перевозки продуктов',
+  },
+  transportationCargoInfoResponse: {
+    vehicleBodyType: {
+      id: 3,
+      nameKk: '',
+      nameRu: 'Ручной',
+    },
+    cargoLoadings: [
+      {
+        id: 1,
+        loadingType: 'LOADING',
+        orderNum: 1,
+        binShipper: '',
+        loadingDateTime: '2024-07-18T15:40:00Z',
+        address: 'г. Алматы, улица Желтоксан, 12А',
+        longitude: '76.91486',
+        latitude: '43.273564',
+        commentary: '',
+        weight: 10,
+        weightUnit: 'TONS',
+        volume: 2000,
+        loadingMethod: {
+          id: 4,
+          nameKk: '',
+          nameRu: 'Ручной',
+        },
+        loadingOperation: {
+          id: 5,
+          nameKk: '',
+          nameRu: 'Стандартная операция',
+        },
+        loadingTimeHours: 1,
+        contactNumber: '+7 777 77 77 77',
+        contactName: 'Анна',
+      },
+      {
+        id: 2,
+        loadingType: 'UNLOADING',
+        orderNum: 2,
+        binShipper: '',
+        loadingDateTime: '2024-07-20T15:40:00Z',
+        address: 'г. Астана, улица Пушкина, 10',
+        longitude: '73.674814',
+        latitude: '48.866597',
+        commentary: '',
+        weight: 5,
+        weightUnit: 'TONS',
+        volume: 500,
+        loadingMethod: {
+          id: 4,
+          nameKk: '',
+          nameRu: 'Ручной',
+        },
+        loadingOperation: {
+          id: 5,
+          nameKk: '',
+          nameRu: 'Стандартная операция',
+        },
+        loadingTimeHours: 1,
+        contactNumber: '+7 777 77 77 77',
+        contactName: 'Анна',
+      },
+      {
+        id: 3,
+        loadingType: 'UNLOADING',
+        orderNum: 3,
+        binShipper: '',
+        loadingDateTime: '2024-07-25T15:40:00Z',
+        address: 'г. Москва, улица Ленина, 10',
+        longitude: '71.430429',
+        latitude: '51.128201',
+        commentary: '',
+        weight: 2,
+        weightUnit: 'TONS',
+        volume: 300,
+        loadingMethod: {
+          id: 4,
+          nameKk: '',
+          nameRu: 'Ручной',
+        },
+        loadingOperation: {
+          id: 5,
+          nameKk: '',
+          nameRu: 'Стандартная операция',
+        },
+        loadingTimeHours: 1,
+        contactNumber: '+7 777 77 77 77',
+        contactName: 'Анна',
+      },
+    ],
+  },
+  hasAlreadyApplied: false,
+};

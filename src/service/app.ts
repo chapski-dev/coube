@@ -78,25 +78,12 @@ class App extends Emittery<EventsParams> {
   }
 
   logout = () => {
-    // system
     AsyncStorage.clear().catch((e) => console.log('async storage clear error: ', e))
-    // services clean up
-    // firebaseAuth()
-    //   .signOut()
-    //   .catch((e) => {
-    //     console.error('firebase signout error: ', e)
-    //   }) // firebase sigOut doesnt provide this._isFirebaseAuthorized = false
     this.isFirebaseAuthorized = AppServiceStatus.off
     this.isAuthReady = AppServiceStatus.off
     this.isNavigationReady = AppServiceStatus.off
-    
-    // authService.cleanUp()
-    // providers
-    
+
     dispatchAuth?.({ type: AuthActionType.setEmpty })
-    // dispatchAccount?.({ payload: initialAccountState.account, type: AccountActionType.patchAccount })
-    // app reset etc
-    // Password.reset().catch((e) => console.log('password reset error: ', e))
   }
 }
 

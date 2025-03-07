@@ -1,28 +1,29 @@
 import React, { FC } from 'react';
 import Circle from '@assets/svg/circle.svg';
 
-import { ITransportationOrderData } from '@src/service/transportation-service';
+import { OrderDetails } from '@src/api/types';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Chip, Text } from '@src/ui';
 
-type OrderPropsTypes = ITransportationOrderData & {
+type OrderPropsTypes = OrderDetails & {
   openTransportationDetails?: () => void;
   rating?: string;
-  category: string[]
-  company_name: string
+  category: string[];
+  company_name: string;
   price: string;
 };
 
-export const Order: FC<OrderPropsTypes> = ({
-  openTransportationDetails,
-  company_name,
-  rating,
-  name_of_cargo,
-  category,
-  route,
-  price
-}) => {
+export const Order: FC<OrderPropsTypes> = (props) => {
+  const {
+    openTransportationDetails,
+    company_name,
+    rating,
+    category,
+    price,
+    transportationMainInfoResponse,
+    transportationCargoInfoResponse
+  } = props;
   const { t } = useLocalization();
   const { colors } = useAppTheme();
 
@@ -33,7 +34,7 @@ export const Order: FC<OrderPropsTypes> = ({
         <Text type="body_500" color="green" children={rating} />
       </Box>
 
-      <Text type="body_500" children={name_of_cargo} />
+      <Text type="body_500" children={transportationMainInfoResponse.cargoName} />
 
       <Box row flexWrap="wrap" gap={8}>
         {category?.map((el) => <Chip key={el} children={el} />)}
@@ -41,15 +42,27 @@ export const Order: FC<OrderPropsTypes> = ({
 
       <Box row gap={10} alignItems="center">
         <Circle color="dark_grey" />
-        <Text children={route[0].action_address} />
+        <Text children={transportationCargoInfoResponse.cargoLoadings[0].address} />
       </Box>
 
       <Box row gap={10} alignItems="center">
         <Circle color="red" />
-        <Text children={route[route.length - 1].action_address} />
+        <Text
+          children={
+            transportationCargoInfoResponse.cargoLoadings[
+              transportationCargoInfoResponse.cargoLoadings.length - 1
+            ].address
+          }
+        />
       </Box>
 
-      <Text color="black" fontSize={18} fontWeight={900} children={price} mb={12} />
+      <Text
+        color="black"
+        fontSize={18}
+        fontWeight={900}
+        children={price}
+        mb={12}
+      />
 
       <Button
         backgroundColor="grey"

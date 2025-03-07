@@ -6,13 +6,16 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useState,
+  useState
 } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useImmerReducer } from 'use-immer';
 
+import { postSigIn } from '@src/api';
 import { AppServiceStatus } from '@src/events';
-import { AuthAction, authReducer } from '@src/providers/reducers/authReducer';
+import { AuthAction, AuthActionType, authReducer } from '@src/providers/reducers/authReducer';
 import app from '@src/service/app';
+import { ASYNC_STORAGE_KEYS } from '@src/vars/async_storage_keys';
 
 export enum AuthState {
   // app transmission
@@ -26,29 +29,38 @@ export enum AuthState {
   filled = 'filled',
   connecting = 'connecting',
   // authorized and successfully logged in user
-  ready = 'ready',
+  ready = 'ready'
 }
 
 export interface IAuthProvider {
   authState: AuthState;
   user: null;
+  onSignin: (data: { phone: string; otp: string }) => Promise<void>;
 }
 
 export const AuthContext = createContext<IAuthProvider>({
   authState: AuthState.checking,
-  user: null,
+  onSignin: () => new Promise((resolve) => resolve),
+  user: null
 });
 
-export let dispatchAuth: Dispatch<ReducerAction<typeof authReducer>> | null =
-  null;
+export let dispatchAuth: Dispatch<ReducerAction<typeof authReducer>> | null = null;
 
 export const AuthProvider = ({ children }: { children?: ReactNode }) => {
   const [authState, authDispatch] = useImmerReducer<AuthState, AuthAction>(
     authReducer,
-    AuthState.checking,
+    AuthState.checking
   );
 
   const [user, setUser] = useState<null>(null);
+
+  const onSignin = async (data: { phone: string; otp: string }) => {
+    const res = await postSigIn(data);
+    await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.ASSECC_TOKEN, res.access_token);
+    await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.REFRESH_TOKEN, res.refresh_token);
+    await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.AUTH_STATE, AuthActionType.setReady)
+    dispatchAuth?.({ type: AuthActionType.setReady })
+  };
 
   const onAuthStateChanged = useCallback(
     (_user: null) => {
@@ -61,7 +73,7 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
       setUser(_user);
       // app.isFirebaseAuthorized = _user ? AppServiceStatus.on : AppServiceStatus.off
     },
-    [authState, user],
+    [authState, user]
   );
 
   useEffect(() => {
@@ -75,9 +87,7 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
   }, [authDispatch]);
 
   return (
-    <AuthContext.Provider value={{ authState, user }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ authState, onSignin, user }}>{children}</AuthContext.Provider>
   );
 };
 

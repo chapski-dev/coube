@@ -31,52 +31,46 @@ export const TransportationDetailsScreen = ({
   const { colors, insets } = useAppTheme();
 
   const {
-    order_number,
-    order_status,
-    name_of_cargo,
-    type_of_cargo,
-    type_of_loading_container,
-    cargo_weight_gross,
-    cargo_volume_gross,
-    additional_cargo_information,
-    documents,
+    transportationMainInfoResponse: mainInfo,
+    transportationCargoInfoResponse: cargoInfo,
+    hasAlreadyApplied,
   } = route.params;
 
-  const makeCounterOffe = () => {
+  const makeCounterOffer = () => {
     navigation.push('counter-offer');
   };
 
   const handleRespond = () =>
-    Alert.alert('Отлично!', 'Вы отправили запрос на исполнение заказа');
+    Alert.alert(t('perfectly'), 'Вы отправили запрос на исполнение заказа');
 
   const mapRef = useRef<YaMap>(null);
-
-  const [markersPints, setMarkersPints] = useState<Point[]>([]);
+  const [markersPoints, setMarkersPoints] = useState<Point[]>([]);
+  const [routeCoordinates, setRouteCoordinates] = useState<Point[]>([]);
+  const [distance, setDistance] = useState('0');
 
   const getPoints = useCallback(async () => {
     await wait(50);
-    setMarkersPints(route.params.route.map((el) => el.point));
-  }, [route.params.route]);
+    const points = cargoInfo.cargoLoadings.map(loading => ({
+      lat: Number(loading.latitude),
+      lon: Number(loading.longitude),
+    }));
+    setMarkersPoints(points);
+  }, [cargoInfo.cargoLoadings]);
 
   useEffect(() => {
     getPoints();
   }, [getPoints]);
 
-  const [routeCoordinates, setRouteCoordinates] = useState<Point[]>([]);
-  const [distance, setDistance] = useState('0');
-
   useEffect(() => {
-    if (markersPints.length && mapRef?.current) {
-      mapRef?.current?.fitAllMarkers();
-      mapRef?.current?.findDrivingRoutes(markersPints, (routeData) => {
+    if (markersPoints.length && mapRef?.current) {
+      mapRef.current.fitAllMarkers();
+      mapRef.current.findDrivingRoutes(markersPoints, routeData => {
         const result = extractRouteCoordinates(routeData);
-        setRouteCoordinates((state) =>
-          result ? result.routeCoordinates : state,
-        );
-        setDistance((state) => (result ? result.routeDistance : state));
+        setRouteCoordinates(result ? result.routeCoordinates : []);
+        setDistance(result ? result.routeDistance : '0');
       });
     }
-  }, [markersPints]);
+  }, [markersPoints]);
 
   return (
     <>
@@ -91,9 +85,9 @@ export const TransportationDetailsScreen = ({
         >
           <Text>
             <Text fontSize={12} color={colors.textSecondary} children={'№ '} />
-            <Text type="body_500" children={order_number} />
+            <Text type="body_500" children={mainInfo.id} />
           </Text>
-          <OrderStatusLabel status={order_status} />
+          <OrderStatusLabel status={mainInfo.status} />
         </Box>
         <YaMap
           ref={mapRef}
@@ -102,7 +96,7 @@ export const TransportationDetailsScreen = ({
           rotateGesturesEnabled={false}
           style={{ height: 182, width: Dimensions.get('screen').width }}
         >
-          {markersPints.map((el, i, arr) => (
+          {markersPoints.map((el, i, arr) => (
             <Marker
               key={i}
               point={el}
@@ -110,8 +104,8 @@ export const TransportationDetailsScreen = ({
                 i === 0
                   ? require('@assets/png/circle-red.png')
                   : i === arr.length - 1
-                    ? require('@assets/png/circle-gray.png')
-                    : require('@assets/png/stop-point.png')
+                  ? require('@assets/png/circle-gray.png')
+                  : require('@assets/png/stop-point.png')
               }
               scale={2}
             />
@@ -141,12 +135,12 @@ export const TransportationDetailsScreen = ({
           <Box py={10} gap={10}>
             <Box gap={2}>
               <Text color={colors.textSecondary} children={t('cargo-name')} />
-              <Text type="body_500" children={name_of_cargo} />
+              <Text type="body_500" children={mainInfo.cargoName} />
             </Box>
 
             <Box gap={2}>
               <Text color={colors.textSecondary} children={t('cargo-type')} />
-              <Text type="body_500" children={type_of_cargo} />
+              <Text type="body_500" children={mainInfo.cargoType.nameRu} />
             </Box>
 
             <Box gap={2}>
@@ -154,7 +148,7 @@ export const TransportationDetailsScreen = ({
                 color={colors.textSecondary}
                 children={t('loading-container-type')}
               />
-              <Text type="body_500" children={type_of_loading_container} />
+              <Text type="body_500" children={mainInfo.tareType.nameRu} />
             </Box>
 
             <Box row gap={16}>
@@ -163,14 +157,17 @@ export const TransportationDetailsScreen = ({
                   color={colors.textSecondary}
                   children={t('cargo-weight-brutto')}
                 />
-                <Text type="body_500" children={cargo_weight_gross} />
+                <Text 
+                  type="body_500" 
+                  children={`${mainInfo.cargoWeight} ${mainInfo.cargoWeightUnit.toLowerCase()}`} 
+                />
               </Box>
               <Box gap={2}>
                 <Text
                   color={colors.textSecondary}
                   children={t('cargo-volume-brutto')}
                 />
-                <Text type="body_500" children={cargo_volume_gross} />
+                <Text type="body_500" children={mainInfo.cargoVolume} />
               </Box>
             </Box>
 
@@ -179,13 +176,13 @@ export const TransportationDetailsScreen = ({
                 color={colors.textSecondary}
                 children={t('additional-cargo-info')}
               />
-              <Text type="body_500" children={additional_cargo_information} />
+              <Text type="body_500" children={mainInfo.additionalInfo} />
             </Box>
           </Box>
         </Accordion>
 
         <Accordion label={t('route')}>
-          <TransportationRoute transportation_route={route.params.route} />
+          <TransportationRoute cargoLoadings={cargoInfo.cargoLoadings} />
         </Accordion>
 
         <Accordion label={t('additional-info')}>
@@ -200,25 +197,28 @@ export const TransportationDetailsScreen = ({
             </Box>
           </Box>
         </Accordion>
-
         <Accordion label={t('documents')}>
           <Box row gap={10}>
             <Image source={require('@assets/png/pdf-file.png')} />
             <Box>
               <Text type="body_500" children={t('waybill')} />
-              <Text type="body_500" children={documents} fontWeight={400} />
+              <Text type="body_500" children={t('documents')} fontWeight={400} />
             </Box>
           </Box>
         </Accordion>
 
         <Box p={10} gap={10}>
-          <Button children={t('respond')} onPress={handleRespond} />
+          <Button 
+            children={t('respond')} 
+            onPress={handleRespond} 
+            disabled={hasAlreadyApplied}
+          />
           <Button
             children={t('make-counteroffer')}
             type="outline"
             borderColor="main"
             textColor="main"
-            onPress={makeCounterOffe}
+            onPress={makeCounterOffer}
           />
         </Box>
       </ScrollView>

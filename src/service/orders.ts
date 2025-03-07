@@ -1,19 +1,20 @@
 import { EventBus } from '@trutoo/event-bus';
 
 import { getDriverOrders } from '@src/api';
-// import { getOrdersByUserId } from '@src/api';
+import { OrderDetails } from '@src/api/types';
 import { EventBusEvents } from '@src/events';
+import { handleCatchError } from '@src/utils/handleCatchError';
 
-import { ITransportationOrderData, STATE_MOCK } from './transportation-service';
+import { STATE_MOCK } from './transportation-service';
 
 const defaultOrders = Array.from({ length: 1 }, (_) => STATE_MOCK);
 
 class Orders extends EventBus {
-  orders: ITransportationOrderData[] = defaultOrders;
+  orders: OrderDetails[] = defaultOrders;
   loading = false;
   loading_more = false;
   has_more = false;
-  next_cursor?: string = undefined;
+  next_page = 0;
   limit = 10;
 
   constructor() {
@@ -25,13 +26,14 @@ class Orders extends EventBus {
   refresh = async () => {
     try {
       this.limit = 10;
-      this.next_cursor = undefined;
+      this.next_page = 0; // Сбрасываем страницу
       this.loading = true;
       this.publish(EventBusEvents.setOrderLoading, this.loading);
       this.deleteAll();
       await this.fetch();
     } catch (e) {
       this.orders = [];
+      handleCatchError(e, 'Orders service refresh');
     } finally {
       this.loading = false;
       this.publish(EventBusEvents.setOrderLoading, this.loading);
@@ -40,32 +42,15 @@ class Orders extends EventBus {
   };
 
   fetch = async () => {
-    // TODO: return to life when api apear
-    // const res = await getOrdersByUserId({
-    //   cursor: this.next_cursor,
-    //   limit: this.limit,
-    // });
-    // this.has_more = res.has_more;
-    // this.orders = this.next_cursor ? [...this.orders, ...res.data] : res.data || [];
-    // this.next_cursor = res.next_cursor;
-    // this.orders = defaultOrders;
+    const res = await getDriverOrders({ page: this.next_page, size: this.limit });
 
-    try {
-      const res = await getDriverOrders()
-      this.has_more = res.page.totalPages > 1
-      this.orders = res.content || []
-      this.next_cursor = res.page.number < res.page.totalPages ? res.page.number + 1 : undefined
-    } catch (error) {
-      console.error('Error fetching orders:', error)
-      this.orders = []
-    }
-  }
+    this.has_more = res?.page?.number < res?.page.totalPages - 1;
+    this.orders = this.next_page === 0 ? res.content : [...this.orders, ...res.content];
+    this.next_page = res?.page?.number + 1;
+  };
 
   loadMore = async () => {
-    if (!this.has_more) {
-      return;
-    }
-    if (this.loading_more) {
+    if (!this.has_more || this.loading_more) {
       return;
     }
     try {
@@ -80,7 +65,6 @@ class Orders extends EventBus {
   };
 
   update = () => {
-    this.orders = defaultOrders
     this.publish(EventBusEvents.getOrders, this.orders);
   };
 

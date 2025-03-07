@@ -4,11 +4,12 @@ import Circle from '@assets/svg/circle.svg';
 import ThreeDots from '@assets/svg/three-dots.svg';
 import { useNavigation } from '@react-navigation/native';
 
+import { acceptDriverOrder, rejectDriverOrder } from '@src/api';
+import { OrderDetails } from '@src/api/types';
 import MapWithDistance from '@src/components/MapWithDistance';
 import geolocationService from '@src/service/geolocation-service';
-import useTransportationStore, {
-  ITransportationOrderData,
-} from '@src/service/transportation-service';
+import ordersService from '@src/service/orders';
+import useTransportationStore from '@src/service/transportation-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { DriverStatusEnum, OrderStatusEnum } from '@src/types/order';
@@ -18,10 +19,10 @@ import { handleCatchError } from '@src/utils/handleCatchError';
 
 import { OrderStatusLabel } from './OrderStatusLabel';
 
-type OrderPropsTypes = ITransportationOrderData;
+type OrderPropsTypes = OrderDetails;
 
 export const Order: FC<OrderPropsTypes> = (props) => {
-  const { order_status, order_number, name_of_cargo, route } = props;
+  const { transportationCargoInfoResponse, transportationMainInfoResponse } = props;
 
   const navigation = useNavigation();
 
@@ -29,13 +30,15 @@ export const Order: FC<OrderPropsTypes> = (props) => {
   const { colors } = useAppTheme();
   const [loadingAccept, setLoadingAccept] = useState(false);
   const [loadingDecline, setLoadingDecline] = useState(false);
-  const [isOrderAccepted, setIsOrderAccepted] = useState(false);
+  const [isOrderAccepted, setIsOrderAccepted] = useState(props.hasAlreadyApplied);
 
   const { setOrderStatus } = useTransportationStore();
 
   const handleDecline = async () => {
     try {
       setLoadingDecline(true);
+      await rejectDriverOrder(props.transportationMainInfoResponse.id)
+      await ordersService.refresh()
       await geolocationService.stopTracking();
       await wait(1000);
       setLoadingDecline(false);
@@ -47,12 +50,13 @@ export const Order: FC<OrderPropsTypes> = (props) => {
   const handleAccept = async () => {
     try {
       setLoadingAccept(true);
+      await acceptDriverOrder(props.transportationMainInfoResponse.id)
       await geolocationService.startTracking();
       setOrderStatus(OrderStatusEnum.pending);
       await wait(1000);
       setIsOrderAccepted(true);
       navigation.navigate('order-accepted', {
-        order_number,
+        order_number: props.transportationMainInfoResponse.id.toString()
       });
     } catch (error) {
       handleCatchError(error);
@@ -65,10 +69,10 @@ export const Order: FC<OrderPropsTypes> = (props) => {
     navigation.navigate('order-screen', {
       ...props,
       driver_status: DriverStatusEnum.accepted,
-      order_status: OrderStatusEnum.pending,
+      order_status: OrderStatusEnum.pending
     });
 
-  const openTransportationDetails = () =>
+  const openTransportationDetails = async () =>
     navigation.navigate('transportation-details', props);
 
   return (
@@ -83,17 +87,21 @@ export const Order: FC<OrderPropsTypes> = (props) => {
       <Box row w="full" justifyContent="space-between" alignItems="center">
         <Box row gap={10} alignItems="center">
           <Text fontSize={12} color={colors.textSecondary} children="№" />
-          <Text color={colors.textDefault} fontWeight="bold" children={order_number} />
+          <Text
+            color={colors.textDefault}
+            fontWeight="bold"
+            children={transportationMainInfoResponse.id}
+          />
         </Box>
         <OrderStatusLabel
-          status={isOrderAccepted ? OrderStatusEnum.pending : order_status}
+          status={isOrderAccepted ? OrderStatusEnum.pending : transportationMainInfoResponse.status}
         />
       </Box>
 
-      <MapWithDistance route={route} />
+      <MapWithDistance route={transportationCargoInfoResponse.cargoLoadings} />
       <Box gap={4}>
         <Text color={colors.textSecondary} children={t('cargo-name')} />
-        <Text type="body_500" children={name_of_cargo} />
+        <Text type="body_500" children={transportationMainInfoResponse.cargoName} />
       </Box>
 
       <Box w="full" h={0.5} backgroundColor={colors.disabled} />
@@ -101,14 +109,14 @@ export const Order: FC<OrderPropsTypes> = (props) => {
       <Box gap={4}>
         <Text color={colors.textSecondary} children={t('route')} />
         <Box gap={8}>
-          {route.map((el, i, arr) => {
+          {transportationCargoInfoResponse.cargoLoadings.map((el, i, arr) => {
             const isFirst = i === 0;
             const isLast = i === arr.length - 1;
             if (isFirst) {
               return (
                 <Box key={i} row gap={10} alignItems="center">
                   <Circle color="dark_grey" />
-                  <Text type="body_500" children={el.action_address} />
+                  <Text type="body_500" children={el.address} />
                 </Box>
               );
             }
@@ -126,10 +134,7 @@ export const Order: FC<OrderPropsTypes> = (props) => {
               return (
                 <Box key={i} row gap={10} alignItems="center">
                   <Circle color="red" />
-                  <Text
-                    type="body_500"
-                    children={route[route.length - 1].action_address}
-                  />
+                  <Text type="body_500" children={arr[arr.length - 1].address} />
                 </Box>
               );
             }
@@ -138,10 +143,7 @@ export const Order: FC<OrderPropsTypes> = (props) => {
       </Box>
 
       <Box gap={4}>
-        <Text
-          color={colors.textSecondary}
-          children={t('transportation-time')}
-        />
+        <Text color={colors.textSecondary} children={t('transportation-time')} />
         <Text type="body_500" children="12.07.2024-30.07.2024" />
       </Box>
 

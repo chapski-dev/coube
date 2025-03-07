@@ -2,15 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions } from 'react-native';
 import YaMap, { Marker,Point, Polyline } from 'react-native-yamap';
 
+import { CargoLoadings } from '@src/api/types';
 import { mapRoutes } from '@src/mocks/order-details';
-import { RouteObjectType } from '@src/screens/TransportationsDetailsScreen';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
 import { wait } from '@src/utils';
 import { extractRouteCoordinates } from '@src/utils/yandex-maps';
 
-const MapWithDistance = ({ route }: { route: RouteObjectType[] }) => {
+const MapWithDistance = ({ route }: { route: CargoLoadings[] }) => {
   const { t } = useLocalization();
   const { colors } = useAppTheme();
   const mapRef = useRef<YaMap>(null);
@@ -61,8 +61,11 @@ const MapWithDistance = ({ route }: { route: RouteObjectType[] }) => {
         >
           {route.map((el, i, arr) => (
             <Marker
-              key={el.action_address}
-              point={el.point}
+              key={el.id}
+              point={{
+                lat: Number(el.latitude),
+                lon: Number(el.longitude)
+              }}
               source={
                 i === 0
                   ? require('@assets/png/circle-red.png')

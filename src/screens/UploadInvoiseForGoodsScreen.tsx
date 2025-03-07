@@ -12,14 +12,11 @@ import { wait } from '@src/utils';
 import { handleCatchError } from '@src/utils/handleCatchError';
 import ImagePickerModal from '@src/widgets/ImagePickerModal';
 
-const UploadInvoiseForGoodsScreen = ({
-  navigation,
-}: ScreenProps<'upload-invoise-for-goods'>) => {
+const UploadInvoiseForGoodsScreen = ({ navigation }: ScreenProps<'upload-invoise-for-goods'>) => {
   const { colors } = useAppTheme();
   const { t } = useLocalization();
 
-  const [pickerResponse, setPickerResponse] =
-    useState<ImagePickerResponse | null>(null);
+  const [pickerResponse, setPickerResponse] = useState<ImagePickerResponse | null>(null);
   const uri = pickerResponse?.assets && pickerResponse.assets[0].uri;
   const modal = useRef<BottomSheetModal>(null);
   const modalClose = () => modal?.current?.forceClose();
@@ -30,7 +27,7 @@ const UploadInvoiseForGoodsScreen = ({
   const handleSendInvoce = async () => {
     try {
       setIsInvoceSended(true);
-      await wait(1000)
+      await wait(1000);
     } catch (error) {
       handleCatchError(error);
     } finally {
@@ -80,31 +77,15 @@ const UploadInvoiseForGoodsScreen = ({
     }
     if (isInvoceSended) {
       return (
-        <Box
-          pt={45}
-          alignItems="center"
-          justifyContent="space-between"
-          flex={1}
-          gap={27}
-        >
+        <Box pt={45} alignItems="center" justifyContent="space-between" flex={1} gap={27}>
           <Box gap={27} alignItems="center">
             <WaybillIcon color={colors.main} />
             <Box gap={4}>
-              <Text
-                type="h2"
-                center
-                children="Накладная на товар отправлена!"
-              />
+              <Text type="h2" center children="Накладная на товар отправлена!" />
               <Text type="h3" center children="Погрузка груза завершена!" />
             </Box>
           </Box>
-          <Box
-            w="full"
-            py={12}
-            px={16}
-            borderColor={colors.border}
-            style={{ borderTopWidth: 1 }}
-          >
+          <Box w="full" py={12} px={16} borderColor={colors.border} style={{ borderTopWidth: 1 }}>
             <Button children="Перейти к заказу" onPress={navigation.goBack} />
           </Box>
         </Box>
@@ -115,19 +96,15 @@ const UploadInvoiseForGoodsScreen = ({
         <WaybillIcon color={colors.disabled} />
         <Box px={40} gap={4}>
           <Text type="h2" center children={t('bill-of-lading')} />
-          <Text
-            center
-            children={t(
-              'download-the-document-confirming-the-release-of-the-goods',
-            )}
-          />
+          <Text center children={t('upload-the-document-confirming-the-release-of-the-goods')} />
         </Box>
         <Button
-          children={t('to-download')}
+          children={t('to-upload')}
           backgroundColor="main_light"
           textColor="dark_grey"
           onPress={modalOpen}
         />
+        <Button children={t('skip')} type="clear" onPress={navigation.goBack} />
       </>
     );
   };
@@ -136,11 +113,7 @@ const UploadInvoiseForGoodsScreen = ({
       <Box px={16} py={uri ? 15 : 45} alignItems="center" flex={1} gap={27}>
         {renderContent()}
       </Box>
-      <ImagePickerModal
-        ref={modal}
-        modalClose={modalClose}
-        setPickerResponse={setPickerResponse}
-      />
+      <ImagePickerModal ref={modal} modalClose={modalClose} setPickerResponse={setPickerResponse} />
     </>
   );
 };
