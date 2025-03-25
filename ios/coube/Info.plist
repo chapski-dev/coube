@@ -40,9 +40,9 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>Камера используется для фотографирования повреждений груза, накладных документов и маркировки товаров</string>
 	<key>NSHumanReadableCopyright</key>
-	<string></string>
+	<string>© 2024 Coube. Все права защищены.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
   <string>Мы используем вашу геолокацию для отслеживания грузов во время перевозки.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -50,11 +50,11 @@
   <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
   <string>Мы отслеживаем ваше местоположение, даже когда приложение закрыто, для безопасности перевозок.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string></string>
+	<string>Доступ к микрофону требуется для записи голосовых заметок к накладным или описания поломок в аудиоформате</string>
 	<key>NSMotionUsageDescription</key>
-	<string></string>
+	<string>Данные с датчиков движения используются для улучшения точности отслеживания местоположения груза и анализа условий перевозки</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>Приложение запрашивает доступ к галерее для загрузки фотографий накладных, товарных чеков и документов</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
