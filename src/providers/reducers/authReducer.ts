@@ -1,9 +1,6 @@
-import { Draft } from 'immer'
+import { Draft } from 'immer';
 
-import { AppServiceStatus } from '@src/events'
-import app from '@src/service/app'
-
-import { AuthState } from '../auth'
+import { AuthState } from '../auth';
 
 export enum AuthActionType {
   setCheking = 'SET_IS_CHECKING',
@@ -13,31 +10,16 @@ export enum AuthActionType {
   setReady = 'SET_IS_ACCOUNT_READY',
 }
 
-export type AuthAction = { type: AuthActionType }
+export type AuthAction = { type: AuthActionType };
 
 export function authReducer(draft: Draft<AuthState>, action: AuthAction) {
-  switch (action.type) {
-    case AuthActionType.setReady: {
-      app.isAuthReady = AppServiceStatus.on
-      draft = AuthState.ready
-      break
-    }
-    case AuthActionType.setConnecting: {
-      draft = AuthState.connecting
-      break
-    }
-    case AuthActionType.setEmpty: {
-      draft = AuthState.empty
-      break
-    }
-    case AuthActionType.setFilled: {
-      draft = AuthState.filled
-      break
-    }
-    case AuthActionType.setCheking: {
-      draft = AuthState.checking
-      break
-    }
+
+  const authState = {
+    [AuthActionType.setReady]: AuthState.ready,
+    [AuthActionType.setConnecting]: AuthState.connecting,
+    [AuthActionType.setEmpty]: AuthState.empty,
+    [AuthActionType.setFilled]: AuthState.filled,
+    [AuthActionType.setCheking]: AuthState.checking,
   }
-  return draft
+  return authState[action.type];
 }

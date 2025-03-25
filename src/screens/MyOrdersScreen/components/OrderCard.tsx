@@ -1,80 +1,43 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import RightArrowIcon from '@assets/svg/arrow-right.svg';
 import Circle from '@assets/svg/circle.svg';
 import ThreeDots from '@assets/svg/three-dots.svg';
 import { useNavigation } from '@react-navigation/native';
 
-import { acceptDriverOrder, rejectDriverOrder } from '@src/api';
-import { OrderDetails } from '@src/api/types';
+import { OrderDetails, TransportationStatusEnum } from '@src/api/types';
+import { AcceptOrDeclineOrderButtons } from '@src/components/AcceptOrDeclineOrderButtons';
 import MapWithDistance from '@src/components/MapWithDistance';
-import geolocationService from '@src/service/geolocation-service';
-import ordersService from '@src/service/orders';
-import useTransportationStore from '@src/service/transportation-service';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
-import { DriverStatusEnum, OrderStatusEnum } from '@src/types/order';
 import { Box, Button, Text } from '@src/ui';
-import { wait } from '@src/utils';
-import { handleCatchError } from '@src/utils/handleCatchError';
 
 import { OrderStatusLabel } from './OrderStatusLabel';
 
-type OrderPropsTypes = OrderDetails;
+type OrderCardPropsTypes = OrderDetails;
 
-export const Order: FC<OrderPropsTypes> = (props) => {
+export const OrderCard: FC<OrderCardPropsTypes> = (props) => {
   const { transportationCargoInfoResponse, transportationMainInfoResponse } = props;
 
   const navigation = useNavigation();
 
   const { t } = useLocalization();
   const { colors } = useAppTheme();
-  const [loadingAccept, setLoadingAccept] = useState(false);
-  const [loadingDecline, setLoadingDecline] = useState(false);
-  const [isOrderAccepted, setIsOrderAccepted] = useState(props.hasAlreadyApplied);
 
-  const { setOrderStatus } = useTransportationStore();
+  // const goToOrderScreen = () => geolocationService.start()
+  // const goToOrderScreen = () => geolocationService.stop()
+  // const goToOrderScreen = () => getOrderDetailById(12).then(res => console.log(res))
+  // const goToOrderScreen = () => BackgroundGeolocation.getLog().then(log => {
+  //   console.log('[Логи]', log);
+  // });
+  // const goToOrderScreen = () =>console.log('[Логи]', BackgroundGeolocation.logger.getLog());
+  // const goToOrderScreen = () =>console.log('[Логи]', BackgroundGeolocation.logger.getLog());
+  const goToOrderScreen = () => navigation.navigate('order-screen', props);
 
-  const handleDecline = async () => {
-    try {
-      setLoadingDecline(true);
-      await rejectDriverOrder(props.transportationMainInfoResponse.id)
-      await ordersService.refresh()
-      await geolocationService.stopTracking();
-      await wait(1000);
-      setLoadingDecline(false);
-    } catch (error) {
-      handleCatchError(error);
-    }
-  };
-
-  const handleAccept = async () => {
-    try {
-      setLoadingAccept(true);
-      await acceptDriverOrder(props.transportationMainInfoResponse.id)
-      await geolocationService.startTracking();
-      setOrderStatus(OrderStatusEnum.pending);
-      await wait(1000);
-      setIsOrderAccepted(true);
-      navigation.navigate('order-accepted', {
-        order_number: props.transportationMainInfoResponse.id.toString()
-      });
-    } catch (error) {
-      handleCatchError(error);
-    } finally {
-      setLoadingAccept(false);
-    }
-  };
-
-  const goToOrderScreen = () =>
-    navigation.navigate('order-screen', {
-      ...props,
-      driver_status: DriverStatusEnum.accepted,
-      order_status: OrderStatusEnum.pending
-    });
+    // navigation.navigate('order-screen', props);
 
   const openTransportationDetails = async () =>
     navigation.navigate('transportation-details', props);
-
+  
   return (
     <Box
       backgroundColor={colors.white}
@@ -94,11 +57,13 @@ export const Order: FC<OrderPropsTypes> = (props) => {
           />
         </Box>
         <OrderStatusLabel
-          status={isOrderAccepted ? OrderStatusEnum.pending : transportationMainInfoResponse.status}
+          status={transportationMainInfoResponse.status}
         />
       </Box>
-
-      <MapWithDistance route={transportationCargoInfoResponse.cargoLoadings} />
+      {transportationMainInfoResponse.status ===
+        TransportationStatusEnum.WAITING_DRIVER_CONFIRMATION && (
+        <MapWithDistance route={transportationCargoInfoResponse.cargoLoadings} />
+      )}
       <Box gap={4}>
         <Text color={colors.textSecondary} children={t('cargo-name')} />
         <Text type="body_500" children={transportationMainInfoResponse.cargoName} />
@@ -147,7 +112,8 @@ export const Order: FC<OrderPropsTypes> = (props) => {
         <Text type="body_500" children="12.07.2024-30.07.2024" />
       </Box>
 
-      {isOrderAccepted ? (
+      {props.transportationMainInfoResponse.status === TransportationStatusEnum.DRIVER_ACCEPTED || 
+      props.transportationMainInfoResponse.status === TransportationStatusEnum.ON_THE_WAY ? (
         <Button
           children={t('to-be-executed')}
           icon={<RightArrowIcon color={colors.white} />}
@@ -161,29 +127,9 @@ export const Order: FC<OrderPropsTypes> = (props) => {
             onPress={openTransportationDetails}
             textColor="black"
             backgroundColor="grey"
-            disabled={loadingAccept || loadingDecline}
             icon={<RightArrowIcon color={colors.textDefault} />}
           />
-
-          <Box row w="full" gap={20} flexGrow={1}>
-            <Button
-              disabled={loadingAccept || loadingDecline}
-              loading={loadingDecline}
-              children={t('decline')}
-              backgroundColor="red"
-              wrapperStyle={{ flex: 1 }}
-              onPress={handleDecline}
-            />
-
-            <Button
-              disabled={loadingAccept || loadingDecline}
-              loading={loadingAccept}
-              children={t('accept')}
-              backgroundColor="green"
-              wrapperStyle={{ flex: 1 }}
-              onPress={handleAccept}
-            />
-          </Box>
+          <AcceptOrDeclineOrderButtons {...props} />
         </>
       )}
     </Box>

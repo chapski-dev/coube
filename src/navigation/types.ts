@@ -21,9 +21,9 @@ export type RootStackParamList = {
   'company-configuration': undefined;
   'bank-details': undefined;
   'contact-details': undefined;
-  'order-accepted': { order_number: string };
-  'damage-to-cargo': undefined
-  'signing-order-details': undefined
+  'order-action-success': { order_number: number, action: 'complite' | 'accept' };
+  'damage-to-cargo': undefined;
+  'signing-order-details': undefined;
 };
 
 export type TabsParamList = {
@@ -43,7 +43,7 @@ export type UnauthorizedStackParamList = {
   'otp-verify': {
     action: 'invite' | 'phone-verify' | 'login' | 'registration';
     resident?: boolean;
-    phone?: string
+    phone?: string;
   };
   'pick-country': { handlePick: (val: string) => void };
   'login-via-phone': undefined;

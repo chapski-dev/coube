@@ -1,16 +1,20 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ActivityIndicator, Alert, ScrollView, Switch } from 'react-native';
-import { HapticFeedbackTypes } from 'react-native-haptic-feedback/src/types';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  ScrollView,
+  Switch,
+} from 'react-native';
 import ArrowIcon from '@assets/svg/arrow-right.svg';
 import NoAvatarIcon from '@assets/svg/no-avatar.svg';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import { vibrate } from '@src/actions/vibrate';
 // import { setNotificationSettings } from '@src/api';
 import { NotificationSettings } from '@src/api/types';
 import { ScreenProps } from '@src/navigation/types';
-import app from '@src/service/app';
+import { useAuth } from '@src/providers/auth';
 import messaging from '@src/service/messaging';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
@@ -20,21 +24,20 @@ import { handleCatchError } from '@src/utils/handleCatchError';
 import SelectLanguageModal from '@src/widgets/SelectLanguageModal';
 
 export enum NotifictationOption {
-  push_notifications = 'push_notifications'
+  push_notifications = 'push_notifications',
 }
-
-const isAvatarExist = false;
 
 export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
   const { t } = useLocalization();
-
+  const { onLogout, user } = useAuth();
+  
   const [loading, setLoading] = useState(false);
   const form = useForm({
     defaultValues: {
       settings: {
-        [NotifictationOption.push_notifications]: messaging.isEnabled()
-      }
-    }
+        [NotifictationOption.push_notifications]: messaging.isEnabled(),
+      },
+    },
   });
   const { setValue, getValues, watch } = form;
 
@@ -44,11 +47,13 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
       : false;
     return {
       ...val,
-      [NotifictationOption.push_notifications]: push_notifications
+      [NotifictationOption.push_notifications]: push_notifications,
     };
   };
 
-  const togglePushNotification = async (val: NotificationSettings['settings']) => {
+  const togglePushNotification = async (
+    val: NotificationSettings['settings'],
+  ) => {
     const newValues = valuesWithPermission(val);
     await handleSubmitForm(newValues);
   };
@@ -70,7 +75,7 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
   const openProfileData = () => navigation.navigate('profile-data');
   const openIdentityData = () => navigation.push('identity');
 
-  const { colors } = useAppTheme();
+  const { colors, insets } = useAppTheme();
   const modal = useRef<BottomSheetModal>(null);
   const modalClose = () => modal?.current?.forceClose();
   const modalOpen = () => modal?.current?.present();
@@ -79,44 +84,41 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
     Alert.alert(t('do-you-want-to-logout?'), undefined, [
       {
         onPress: () => null,
-        text: t('cancel')
+        text: t('cancel'),
       },
       {
-        onPress: () => {
-          vibrate(HapticFeedbackTypes.notificationSuccess);
-          app.logout();
-        },
+        onPress: onLogout,
         style: 'destructive',
-        text: t('exit')
-      }
+        text: t('exit'),
+      },
     ]);
 
   const onDeleteAccountPress = () =>
     Alert.alert(t('do-you-want-to-delete-your-account?'), undefined, [
       {
         onPress: () => null,
-        text: t('cancel')
+        text: t('cancel'),
       },
       {
-        onPress: () => {
-          vibrate(HapticFeedbackTypes.notificationSuccess);
-          app.logout();
-        },
+        onPress: onLogout,
         style: 'destructive',
-        text: t('delete')
-      }
+        text: t('delete'),
+      },
     ]);
 
   return (
     <>
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: insets.bottom || 15,
+          paddingTop: 20,
+        }}
+      >
         <Box
           flex={1}
           alignItems="center"
           justifyContent="space-between"
           backgroundColor={colors.background}
-          pb={250}
-          pt={20}
           gap={15}
         >
           <Box
@@ -129,13 +131,21 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
             justifyContent="space-between"
           >
             <Box row alignItems="center" gap={15}>
-              {isAvatarExist ? <NoAvatarIcon /> : <NoAvatarIcon />}
-              <Text type="body_500" fontSize={18} children="Сергей" />
+              {user?.iconUrl ? (
+                <Image source={{ uri: user.iconUrl }} />
+              ) : (
+                <NoAvatarIcon />
+              )}
+              <Text
+                type="body_500"
+                fontSize={18}
+                children={`${user?.firstName} ${user?.middleName} ${user?.lastName}`}
+              />
             </Box>
             <ArrowIcon />
           </Box>
 
-          <Box row w="full" gap={5} px={15}>
+          {/* <Box row w="full" gap={5} px={15}>
             <Box
               backgroundColor={colors.grey}
               borderRadius={9}
@@ -179,7 +189,11 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
               >
                 <Text color={colors.white} fontWeight={700} children="115" />
               </Box>
-              <Text fontSize={10} fontWeight={400} children={t('transportations')} />
+              <Text
+                fontSize={10}
+                fontWeight={400}
+                children={t('transportations')}
+              />
             </Box>
 
             <Box
@@ -200,41 +214,72 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
                 alignItems="center"
                 justifyContent="center"
               >
-                <Text color={colors.white} fontWeight={700} children="351 тыс." />
+                <Text
+                  color={colors.white}
+                  fontWeight={700}
+                  children="351 тыс."
+                />
               </Box>
-              <Text fontSize={10} fontWeight={400} children={t('traveled_kilometers')} />
-            </Box>
-          </Box>
-
-          <Box backgroundColor={colors.white}>
-            <SectionListItemWithArrow title={t('reports')} onPress={() => null} />
-            <SectionListItemWithArrow title={t('identity')} onPress={openIdentityData} />
-          </Box>
-
-          <Box backgroundColor={colors.white}>
-            <SectionListItemWithArrow title={t('drivers_licence')} onPress={() => null} />
-            <SectionListItemWithArrow title={t('apps_language')} onPress={modalOpen} />
-          </Box>
-
-          <Box w="full" h={50} px={15} row alignItems="center" justifyContent="space-between">
-            <Text type="body_500" children={t('push_notifications')} />
-            {loading ? (
-              <Box mr={20}>
-                <ActivityIndicator />
-              </Box>
-            ) : (
-              <Switch
-                trackColor={{ false: colors.grey, true: colors.main }}
-                thumbColor={colors.white}
-                onValueChange={(val) =>
-                  togglePushNotification({
-                    ...getValues().settings,
-                    [NotifictationOption.push_notifications]: val
-                  })
-                }
-                value={watch('settings.push_notifications')}
+              <Text
+                fontSize={10}
+                fontWeight={400}
+                children={t('traveled_kilometers')}
               />
-            )}
+            </Box>
+          </Box> */}
+          <Box backgroundColor={colors.white}>
+            <SectionListItemWithArrow
+              title={t('reports')}
+              onPress={() => null}
+              disabled
+            />
+          </Box>
+
+          <Box backgroundColor={colors.white}>
+            <SectionListItemWithArrow
+              title={t('identity')}
+              onPress={openIdentityData}
+              disabled
+            />
+            <SectionListItemWithArrow
+              title={t('drivers_licence')}
+              onPress={() => null}
+              disabled
+            />
+          </Box>
+
+          <Box backgroundColor={colors.white}>
+            <SectionListItemWithArrow
+              title={t('apps_language')}
+              onPress={modalOpen}
+            />
+            <Box
+              w="full"
+              h={50}
+              px={15}
+              row
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Text type="body_500" children={t('push_notifications')} />
+              {loading ? (
+                <Box mr={20}>
+                  <ActivityIndicator />
+                </Box>
+              ) : (
+                <Switch
+                  trackColor={{ false: colors.grey, true: colors.main }}
+                  thumbColor={colors.white}
+                  onValueChange={(val) =>
+                    togglePushNotification({
+                      ...getValues().settings,
+                      [NotifictationOption.push_notifications]: val,
+                    })
+                  }
+                  value={watch('settings.push_notifications')}
+                />
+              )}
+            </Box>
           </Box>
 
           <Button
@@ -260,18 +305,32 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
 type SectionListItemWithArrowProps = {
   title: string;
   onPress: () => void;
+  disabled?: boolean;
 };
-const SectionListItemWithArrow = ({ title, onPress }: SectionListItemWithArrowProps) => (
-  <Box
-    w="full"
-    h={50}
-    px={15}
-    row
-    alignItems="center"
-    justifyContent="space-between"
-    onPress={onPress}
-  >
-    <Text type="body_500" children={title} />
-    <ArrowIcon />
-  </Box>
-);
+const SectionListItemWithArrow = ({
+  title,
+  onPress,
+  disabled,
+}: SectionListItemWithArrowProps) => {
+  const { colors } = useAppTheme();
+
+  return (
+    <Box
+      w="full"
+      h={50}
+      px={16}
+      row
+      alignItems="center"
+      justifyContent="space-between"
+      onPress={onPress}
+      disabled={disabled}
+    >
+      <Text
+        color={disabled ? colors.disabled : undefined}
+        type="body_500"
+        children={title}
+      />
+      <ArrowIcon color={disabled ? colors.disabled : undefined} />
+    </Box>
+  );
+};

@@ -6,7 +6,7 @@ import DamageToCargoScreen from '@src/screens/DamageToCargoScreen';
 import { FiltersForOrdersScreen } from '@src/screens/FiltersForOrdersScreen';
 import { FromWhereScreen } from '@src/screens/FromWhereScreen';
 import { IdentityScreen } from '@src/screens/IdentityScreen';
-import { OrderAcceptedScreen } from '@src/screens/OrderAcceptedScreen';
+import { OrderActionSuccessScreen } from '@src/screens/OrderActionSuccessScreen';
 import { OrderScreen } from '@src/screens/OrderScreen';
 import { PowerOfAttorneyScreen } from '@src/screens/PowerOfAttorneyScreen';
 import { ProfileDataScreen } from '@src/screens/ProfileDataScreen';
@@ -96,8 +96,8 @@ export const RootStack = () => {
       />
       <Stack.Screen
         options={{ headerShown: false, headerTitle: '', presentation: 'modal' }}
-        name="order-accepted"
-        component={OrderAcceptedScreen}
+        name="order-action-success"
+        component={OrderActionSuccessScreen}
       />
       <Stack.Screen
         options={{ headerTitle: t('bill-of-lading') }}

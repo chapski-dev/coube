@@ -1,9 +1,11 @@
 export const ASYNC_STORAGE_KEYS = {
-  ASSECC_TOKEN: '@auth/assecc_token',
+  ACCESS_TOKEN: '@auth/access_token',
   AUTH_STATE: '@app/auth_state',
-  CURRENT_LANG: 'current_language@i18',
-  FCM_TOKEN_KEY: 'token@firebase_messaging',
-  LOCK_METHOD: 'lock_method@security',
-  REFRESH_TOKEN: '@app/refresh_tpken',
-  ThemeKey: '@appTheme/string',
+  CURRENT_LANG: '@i18/current_language',
+  FCM_TOKEN_KEY: '@firebase_messaging/token',
+  LOCATIONS: '@driver/locations',
+  LOCK_METHOD: '@security/lock_method',
+  OFFLINE_LOCATIONS: '@driver/offline_geolocations',
+  REFRESH_TOKEN: '@app/refresh_token',
+  ThemeKey: '@appTheme/string'
 }

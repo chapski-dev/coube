@@ -54,11 +54,13 @@
   "confirmation_code_enter_it_below": " код для подтверждения. Введите его ниже",
   "enter_the_invitation_code": "Введите код приглашения",
   "order_status": {
-    "new": "Новый заказ",
+    "waiting_driver_confirmation": "Новый заказ",
     "pending": "Ожидет погрузки",
     "loading": "Погрузка груза",
-    "processing": "В пути",
-    "unloading": "Ожидает погрузки"
+    "on_the_way": "В пути",
+    "unloading": "Ожидает погрузки",
+    "finished": "Рейс завершен",
+    "driver_accepted": "Вы подтвердили свое участие!"
   },
   "active": "Активные",
   "completed": "Завершенные",
@@ -224,8 +226,9 @@
   "went-to-load": "Отправился на погрузку",
   "arrived-for-loading": "Прибыл на погрузку",
   "order": "Заказ",
-  "to-be-executed": "К выполнению ",
+  "to-be-executed": "Открыть поездку",
   "order-accepted": "Заказ принят!",
+  "order-complited": "Заказ завершен!",
   "order-number": "Номер заказа",
   "date-and-time-of-loading": "Дата и время погрузки",
   "perfectly": "Отлично!",
@@ -237,6 +240,19 @@
   "delete": "Удалить",
   "do-you-want-to-logout?": "Желаете выйти?",
   "there-are-currently-no-active-orders": "На данный момент активных заказов нет",
+  "there-are-currently-no-complited-orders": "На данный момент завершенных заказов нет",
   "the_session_has_timed_out_please_log_in": "Время сессии истекло. Пожалуйста авторизуйтесь.",
-  "skip": "Пропустить"
+  "skip": "Пропустить",
+  "start_trip": "Начать поездку",
+  "arrived_to_loading": "Прибыл на pагрузку",
+  "arrived_to_unloading": "Прибыл на загрузку",
+  "complete_loading": "Завершить загрузку",
+  "complete_unloading": "Завершить разгрузку",
+  "errors": {
+    "low_location_accuracy": "Точность геопозиции недостаточна. Включите GPS и попробуйте снова",
+    "unknown_error": "Неизвестная ошибка"
+  },
+  "the_list_of_vehicles_is_empty": "Список транспортных средств пуст.",
+  "the_notification_list_is_empty": "Список уведомлений пуст."
+
 }

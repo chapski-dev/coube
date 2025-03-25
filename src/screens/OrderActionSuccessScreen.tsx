@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import OrdersIcon from '@assets/svg/orders.svg';
 import dayjs from 'dayjs';
 
@@ -7,13 +7,24 @@ import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Button, Text } from '@src/ui';
 
-export const OrderAcceptedScreen = ({
+export const OrderActionSuccessScreen = ({
   navigation,
   route,
-}: ScreenProps<'order-accepted'>) => {
+}: ScreenProps<'order-action-success'>) => {
   const { colors } = useAppTheme();
   const { t } = useLocalization();
 
+  const primaryText = useMemo(() => {
+    switch (route.params.action) {
+      case 'accept':
+        return t('order-accepted');
+      case 'complite':
+        return t('order-complited');
+      default:
+        return '';
+    }
+  }, [route.params.action, t]);
+  
   return (
     <Box px={16} flex={1} justifyContent="center" alignItems="center" gap={8}>
       <Box
@@ -27,7 +38,7 @@ export const OrderAcceptedScreen = ({
           <OrdersIcon width="100%" height="100%" color={colors.white} />
         </Box>
       </Box>
-      <Text type="h2" children={t('order-accepted')} />
+      <Text type="h2" children={primaryText} />
       <Box row>
         <Text children={`${t('order-number')}: ${route.params.order_number}`} />
       </Box>
@@ -38,7 +49,7 @@ export const OrderAcceptedScreen = ({
       <Button
         children={t('perfectly')}
         backgroundColor="green"
-        onPress={navigation.goBack}
+        onPress={navigation.popToTop}
       />
     </Box>
   );

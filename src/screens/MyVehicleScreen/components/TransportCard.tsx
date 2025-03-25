@@ -1,14 +1,14 @@
 import React from 'react';
 import { Image } from 'react-native';
-import RightArrowIcon from '@assets/svg/arrow-right.svg';
-import { useNavigation } from '@react-navigation/native';
 
+// import RightArrowIcon from '@assets/svg/arrow-right.svg';
+// import { useNavigation } from '@react-navigation/native';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
 
 export const TransportCard = () => {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const carModel = 'FAW J7';
   const { colors } = useAppTheme();
 
@@ -44,7 +44,7 @@ export const TransportCard = () => {
           </Box>
         </Box>
       </Box>
-      <Box
+      {/* <Box
         p={17}
         alignItems="center"
         justifyContent="center"
@@ -56,7 +56,7 @@ export const TransportCard = () => {
       >
         <Text fontWeight={500} children={t('documents')} />
         <RightArrowIcon />
-      </Box>
+      </Box> */}
     </Box>
   );
 };

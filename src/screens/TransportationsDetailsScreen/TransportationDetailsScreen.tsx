@@ -1,12 +1,21 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, Dimensions, Image, ScrollView } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  ScrollView,
+} from 'react-native';
 import YaMap, { Marker, Point, Polyline } from 'react-native-yamap';
 
+import { OrderDetails } from '@src/api/types';
+import { AcceptOrDeclineOrderButtons } from '@src/components/AcceptOrDeclineOrderButtons';
 import { TransportationRoute } from '@src/components/TransportationRoute';
+import { EventBusEvents } from '@src/events';
 import { ScreenProps } from '@src/navigation/types';
+import ordersService from '@src/service/orders';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
-import { Box, Button, Text } from '@src/ui';
+import { Box, Text } from '@src/ui';
 import { Accordion } from '@src/ui/Accordion';
 import { wait } from '@src/utils';
 import { extractRouteCoordinates } from '@src/utils/yandex-maps';
@@ -29,48 +38,98 @@ export const TransportationDetailsScreen = ({
 }: ScreenProps<'transportation-details'>) => {
   const { t } = useLocalization();
   const { colors, insets } = useAppTheme();
+  const { transportationMainInfoResponse } = route.params;
 
-  const {
-    transportationMainInfoResponse: mainInfo,
-    transportationCargoInfoResponse: cargoInfo,
-    hasAlreadyApplied,
-  } = route.params;
-
-  const makeCounterOffer = () => {
-    navigation.push('counter-offer');
-  };
-
-  const handleRespond = () =>
-    Alert.alert(t('perfectly'), 'Вы отправили запрос на исполнение заказа');
-
+  const [isOrderRelevant, setIsOrderRelevant] = useState(true);
+  const [order, setOrder] = useState<OrderDetails | undefined>(() =>
+    ordersService.orders.find(
+      (el) => el.transportationMainInfoResponse.id === transportationMainInfoResponse.id,
+    ),
+  );
   const mapRef = useRef<YaMap>(null);
   const [markersPoints, setMarkersPoints] = useState<Point[]>([]);
   const [routeCoordinates, setRouteCoordinates] = useState<Point[]>([]);
   const [distance, setDistance] = useState('0');
 
-  const getPoints = useCallback(async () => {
-    await wait(50);
-    const points = cargoInfo.cargoLoadings.map(loading => ({
-      lat: Number(loading.latitude),
-      lon: Number(loading.longitude),
-    }));
-    setMarkersPoints(points);
-  }, [cargoInfo.cargoLoadings]);
+  useEffect(() => {
+    if (!order) {
+      navigation.goBack();
+    }
+  }, [order, navigation]);
 
   useEffect(() => {
+    const unsubscribe = ordersService.subscribe<OrderDetails[]>(
+      EventBusEvents.getOrders,
+      ({ payload }) => {
+        if (!payload) return;
+
+        const currentOrder = payload.find(
+          (el) => el.transportationMainInfoResponse.id === transportationMainInfoResponse.id,
+        );
+
+        if (!currentOrder) {
+          setIsOrderRelevant(false);
+          return;
+        }
+
+        setOrder(currentOrder);
+      },
+    );
+
+    return () => {
+      unsubscribe.unsubscribe();
+      setIsOrderRelevant(true);
+    };
+  }, [transportationMainInfoResponse.id]);
+
+  useEffect(() => {
+    if (!isOrderRelevant && navigation.isFocused()) {
+      navigation.goBack();
+    }
+  }, [isOrderRelevant, navigation]);
+
+  useEffect(() => {
+    const getPoints = async () => {
+      if (!order) return;
+      await wait(150);
+      const points = order.transportationCargoInfoResponse.cargoLoadings.map(
+        (loading) => loading.point,
+      );
+      setMarkersPoints(points);
+    };
     getPoints();
-  }, [getPoints]);
+  }, [order]);
 
   useEffect(() => {
     if (markersPoints.length && mapRef?.current) {
       mapRef.current.fitAllMarkers();
-      mapRef.current.findDrivingRoutes(markersPoints, routeData => {
+      mapRef.current.findDrivingRoutes(markersPoints, (routeData) => {
         const result = extractRouteCoordinates(routeData);
-        setRouteCoordinates(result ? result.routeCoordinates : []);
-        setDistance(result ? result.routeDistance : '0');
+        setRouteCoordinates(result?.routeCoordinates || []);
+        setDistance(result?.routeDistance || '0');
       });
     }
   }, [markersPoints]);
+
+  // const makeCounterOffer = () => {
+  //   navigation.push('counter-offer');
+  // };
+
+  // const handleRespond = () =>
+  //   Alert.alert(t('perfectly'), 'Вы отправили запрос на исполнение заказа');
+
+  if (!order || !isOrderRelevant) {
+    return (
+      <Box flex={1} justifyContent="center" alignItems="center">
+        <ActivityIndicator size="large" />
+      </Box>
+    );
+  }
+
+  const {
+    transportationMainInfoResponse: mainInfo,
+    transportationCargoInfoResponse: cargoInfo,
+  } = order;
 
   return (
     <>
@@ -104,8 +163,8 @@ export const TransportationDetailsScreen = ({
                 i === 0
                   ? require('@assets/png/circle-red.png')
                   : i === arr.length - 1
-                  ? require('@assets/png/circle-gray.png')
-                  : require('@assets/png/stop-point.png')
+                    ? require('@assets/png/circle-gray.png')
+                    : require('@assets/png/stop-point.png')
               }
               scale={2}
             />
@@ -157,9 +216,9 @@ export const TransportationDetailsScreen = ({
                   color={colors.textSecondary}
                   children={t('cargo-weight-brutto')}
                 />
-                <Text 
-                  type="body_500" 
-                  children={`${mainInfo.cargoWeight} ${mainInfo.cargoWeightUnit.toLowerCase()}`} 
+                <Text
+                  type="body_500"
+                  children={`${mainInfo.cargoWeight} ${mainInfo?.cargoWeightUnit?.nameRu}`}
                 />
               </Box>
               <Box gap={2}>
@@ -182,7 +241,7 @@ export const TransportationDetailsScreen = ({
         </Accordion>
 
         <Accordion label={t('route')}>
-          <TransportationRoute cargoLoadings={cargoInfo.cargoLoadings} />
+          <TransportationRoute transportation_route={cargoInfo.cargoLoadings} />
         </Accordion>
 
         <Accordion label={t('additional-info')}>
@@ -202,17 +261,19 @@ export const TransportationDetailsScreen = ({
             <Image source={require('@assets/png/pdf-file.png')} />
             <Box>
               <Text type="body_500" children={t('waybill')} />
-              <Text type="body_500" children={t('documents')} fontWeight={400} />
+              <Text
+                type="body_500"
+                children={t('documents')}
+                fontWeight={400}
+              />
             </Box>
           </Box>
         </Accordion>
 
+        <AcceptOrDeclineOrderButtons {...order} />
+        {/* {mainInfo.status === TransportationStatusEnum.WAITING_DRIVER_CONFIRMATION && (
         <Box p={10} gap={10}>
-          <Button 
-            children={t('respond')} 
-            onPress={handleRespond} 
-            disabled={hasAlreadyApplied}
-          />
+          <Button children={t('respond')} onPress={handleRespond} disabled={hasAlreadyApplied} />
           <Button
             children={t('make-counteroffer')}
             type="outline"
@@ -221,6 +282,7 @@ export const TransportationDetailsScreen = ({
             onPress={makeCounterOffer}
           />
         </Box>
+        )} */}
       </ScrollView>
     </>
   );

@@ -1,3 +1,4 @@
+import { Point } from 'react-native-yamap';
 
 export type SigInResponse = {
   access_token: string;
@@ -66,7 +67,7 @@ export type OrderDetails = {
 };
 
 export interface TransportationMainInfoResponse {
-  status: TransportationStatus;
+  status: TransportationStatusEnum;
   id: number;
   contact: CustomerEmployee;
   cargoName: string;
@@ -75,7 +76,11 @@ export interface TransportationMainInfoResponse {
   cargoPrice: number;
   cargoPriceCurrency: Currency;
   cargoWeight: number;
-  cargoWeightUnit: WeightUnit;
+  cargoWeightUnit: {
+    code: WeightUnit;
+    nameKk: string;
+    nameRu: string;
+  };
   cargoVolume: number;
   vehicleBodyType: Dictionary;
   capacityValue: CapacityValue;
@@ -90,36 +95,50 @@ export interface TransportationCargoInfoResponse {
 
 export interface CargoLoadings {
   id: number;
-  loadingType: LoadingType;
+  loadingType: {
+    code: LoadingType;
+    nameKk: string;
+    nameRu: string;
+  };
   orderNum: number;
   binShipper: string;
   loadingDateTime: string; // ISO 8601 format
   address: string;
-  longitude: string;
-  latitude: string;
+  point: Point;
   commentary: string;
   weight: number;
-  weightUnit: WeightUnit;
+  weightUnit: {
+    code: WeightUnit;
+    nameKk: string;
+    nameRu: string;
+  };
   volume: number;
   loadingMethod: Dictionary;
   loadingOperation: Dictionary;
   loadingTimeHours: number;
   contactNumber: string;
   contactName: string;
+  isActive: boolean;
+  isDriverAtLocation: boolean;
 }
 
-export type TransportationStatus =
-  | 'FORMING'
-  | 'CREATED'
-  | 'EXPIRED'
-  | 'CANCELED'
-  | 'SIGNED_CUSTOMER'
-  | 'WAITING_DRIVER_RESPONSE'
-  | 'WAITING_DRIVER_CONFIRMATION'
-  | 'DRIVER_ACCEPTED'
-  | 'ON_THE_WAY'
-  | 'FINISHED'
-  | 'ACCEPTED';
+export enum TransportationStatusEnum {
+  FORMING = 'FORMING',
+  CREATED = 'CREATED',
+  EXPIRED = 'EXPIRED',
+  CANCELED = 'CANCELED',
+  SIGNED_CUSTOMER = 'SIGNED_CUSTOMER',
+  WAITING_DRIVER_RESPONSE = 'WAITING_DRIVER_RESPONSE',
+  /** Новый заказ */
+  WAITING_DRIVER_CONFIRMATION = 'WAITING_DRIVER_CONFIRMATION',
+  /** Вы подтвердили свое участие */
+  DRIVER_ACCEPTED = 'DRIVER_ACCEPTED',
+  /** В пути  */
+  ON_THE_WAY = 'ON_THE_WAY',
+  /** Рейс завершен */
+  FINISHED = 'FINISHED',
+  ACCEPTED = 'ACCEPTED',
+}
 export type CustomerEmployee = {
   id: number;
   name: string;
@@ -149,4 +168,15 @@ export type LoadingType = 'LOADING' | 'UNLOADING';
 export type DriverOrderAcceptOrDecline = {
   status: string;
   id: number;
+};
+
+//* Profile
+export type Profile = {
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  roles: ['EXECUTOR'];
+  iconUrl: string;
+  language: string;
+  themeMode: 'LIGHT' | 'DARK';
 };

@@ -7,6 +7,8 @@ export const extractRouteCoordinates = (
   routeData: RoutesFoundEvent<DrivingInfo>,
 ) => {
   if (routeData.status === 'error') {
+    console.error(routeData);
+    
     return handleCatchError('Не удалось отобразить маршрут');
   }
   // routeData.routes – массив маршрутов

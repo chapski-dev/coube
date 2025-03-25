@@ -16,7 +16,7 @@ const LoginViaPhoneScreen = ({
   const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
   const maskedInputProps = useMaskedInputProps({
-    mask: phoneMask,
+    // mask: phoneMask,
     onChangeText: setPhone,
     value: phone,
   });

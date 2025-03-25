@@ -19,8 +19,10 @@ import orders from './orders';
 async function onMessageReceived(
   message: FirebaseMessagingTypes.RemoteMessage,
 ) {
+  console.log('message: ', message);
+  
   // TODO check data compatibility
-  if (message.data?.action === 'new_order') {
+  if (message.data?.eventType === 'new_order') {
     vibrate(HapticFeedbackTypes.notificationSuccess);
     void orders.refresh();
     void notifications.refresh();
@@ -108,9 +110,7 @@ const messagingService = () => {
   };
 
   const getFCMToken = async () => {
-    if (!messaging().isDeviceRegisteredForRemoteMessages) {
-      await messaging().registerDeviceForRemoteMessages();
-    }
+    await messaging().registerDeviceForRemoteMessages();
     const token = await messaging().getToken();
     console.log('FCM token', token);
     return token;
@@ -123,9 +123,7 @@ const messagingService = () => {
   };
 
   const saveToken = async (token: string) => {
-    const res = await registerFCMToken(token)
-    console.log('registerFCMToken res: ', res);
-    
+    await registerFCMToken(token)
     await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.FCM_TOKEN_KEY, token);
   };
 

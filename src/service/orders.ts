@@ -5,12 +5,8 @@ import { OrderDetails } from '@src/api/types';
 import { EventBusEvents } from '@src/events';
 import { handleCatchError } from '@src/utils/handleCatchError';
 
-import { STATE_MOCK } from './transportation-service';
-
-const defaultOrders = Array.from({ length: 1 }, (_) => STATE_MOCK);
-
-class Orders extends EventBus {
-  orders: OrderDetails[] = defaultOrders;
+class OrdersService extends EventBus {
+  orders: OrderDetails[] = [];
   loading = false;
   loading_more = false;
   has_more = false;
@@ -43,7 +39,6 @@ class Orders extends EventBus {
 
   fetch = async () => {
     const res = await getDriverOrders({ page: this.next_page, size: this.limit });
-
     this.has_more = res?.page?.number < res?.page.totalPages - 1;
     this.orders = this.next_page === 0 ? res.content : [...this.orders, ...res.content];
     this.next_page = res?.page?.number + 1;
@@ -72,6 +67,24 @@ class Orders extends EventBus {
     this.orders = [];
     this.publish(EventBusEvents.getOrders, this.orders);
   };
+
+  updateOrder = (updatedOrder: OrderDetails) => {
+    const index = this.orders.findIndex(
+      o => o.transportationMainInfoResponse.id === updatedOrder.transportationMainInfoResponse.id
+    );
+    
+    if (index !== -1) {
+      this.orders[index] = updatedOrder;
+      this.publish(EventBusEvents.getOrders, this.orders);
+    }
+  };
+
+  removeOrder = (orderId: number) => {
+    this.orders = this.orders.filter(
+      o => o.transportationMainInfoResponse.id !== orderId
+    );
+    this.publish(EventBusEvents.getOrders, this.orders);
+  };
 }
 
-export default new Orders();
+export default new OrdersService();

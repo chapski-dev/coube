@@ -1,36 +1,40 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 
+import { TransportationStatusEnum } from '@src/api/types';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
-import { OrderStatusEnum } from '@src/types/order';
 import { Box, Text } from '@src/ui';
 
 interface PropsType {
-  status: OrderStatusEnum;
+  status: TransportationStatusEnum;
 }
 
 export const OrderStatusLabel: FC<PropsType> = ({ status }) => {
   const { colors } = useAppTheme();
   const { t } = useLocalization();
+  const colorStatus = useMemo(() => {
+     switch (status) {
+      case TransportationStatusEnum.WAITING_DRIVER_CONFIRMATION:
+         return colors.green;
+      case TransportationStatusEnum.DRIVER_ACCEPTED:
+      case TransportationStatusEnum.ON_THE_WAY:
+        return colors.blue;
+      default:
+        return colors.disabled
+     }
 
-  const colorStatus: Record<OrderStatusEnum, string> = {
-    [OrderStatusEnum.new]: colors.green,
-    [OrderStatusEnum.pending]: colors.main,
-    [OrderStatusEnum.loading]: colors.main,
-    [OrderStatusEnum.processing]: colors.blue,
-    [OrderStatusEnum.unloading]: colors.main,
-  };
+  }, [colors.blue, colors.disabled, colors.green, status]);
 
-  const statusToLocalizationKey: Record<OrderStatusEnum, string> = {
-    [OrderStatusEnum.new]: 'order_status.new',
-    [OrderStatusEnum.pending]: 'order_status.pending',
-    [OrderStatusEnum.loading]: 'order_status.loading',
-    [OrderStatusEnum.processing]: 'order_status.processing',
-    [OrderStatusEnum.unloading]: 'order_status.unloading',
+  const statusToLocalizationKey: Partial<Record<TransportationStatusEnum, string>> = {
+    [TransportationStatusEnum.WAITING_DRIVER_CONFIRMATION]:
+      'order_status.waiting_driver_confirmation',
+    [TransportationStatusEnum.DRIVER_ACCEPTED]: 'order_status.driver_accepted',
+    [TransportationStatusEnum.ON_THE_WAY]: 'order_status.on_the_way',
+    [TransportationStatusEnum.FINISHED]: 'order_status.finished',
   };
 
   return (
-    <Box backgroundColor={colorStatus[status]} py={4} px={8} borderRadius={8}>
+    <Box backgroundColor={colorStatus} py={4} px={8} borderRadius={8}>
       <Text color="white" children={t(statusToLocalizationKey[status])} />
     </Box>
   );

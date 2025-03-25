@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 
+import { CargoLoadings } from '@src/api/types';
 import { useAppTheme } from '@src/theme/theme';
 import { useLocalization } from '@src/translations/i18n';
 import { Box, Text } from '@src/ui';
+import { dateFormat } from '@src/utils/date-format';
 
-import { RouteObjectType } from '../TransportationDetailsScreen';
-
-export const RoutePoint: FC<RouteObjectType> = (data) => {
+export const RoutePoint: FC<CargoLoadings> = (data) => {
   const { t } = useLocalization();
   const { colors } = useAppTheme();
   return (
@@ -14,9 +14,9 @@ export const RoutePoint: FC<RouteObjectType> = (data) => {
       <Box gap={2}>
         <Text
           color={colors.textSecondary}
-          children={`${t('point')} ${t(data.placeType)}`}
+          children={`${t('point')}`}
         />
-        <Text type="body_500" children={data.action_address} />
+        <Text type="body_500" children={data.address} />
       </Box>
 
       <Box gap={2}>
@@ -24,23 +24,23 @@ export const RoutePoint: FC<RouteObjectType> = (data) => {
           color={colors.textSecondary}
           children={t('date-and-place-of-unloading')}
         />
-        <Text type="body_500" children={data.date_and_place_of_operation} />
+        <Text type="body_500" children={dateFormat('DD.MM.yyyy, HH:mm',data.loadingDateTime)} />
       </Box>
 
       <Box row gap={25}>
         <Box gap={2}>
           <Text color={colors.textSecondary} children={t('cargo-weight')} />
-          <Text type="body_500" children={data.cargo_weight_gross} />
+          <Text type="body_500" children={`${data.weight} ${data.weightUnit.nameRu}`} />
         </Box>
         <Box gap={2}>
           <Text color={colors.textSecondary} children={t('cargo-volume')} />
-          <Text type="body_500" children={data.cargo_volume_gross} />
+          <Text type="body_500" children={data.volume} />
         </Box>
       </Box>
 
       <Box gap={2}>
         <Text color={colors.textSecondary} children={t('loading-method')} />
-        <Text type="body_500" children={data.loading_method} />
+        <Text type="body_500" children={data.loadingMethod.nameRu} />
       </Box>
     </Box>
   );

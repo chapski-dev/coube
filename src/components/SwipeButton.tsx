@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { HapticFeedbackTypes } from 'react-native-haptic-feedback';
@@ -26,8 +26,19 @@ const H_SWIPE_RANGE = BUTTON_WIDTH - 2 * BUTTON_PADDING - SWIPEABLE_DIMENSIONS;
 type SwipeButtonProps = {
   onSwipe: (val: boolean) => void;
   loading: boolean;
-}
-const SwipeButton = ({ onSwipe, loading }: SwipeButtonProps) => {
+  activeBtnColor?: string;
+  backgroundColor?: string;
+  placeholder?: string;
+  text?: string;
+};
+const SwipeButton = ({
+  onSwipe,
+  loading,
+  activeBtnColor = 'red',
+  text = 'SOS',
+  placeholder = 'Отправить сигнал SOS →',
+  backgroundColor = '#EDEDED',
+}: SwipeButtonProps) => {
   // Animated value for X translation
   const X = useSharedValue(0);
   // Toggled State
@@ -36,7 +47,7 @@ const SwipeButton = ({ onSwipe, loading }: SwipeButtonProps) => {
   // Fires when animation ends
   const handleComplete = (isToggled: boolean) => {
     if (isToggled !== toggled) {
-      vibrate(HapticFeedbackTypes.notificationSuccess)
+      vibrate(HapticFeedbackTypes.notificationSuccess);
       setToggled(isToggled);
       onSwipe(isToggled);
     }
@@ -115,7 +126,7 @@ const SwipeButton = ({ onSwipe, loading }: SwipeButtonProps) => {
         backgroundColor: interpolateColor(
           X.value,
           [0, BUTTON_WIDTH - SWIPEABLE_DIMENSIONS - BUTTON_PADDING],
-          ['red', 'red'],
+          [activeBtnColor, activeBtnColor],
         ),
         transform: [{ translateX: X.value }],
       };
@@ -123,13 +134,35 @@ const SwipeButton = ({ onSwipe, loading }: SwipeButtonProps) => {
   };
 
   return (
-    <PanGestureHandler enabled={!loading} onGestureEvent={animatedGestureHandler}>
-      <Animated.View style={[styles.swipeCont, AnimatedStyles.swipeCont]}>
-        <Animated.View style={[AnimatedStyles.colorWave, styles.colorWave]} />
-        <Animated.View style={[styles.swipeable, AnimatedStyles.swipeable]} >
-          {loading ? <ActivityIndicator color="#fff" /> : <Animated.Text children="SOS" />}
+    <PanGestureHandler
+      enabled={!loading}
+      onGestureEvent={animatedGestureHandler}
+    >
+      <Animated.View
+        style={[
+          styles.swipeCont,
+          AnimatedStyles.swipeCont,
+          { backgroundColor: backgroundColor },
+        ]}
+      >
+        <Animated.View
+          style={[
+            AnimatedStyles.colorWave,
+            styles.colorWave,
+            { backgroundColor: activeBtnColor },
+          ]}
+        />
+        <Animated.View style={[styles.swipeable, AnimatedStyles.swipeable]}>
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Animated.Text children={text} />
+          )}
         </Animated.View>
-        <Animated.Text style={[styles.swipeText, AnimatedStyles.swipeText]} children="Отправить" />
+        <Animated.Text
+          style={[styles.swipeText, AnimatedStyles.swipeText]}
+          children={placeholder}
+        />
       </Animated.View>
     </PanGestureHandler>
   );
@@ -137,7 +170,6 @@ const SwipeButton = ({ onSwipe, loading }: SwipeButtonProps) => {
 
 const styles = StyleSheet.create({
   colorWave: {
-    backgroundColor: 'red',
     borderRadius: 5,
     height: BUTTON_HEIGHT,
     left: 0,
@@ -145,7 +177,6 @@ const styles = StyleSheet.create({
   },
   swipeCont: {
     alignItems: 'center',
-    backgroundColor: '#EDEDED',
     borderRadius: 5,
     display: 'flex',
     flexDirection: 'row',

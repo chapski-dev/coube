@@ -21,6 +21,8 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
     'max-len': ["warn", { "code": 100 }],
     'no-lone-blocks': 0,
     "@typescript-eslint/no-var-requires": 1,
