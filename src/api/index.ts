@@ -67,16 +67,11 @@ export const registerFCMToken = (token: string) =>
   api.post('/api/v1/notifications/register', { token }).then((res) => res.data);
 
 //* Driver api's
-export const getDriverOrders = (data: DriverOrderRequest) =>
-  api
-    .get<DriverOrderResponse>('/api/v1/driver/orders', {
-      // params: {
-      //   page: data?.page ?? 0,
-      //   size: data?.size ?? 10,
-      // },
-    })
-    .then((res) => res.data);
+export const getDriverOrders = (data?: DriverOrderRequest) =>
+  api.get<DriverOrderResponse>('/api/v1/driver/orders').then((res) => res.data);
 
+export const getDriverOrdersFinished = (data?: DriverOrderRequest) =>
+  api.get<DriverOrderResponse>('/api/v1/driver/orders/finished').then((res) => res.data);
 /**
  * Get transportation details by transportation id.
  * @link https://stage-platform.coube.kz/api/swagger-ui/index.html#/driver-controller/getById_1
@@ -102,10 +97,7 @@ export const sendLocation = (data: {
   speed: number;
   heading: number;
   accuracy: number;
-}) =>
-  api
-    .post<{ message: string; }>('/api/v1/driver/location', data)
-    .then((res) => res.data);
+}) => api.post<{ message: string }>('/api/v1/driver/location', data).then((res) => res.data);
 
 /**
  * завершил

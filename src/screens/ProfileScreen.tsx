@@ -30,7 +30,7 @@ export enum NotifictationOption {
 export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
   const { t } = useLocalization();
   const { onLogout, user } = useAuth();
-  
+
   const [loading, setLoading] = useState(false);
   const form = useForm({
     defaultValues: {
@@ -139,7 +139,7 @@ export const ProfileScreen = ({ navigation }: ScreenProps<'profile'>) => {
               <Text
                 type="body_500"
                 fontSize={18}
-                children={`${user?.firstName} ${user?.middleName} ${user?.lastName}`}
+                children={`${user?.firstName || ''} ${user?.middleName || ''} ${user?.lastName || ''}`}
               />
             </Box>
             <ArrowIcon />

@@ -1,6 +1,6 @@
 import { EventBus } from '@trutoo/event-bus';
 
-import { getDriverOrders } from '@src/api';
+import { getDriverOrders, getDriverOrdersFinished } from '@src/api';
 import { OrderDetails } from '@src/api/types';
 import { EventBusEvents } from '@src/events';
 import { handleCatchError } from '@src/utils/handleCatchError';
@@ -38,10 +38,9 @@ class OrdersService extends EventBus {
   };
 
   fetch = async () => {
-    const res = await getDriverOrders({ page: this.next_page, size: this.limit });
-    this.has_more = res?.page?.number < res?.page.totalPages - 1;
-    this.orders = this.next_page === 0 ? res.content : [...this.orders, ...res.content];
-    this.next_page = res?.page?.number + 1;
+    const notFinished = await getDriverOrders();
+    const finished = await getDriverOrdersFinished();
+    this.orders =[...this.orders, ...notFinished.content, ...finished.content];
   };
 
   loadMore = async () => {

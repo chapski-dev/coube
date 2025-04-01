@@ -62,7 +62,9 @@ export const OrderCard: FC<OrderCardPropsTypes> = (props) => {
       </Box>
       {transportationMainInfoResponse.status ===
         TransportationStatusEnum.WAITING_DRIVER_CONFIRMATION && (
-        <MapWithDistance route={transportationCargoInfoResponse.cargoLoadings} />
+          <Box ml={-15}>
+            <MapWithDistance route={transportationCargoInfoResponse.cargoLoadings} />
+          </Box>
       )}
       <Box gap={4}>
         <Text color={colors.textSecondary} children={t('cargo-name')} />

@@ -90,7 +90,7 @@ class GeolocationService {
         return;
       }
     } catch (error) {
-      console.error('messaging listenAppStateChange error', error);
+      console.error('geolocation listenAppStateChange error', error);
     }
   }
 

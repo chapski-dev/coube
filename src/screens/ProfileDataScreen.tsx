@@ -63,7 +63,7 @@ export const ProfileDataScreen = ({ navigation }: ScreenProps<'profile-data'>) =
             <Text
               type="body_500"
               uppercase
-              children={`${user?.firstName} ${user?.middleName} ${user?.lastName}`}
+              children={`${user?.firstName || ''} ${user?.middleName || ''} ${user?.lastName || ''}`}
             />
           </Box>
 

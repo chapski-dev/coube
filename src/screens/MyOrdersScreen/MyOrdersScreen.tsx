@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Dimensions,
-  FlatList,
-  RefreshControl,
-} from 'react-native';
-import EmptyBox from '@assets/svg/empty-box.svg';
+import { Dimensions, FlatList, RefreshControl } from 'react-native';
+import EmptyBoxIcon from '@assets/svg/empty-box.svg';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import { OrderDetails, TransportationStatusEnum } from '@src/api/types';
@@ -26,6 +22,7 @@ export const MyOrdersScreen = () => {
   return (
     <Tabs.Navigator
       screenOptions={{
+        lazy: true,
         tabBarAllowFontScaling: true,
         tabBarIndicatorStyle: { backgroundColor: colors.main },
         tabBarLabelStyle: { fontWeight: '500' },
@@ -35,12 +32,12 @@ export const MyOrdersScreen = () => {
       <Tabs.Screen
         name="active"
         component={Active}
-        options={() => ({ lazy: true, title: t('active') })}
+        options={() => ({ title: t('active') })}
       />
       <Tabs.Screen
         name="сomplited"
         component={Complited}
-        options={{ lazy: true, title: t('completed') }}
+        options={{ title: t('completed') }}
       />
     </Tabs.Navigator>
   );
@@ -54,28 +51,15 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
   const [orders, setOrders] = useState(ordersService.orders);
 
   useEffect(() => {
-    return ordersService.subscribe<boolean>(
-      EventBusEvents.setOrderLoading,
-      ({ payload }) => {
-        typeof payload === 'boolean' && setRefreshing(payload);
-      },
-    ).unsubscribe;
+    return ordersService.subscribe<boolean>(EventBusEvents.setOrderLoading, ({ payload }) => {
+      typeof payload === 'boolean' && setRefreshing(payload);
+    }).unsubscribe;
   }, []);
 
   useEffect(() => {
-    return ordersService.subscribe<OrderDetails[]>(
-      EventBusEvents.getOrders,
-      ({ payload }) => {
-        payload &&
-          setOrders(
-            payload.filter(
-              (el) =>
-                el.transportationMainInfoResponse.status !==
-                TransportationStatusEnum.FINISHED,
-            ),
-          );
-      },
-    ).unsubscribe;
+    return ordersService.subscribe<OrderDetails[]>(EventBusEvents.getOrders, ({ payload }) => {
+      payload && setOrders(payload);
+    }).unsubscribe;
   }, []);
 
   // const [searchOrderLoading, setSearchOrderLoading] = useState(false);
@@ -109,24 +93,21 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
       //     {searchOrderLoading ? <ActivityIndicator /> : <ArrowIcon />}
       //   </Box>
       // )}
-      contentContainerStyle={{ gap: 16, paddingBottom: insets.bottom }}
-      stickyHeaderIndices={[0]}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={ordersService.refresh}
-        />
-      }
+      contentContainerStyle={{ gap: 16, paddingBottom: insets.bottom || 25 }}
+      // stickyHeaderIndices={[0]}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={ordersService.refresh} />}
       ListEmptyComponent={
         <Box justifyContent="center" gap={10} alignItems="center">
-          <EmptyBox color={colors.disabled} width={50} height={50} />
+          <EmptyBoxIcon color={colors.disabled} width={50} height={50} />
           <Box maxWidth={183}>
             <Text center children={t('there-are-currently-no-active-orders')} />
           </Box>
         </Box>
       }
       renderItem={({ item }) => <OrderCard {...item} />}
-      data={orders}
+      data={orders.filter(
+        (el) => el.transportationMainInfoResponse.status !== TransportationStatusEnum.FINISHED
+      )}
       stickyHeaderHiddenOnScroll={false}
       onEndReached={ordersService.loadMore}
     />
@@ -144,54 +125,38 @@ const Complited = ({ navigation }: ScreenProps<'orders'>) => {
   };
   const [refreshing, setRefreshing] = useState(ordersService.loading);
   const [orders, setOrders] = useState(ordersService.orders);
-  
+
   useEffect(() => {
-    return ordersService.subscribe<boolean>(
-      EventBusEvents.setOrderLoading,
-      ({ payload }) => {
-        typeof payload === 'boolean' && setRefreshing(payload);
-      },
-    ).unsubscribe;
+    return ordersService.subscribe<boolean>(EventBusEvents.setOrderLoading, ({ payload }) => {
+      typeof payload === 'boolean' && setRefreshing(payload);
+    }).unsubscribe;
   }, []);
 
   useEffect(() => {
-    return ordersService.subscribe<OrderDetails[]>(
-      EventBusEvents.getOrders,
-      ({ payload }) => {
-        payload &&
-          setOrders(
-            payload.filter(
-              (el) =>
-                el.transportationMainInfoResponse.status ===
-                TransportationStatusEnum.FINISHED,
-            ),
-          );
-      },
-    ).unsubscribe;
+    return ordersService.subscribe<OrderDetails[]>(EventBusEvents.getOrders, ({ payload }) => {
+      payload && setOrders(payload);
+    }).unsubscribe;
   }, []);
 
-  const { colors } = useAppTheme();
+  const { colors, insets } = useAppTheme();
   const { t } = useLocalization();
 
   return (
     <FlatList
-      contentContainerStyle={{ gap: 16 }}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
+    contentContainerStyle={{ gap: 16, paddingBottom: insets.bottom }}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       renderItem={({ item }) => <OrderCard {...item} />}
       ListEmptyComponent={
         <Box pt={20} justifyContent="center" gap={10} alignItems="center">
-          <EmptyBox color={colors.disabled} width={50} height={50} />
+          <EmptyBoxIcon color={colors.disabled} width={50} height={50} />
           <Box maxWidth={183}>
-            <Text
-              center
-              children={t('there-are-currently-no-complited-orders')}
-            />
+            <Text center children={t('there-are-currently-no-complited-orders')} />
           </Box>
         </Box>
       }
-      data={orders}
+      data={orders.filter(
+        (el) => el.transportationMainInfoResponse.status === TransportationStatusEnum.FINISHED
+      )}
     />
   );
 };
