@@ -22,8 +22,8 @@ const navigationLift = () => {
   app.isNavigationReady = AppServiceStatus.on;
 };
 
-YaMap.init('a7197a4a-f4bc-483a-95a9-126e75d9cca0');
-Geocoder.init('26639460-f89c-46f7-a868-30f6ea56e263');
+YaMap.init('75fa36de-698d-4673-add7-359845159f49');
+Geocoder.init('e15f9e9e-9e7f-49bf-88ff-4e98db8416be');
 
 function App(): React.JSX.Element {
   const { theme } = useAppColorTheme();
