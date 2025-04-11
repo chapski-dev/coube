@@ -26,7 +26,7 @@ export const handleCatchError = (e: AxiosError | unknown | Error | string, where
       position: ToastPosition.TOP
     });
   }
-  console.error(`${where}${e}`);
+  console.error(`${where} - ${e}`);
   console.error(errorText);
   return errorText;
 };
