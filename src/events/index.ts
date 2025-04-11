@@ -19,5 +19,6 @@ export enum EventBusEvents {
   getNotificationSections = 'getNotificationSections',
   setNotificationLoading = 'setNotificationLoading',
   setOrderLoading = 'setOrderLoading',
-  getOrders = 'getOrders'
+  getOrders = 'getOrders',
+  getComplitedOrders = 'getComplitedOrders'
 }

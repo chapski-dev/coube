@@ -22,18 +22,7 @@ export const OrderCard: FC<OrderCardPropsTypes> = (props) => {
 
   const { t } = useLocalization();
   const { colors } = useAppTheme();
-
-  // const goToOrderScreen = () => geolocationService.start()
-  // const goToOrderScreen = () => geolocationService.stop()
-  // const goToOrderScreen = () => getOrderDetailById(12).then(res => console.log(res))
-  // const goToOrderScreen = () => BackgroundGeolocation.getLog().then(log => {
-  //   console.log('[Логи]', log);
-  // });
-  // const goToOrderScreen = () =>console.log('[Логи]', BackgroundGeolocation.logger.getLog());
-  // const goToOrderScreen = () =>console.log('[Логи]', BackgroundGeolocation.logger.getLog());
   const goToOrderScreen = () => navigation.navigate('order-screen', props);
-
-    // navigation.navigate('order-screen', props);
 
   const openTransportationDetails = async () =>
     navigation.navigate('transportation-details', props);

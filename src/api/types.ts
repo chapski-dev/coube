@@ -66,6 +66,14 @@ export type OrderDetails = {
   hasAlreadyApplied: boolean;
 };
 
+export type ComplitedOrderDetails = {
+  cargoName: string;
+  dateBegin: string //'2025-03-09';
+  dateEnd: string //'2025-04-02';
+  id: number;
+  number: string;
+};
+
 export interface TransportationMainInfoResponse {
   status: TransportationStatusEnum;
   id: number;
@@ -137,7 +145,7 @@ export enum TransportationStatusEnum {
   ON_THE_WAY = 'ON_THE_WAY',
   /** Рейс завершен */
   FINISHED = 'FINISHED',
-  ACCEPTED = 'ACCEPTED',
+  ACCEPTED = 'ACCEPTED'
 }
 export type CustomerEmployee = {
   id: number;

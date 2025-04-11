@@ -244,7 +244,7 @@ export const TransportationDetailsScreen = ({
           <TransportationRoute transportation_route={cargoInfo.cargoLoadings} />
         </Accordion>
 
-        <Accordion label={t('additional-info')}>
+        {/* <Accordion label={t('additional-info')}>
           <Box>
             <Text type="body_500" children={t('porter-service')} />
             <Box>
@@ -255,8 +255,8 @@ export const TransportationDetailsScreen = ({
               <Text type="body_500" children={2} />
             </Box>
           </Box>
-        </Accordion>
-        <Accordion label={t('documents')}>
+        </Accordion> */}
+        {/* <Accordion label={t('documents')}>
           <Box row gap={10}>
             <Image source={require('@assets/png/pdf-file.png')} />
             <Box>
@@ -268,7 +268,7 @@ export const TransportationDetailsScreen = ({
               />
             </Box>
           </Box>
-        </Accordion>
+        </Accordion> */}
 
         <AcceptOrDeclineOrderButtons {...order} />
         {/* {mainInfo.status === TransportationStatusEnum.WAITING_DRIVER_CONFIRMATION && (

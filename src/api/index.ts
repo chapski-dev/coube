@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import api from './config';
 import {
+  ComplitedOrderDetails,
   DriverOrderAcceptOrDecline,
   DriverOrderRequest,
   DriverOrderResponse,
@@ -71,7 +72,7 @@ export const getDriverOrders = (data?: DriverOrderRequest) =>
   api.get<DriverOrderResponse>('/api/v1/driver/orders').then((res) => res.data);
 
 export const getDriverOrdersFinished = (data?: DriverOrderRequest) =>
-  api.get<DriverOrderResponse>('/api/v1/driver/orders/finished').then((res) => res.data);
+  api.get<ComplitedOrderDetails[]>('/api/v1/driver/orders/finished').then((res) => res.data);
 /**
  * Get transportation details by transportation id.
  * @link https://stage-platform.coube.kz/api/swagger-ui/index.html#/driver-controller/getById_1

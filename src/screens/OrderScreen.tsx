@@ -1,14 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Image } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import RhombusArrowIcon from '@assets/svg/arrow-in-a-rhombus.svg';
 import Circle from '@assets/svg/circle.svg';
 
-import {
-  arrivalDriverOrder,
-  departureDriverOrder,
-  startDriverOrder,
-} from '@src/api';
+import { arrivalDriverOrder, departureDriverOrder, startDriverOrder } from '@src/api';
 import { OrderDetails, TransportationStatusEnum } from '@src/api/types';
 import MapWithDistance from '@src/components/MapWithDistance';
 import SosModal from '@src/components/SosModal';
@@ -30,19 +25,15 @@ import { openYandexMaps } from '@src/utils/yandex-maps';
 
 import { OrderStatusLabel } from './MyOrdersScreen/components/OrderStatusLabel';
 
-export const OrderScreen = ({
-  navigation,
-  route,
-}: ScreenProps<'order-screen'>) => {
+export const OrderScreen = ({ navigation, route }: ScreenProps<'order-screen'>) => {
   const { colors, insets } = useAppTheme();
   const { t } = useLocalization();
 
   const [order, setOrder] = useState<OrderDetails | undefined>(() =>
     ordersService.orders.find(
       (el) =>
-        el.transportationMainInfoResponse.id ===
-        route.params.transportationMainInfoResponse.id,
-    ),
+        el.transportationMainInfoResponse.id === route.params.transportationMainInfoResponse.id
+    )
   );
 
   useEffect(() => {
@@ -51,11 +42,10 @@ export const OrderScreen = ({
       ({ payload }) => {
         const currentOrder = payload?.find(
           (el) =>
-            el.transportationMainInfoResponse.id ===
-            route.params.transportationMainInfoResponse.id,
+            el.transportationMainInfoResponse.id === route.params.transportationMainInfoResponse.id
         );
         setOrder(currentOrder);
-      },
+      }
     );
 
     return () => unsubscribe.unsubscribe();
@@ -64,15 +54,12 @@ export const OrderScreen = ({
   const btnText = useMemo(() => {
     if (!order) return '';
 
-    if (
-      order.transportationMainInfoResponse.status !==
-      TransportationStatusEnum.ON_THE_WAY
-    ) {
+    if (order.transportationMainInfoResponse.status !== TransportationStatusEnum.ON_THE_WAY) {
       return t('start_trip');
     }
 
     const atLocation = order.transportationCargoInfoResponse.cargoLoadings.find(
-      (el) => el.isDriverAtLocation,
+      (el) => el.isDriverAtLocation
     );
     console.log('--->', order.transportationCargoInfoResponse.cargoLoadings);
 
@@ -86,10 +73,9 @@ export const OrderScreen = ({
       return t('complete_unloading');
     }
 
-    const activeLoading =
-      order.transportationCargoInfoResponse.cargoLoadings.find(
-        (el) => el.isActive,
-      );
+    const activeLoading = order.transportationCargoInfoResponse.cargoLoadings.find(
+      (el) => el.isActive
+    );
 
     if (activeLoading?.loadingType.code === 'LOADING') {
       return t('arrived_to_unloading');
@@ -104,34 +90,24 @@ export const OrderScreen = ({
 
   const [loading, setLoading] = useState(false);
 
-  const orderIsActive =
-    order?.transportationCargoInfoResponse.cargoLoadings.find(
-      (el) => el.isActive,
-    );
+  const orderIsActive = order?.transportationCargoInfoResponse.cargoLoadings.find(
+    (el) => el.isActive
+  );
 
-  
   const handleSubmit = async () => {
     if (!order) return;
 
     try {
       setLoading(true);
-      const {
-        transportationMainInfoResponse,
-        transportationCargoInfoResponse,
-      } = order;
-      const activeLoading = transportationCargoInfoResponse.cargoLoadings.find(
-        (el) => el.isActive,
-      );
+      const { transportationMainInfoResponse, transportationCargoInfoResponse } = order;
+      const activeLoading = transportationCargoInfoResponse.cargoLoadings.find((el) => el.isActive);
       const atLocation = transportationCargoInfoResponse.cargoLoadings.find(
-        (el) => el.isDriverAtLocation,
+        (el) => el.isDriverAtLocation
       );
 
       let apiCall;
 
-      if (
-        transportationMainInfoResponse.status !==
-        TransportationStatusEnum.ON_THE_WAY
-      ) {
+      if (transportationMainInfoResponse.status !== TransportationStatusEnum.ON_THE_WAY) {
         // Начало поездки
         apiCall = startDriverOrder(transportationMainInfoResponse.id);
       } else if (atLocation) {
@@ -140,7 +116,7 @@ export const OrderScreen = ({
         apiCall = departureDriverOrder({
           cargoLoadingId: orderIsActive?.id,
           point: currentPoint,
-          transportationId: transportationMainInfoResponse.id,
+          transportationId: transportationMainInfoResponse.id
         });
       } else if (activeLoading) {
         // Прибытие на точку
@@ -149,7 +125,7 @@ export const OrderScreen = ({
         apiCall = arrivalDriverOrder({
           cargoLoadingId: orderIsActive?.id,
           point: currentPoint,
-          transportationId: transportationMainInfoResponse.id,
+          transportationId: transportationMainInfoResponse.id
         });
       } else {
         throw new Error(t('errors.unknown_error'));
@@ -159,13 +135,12 @@ export const OrderScreen = ({
       ordersService.updateOrder(updatedOrder);
 
       if (
-        updatedOrder.transportationMainInfoResponse.status ===
-        TransportationStatusEnum.FINISHED
+        updatedOrder.transportationMainInfoResponse.status === TransportationStatusEnum.FINISHED
       ) {
         // geolocationService.stopTracking()
         navigation.replace('order-action-success', {
           action: 'complite',
-          order_number: updatedOrder.transportationMainInfoResponse.id,
+          order_number: updatedOrder.transportationMainInfoResponse.id
         });
       }
     } catch (error) {
@@ -197,7 +172,7 @@ export const OrderScreen = ({
       modal().setupModal?.({
         element: Element,
         justifyContent: 'center',
-        marginHorizontal: 20,
+        marginHorizontal: 20
       });
     } catch (error) {
       handleCatchError(error);
@@ -206,10 +181,9 @@ export const OrderScreen = ({
     }
   };
 
-  const orderAtLocation =
-    order?.transportationCargoInfoResponse.cargoLoadings.find(
-      (el) => el.isDriverAtLocation,
-    );
+  const orderAtLocation = order?.transportationCargoInfoResponse.cargoLoadings.find(
+    (el) => el.isDriverAtLocation
+  );
   const renderContent = () => {
     if (!order) return null;
 
@@ -221,9 +195,7 @@ export const OrderScreen = ({
             <Text
               type="body_500"
               fontSize={18}
-              children={t(
-                `order_status.${orderAtLocation.loadingType.code.toLowerCase()}`,
-              )}
+              children={t(`order_status.${orderAtLocation.loadingType.code.toLowerCase()}`)}
             />
           </Box>
           <Box>
@@ -248,10 +220,7 @@ export const OrderScreen = ({
           </Box>
           <Box>
             <Text children={t('loading-method')} />
-            <Text
-              type="body_500"
-              children={orderAtLocation.loadingMethod.nameRu}
-            />
+            <Text type="body_500" children={orderAtLocation.loadingMethod.nameRu} />
           </Box>
           <Box row gap={8}>
             <Box flex={1}>
@@ -299,16 +268,10 @@ export const OrderScreen = ({
       <Box p={12} row w="full" justifyContent="space-between">
         <Box row gap={10}>
           <Text children="№" />
-          <Text
-            children={order.transportationMainInfoResponse.id}
-            fontWeight={700}
-            color="black"
-          />
+          <Text children={order.transportationMainInfoResponse.id} fontWeight={700} color="black" />
         </Box>
         <Box>
-          <OrderStatusLabel
-            status={order.transportationMainInfoResponse.status}
-          />
+          <OrderStatusLabel status={order.transportationMainInfoResponse.status} />
         </Box>
       </Box>
       {!orderAtLocation && (
@@ -328,10 +291,7 @@ export const OrderScreen = ({
             borderColor={colors.disabled}
             backgroundColor={colors.main_light}
           >
-            <Text
-              children="Следующая точка вашего маршрута:"
-              fontWeight="500"
-            />
+            <Text children="Следующая точка вашего маршрута:" fontWeight="500" />
             <Text
               children={`${orderIsActive?.address}, ${dateFormat('DD.MM.yyyy HH:mm', orderIsActive?.loadingDateTime)} `}
             />
@@ -342,60 +302,44 @@ export const OrderScreen = ({
         contentContainerStyle={{
           gap: 5,
           paddingBottom: insets.bottom || 15,
-          paddingTop: 10,
+          paddingTop: 10
         }}
       >
-        <Box p={12} gap={12}>
+        <Box p={12} px={16} gap={12}>
           {renderContent()}
           <Accordion label={t('cargo-information')} open>
             <Box py={10} gap={10}>
               <Box gap={2}>
                 <Text color={colors.textSecondary} children={t('cargo-name')} />
-                <Text
-                  type="body_500"
-                  children={order.transportationMainInfoResponse.cargoName}
-                />
+                <Text type="body_500" children={order.transportationMainInfoResponse.cargoName} />
               </Box>
 
               <Box gap={2}>
                 <Text color={colors.textSecondary} children={t('cargo-type')} />
                 <Text
                   type="body_500"
-                  children={
-                    order.transportationMainInfoResponse.cargoType.nameRu
-                  }
+                  children={order.transportationMainInfoResponse.cargoType.nameRu}
                 />
               </Box>
 
               <Box gap={2}>
-                <Text
-                  color={colors.textSecondary}
-                  children={t('loading-container-type')}
-                />
+                <Text color={colors.textSecondary} children={t('loading-container-type')} />
                 <Text
                   type="body_500"
-                  children={
-                    order.transportationMainInfoResponse.tareType.nameRu
-                  }
+                  children={order.transportationMainInfoResponse.tareType.nameRu}
                 />
               </Box>
 
               <Box row gap={16}>
                 <Box gap={2}>
-                  <Text
-                    color={colors.textSecondary}
-                    children={t('cargo-weight-brutto')}
-                  />
+                  <Text color={colors.textSecondary} children={t('cargo-weight-brutto')} />
                   <Text
                     type="body_500"
                     children={`${order.transportationMainInfoResponse.cargoWeight} ${order.transportationMainInfoResponse?.cargoWeightUnit?.nameRu}`}
                   />
                 </Box>
                 <Box gap={2}>
-                  <Text
-                    color={colors.textSecondary}
-                    children={t('cargo-volume-brutto')}
-                  />
+                  <Text color={colors.textSecondary} children={t('cargo-volume-brutto')} />
                   <Text
                     type="body_500"
                     children={order.transportationMainInfoResponse.cargoVolume}
@@ -404,10 +348,7 @@ export const OrderScreen = ({
               </Box>
 
               <Box gap={2}>
-                <Text
-                  color={colors.textSecondary}
-                  children={t('additional-cargo-info')}
-                />
+                <Text color={colors.textSecondary} children={t('additional-cargo-info')} />
                 <Text
                   type="body_500"
                   children={order.transportationMainInfoResponse.additionalInfo}
@@ -418,13 +359,11 @@ export const OrderScreen = ({
 
           <Accordion label={t('route')}>
             <TransportationRoute
-              transportation_route={
-                order.transportationCargoInfoResponse.cargoLoadings
-              }
+              transportation_route={order.transportationCargoInfoResponse.cargoLoadings}
             />
           </Accordion>
 
-          <Accordion label={t('additional-info')}>
+          {/* <Accordion label={t('additional-info')}>
             <Box>
               <Text type="body_500" children={t('porter-service')} />
               <Box>
@@ -435,20 +374,16 @@ export const OrderScreen = ({
                 <Text type="body_500" children={2} />
               </Box>
             </Box>
-          </Accordion>
-          <Accordion label={t('documents')}>
+          </Accordion> */}
+          {/* <Accordion label={t('documents')}>
             <Box row gap={10}>
               <Image source={require('@assets/png/pdf-file.png')} />
               <Box>
                 <Text type="body_500" children={t('waybill')} />
-                <Text
-                  type="body_500"
-                  children={t('documents')}
-                  fontWeight={400}
-                />
+                <Text type="body_500" children={t('documents')} fontWeight={400} />
               </Box>
             </Box>
-          </Accordion>
+          </Accordion> */}
           <Box py={23} alignItems="center">
             <SwipeButton onSwipe={handleSwipeSos} loading={loadingSos} />
           </Box>
@@ -457,7 +392,7 @@ export const OrderScreen = ({
       <Box
         w="full"
         py={12}
-        pb={insets.bottom}
+        pb={insets.bottom || 16}
         px={16}
         gap={16}
         borderColor={colors.border}
@@ -470,6 +405,7 @@ export const OrderScreen = ({
           placeholder={btnText}
           activeBtnColor={colors.main}
           backgroundColor={colors.main_light}
+          btnTextStyle={{ fontSize: 25, fontWeight: '900' }}
         />
 
         <Button

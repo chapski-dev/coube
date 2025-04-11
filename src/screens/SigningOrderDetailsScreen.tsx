@@ -252,7 +252,7 @@ export const SigningOrderDetailsScreen = () => {
         <TransportationRoute transportation_route={transportation_route} />
       </Accordion>
 
-      <Accordion label={t('additional-info')}>
+      {/* <Accordion label={t('additional-info')}>
         <Box>
           <Text type="body_500" children={t('porter-service')} />
           <Box>
@@ -263,9 +263,9 @@ export const SigningOrderDetailsScreen = () => {
             <Text type="body_500" children={moving_service} />
           </Box>
         </Box>
-      </Accordion>
+      </Accordion> */}
 
-      <Accordion label={t('documents')}>
+      {/* <Accordion label={t('documents')}>
         <Box row gap={10}>
           <Image source={require('@assets/png/pdf-file.png')} />
           <Box>
@@ -273,7 +273,7 @@ export const SigningOrderDetailsScreen = () => {
             <Text type="body_500" children={documents} fontWeight={400} />
           </Box>
         </Box>
-      </Accordion>
+      </Accordion> */}
 
       <Box p={10} gap={10}>
         <Button children={t('sign-a-contract')} backgroundColor="green" />

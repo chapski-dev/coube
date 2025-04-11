@@ -3,7 +3,11 @@ import { Dimensions, FlatList, RefreshControl } from 'react-native';
 import EmptyBoxIcon from '@assets/svg/empty-box.svg';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import { OrderDetails, TransportationStatusEnum } from '@src/api/types';
+import {
+  ComplitedOrderDetails,
+  OrderDetails,
+  TransportationStatusEnum,
+} from '@src/api/types';
 import { EventBusEvents } from '@src/events';
 import { ScreenProps } from '@src/navigation/types';
 import ordersService from '@src/service/orders';
@@ -51,15 +55,21 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
   const [orders, setOrders] = useState(ordersService.orders);
 
   useEffect(() => {
-    return ordersService.subscribe<boolean>(EventBusEvents.setOrderLoading, ({ payload }) => {
-      typeof payload === 'boolean' && setRefreshing(payload);
-    }).unsubscribe;
+    return ordersService.subscribe<boolean>(
+      EventBusEvents.setOrderLoading,
+      ({ payload }) => {
+        typeof payload === 'boolean' && setRefreshing(payload);
+      },
+    ).unsubscribe;
   }, []);
 
   useEffect(() => {
-    return ordersService.subscribe<OrderDetails[]>(EventBusEvents.getOrders, ({ payload }) => {
-      payload && setOrders(payload);
-    }).unsubscribe;
+    return ordersService.subscribe<OrderDetails[]>(
+      EventBusEvents.getOrders,
+      ({ payload }) => {
+        payload && setOrders(payload);
+      },
+    ).unsubscribe;
   }, []);
 
   // const [searchOrderLoading, setSearchOrderLoading] = useState(false);
@@ -95,7 +105,12 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
       // )}
       contentContainerStyle={{ gap: 16, paddingBottom: insets.bottom || 25 }}
       // stickyHeaderIndices={[0]}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={ordersService.refresh} />}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => ordersService.refresh('active')}
+        />
+      }
       ListEmptyComponent={
         <Box justifyContent="center" gap={10} alignItems="center">
           <EmptyBoxIcon color={colors.disabled} width={50} height={50} />
@@ -106,10 +121,12 @@ const Active = ({ navigation }: ScreenProps<'orders'>) => {
       }
       renderItem={({ item }) => <OrderCard {...item} />}
       data={orders.filter(
-        (el) => el.transportationMainInfoResponse.status !== TransportationStatusEnum.FINISHED
+        (el) =>
+          el.transportationMainInfoResponse.status !==
+          TransportationStatusEnum.FINISHED,
       )}
       stickyHeaderHiddenOnScroll={false}
-      onEndReached={ordersService.loadMore}
+      onEndReached={() => ordersService.loadMore('active')}
     />
   );
 };
@@ -124,18 +141,24 @@ const Complited = ({ navigation }: ScreenProps<'orders'>) => {
     }
   };
   const [refreshing, setRefreshing] = useState(ordersService.loading);
-  const [orders, setOrders] = useState(ordersService.orders);
+  const [orders, setOrders] = useState(ordersService.complited_orders);
 
   useEffect(() => {
-    return ordersService.subscribe<boolean>(EventBusEvents.setOrderLoading, ({ payload }) => {
-      typeof payload === 'boolean' && setRefreshing(payload);
-    }).unsubscribe;
+    return ordersService.subscribe<boolean>(
+      EventBusEvents.setOrderLoading,
+      ({ payload }) => {
+        typeof payload === 'boolean' && setRefreshing(payload);
+      },
+    ).unsubscribe;
   }, []);
 
   useEffect(() => {
-    return ordersService.subscribe<OrderDetails[]>(EventBusEvents.getOrders, ({ payload }) => {
-      payload && setOrders(payload);
-    }).unsubscribe;
+    return ordersService.subscribe<ComplitedOrderDetails[]>(
+      EventBusEvents.getComplitedOrders,
+      ({ payload }) => {
+        payload && setOrders(payload);
+      },
+    ).unsubscribe;
   }, []);
 
   const { colors, insets } = useAppTheme();
@@ -143,20 +166,23 @@ const Complited = ({ navigation }: ScreenProps<'orders'>) => {
 
   return (
     <FlatList
-    contentContainerStyle={{ gap: 16, paddingBottom: insets.bottom }}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      contentContainerStyle={{ gap: 16, paddingBottom: insets.bottom }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
       renderItem={({ item }) => <OrderCard {...item} />}
       ListEmptyComponent={
         <Box pt={20} justifyContent="center" gap={10} alignItems="center">
           <EmptyBoxIcon color={colors.disabled} width={50} height={50} />
           <Box maxWidth={183}>
-            <Text center children={t('there-are-currently-no-complited-orders')} />
+            <Text
+              center
+              children={t('there-are-currently-no-complited-orders')}
+            />
           </Box>
         </Box>
       }
-      data={orders.filter(
-        (el) => el.transportationMainInfoResponse.status === TransportationStatusEnum.FINISHED
-      )}
+      data={orders}
     />
   );
 };
