@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, Dimensions, StyleProp, StyleSheet, TextStyle } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { HapticFeedbackTypes } from 'react-native-haptic-feedback';
 import Animated, {
+  AnimatedStyle,
   Extrapolate,
   interpolate,
   interpolateColor,
@@ -15,7 +16,7 @@ import Animated, {
 
 import { vibrate } from '@src/actions/vibrate';
 
-const BUTTON_WIDTH = 350;
+const BUTTON_WIDTH = Dimensions.get('screen').width - 32;
 const BUTTON_HEIGHT = 50;
 const BUTTON_PADDING = 0;
 const SWIPEABLE_DIMENSIONS = BUTTON_HEIGHT - 2 * BUTTON_PADDING;
@@ -30,6 +31,7 @@ type SwipeButtonProps = {
   backgroundColor?: string;
   placeholder?: string;
   text?: string;
+  btnTextStyle?: StyleProp<AnimatedStyle<StyleProp<TextStyle>>>
 };
 const SwipeButton = ({
   onSwipe,
@@ -38,6 +40,7 @@ const SwipeButton = ({
   text = 'SOS',
   placeholder = 'Отправить сигнал SOS →',
   backgroundColor = '#EDEDED',
+  btnTextStyle
 }: SwipeButtonProps) => {
   // Animated value for X translation
   const X = useSharedValue(0);
@@ -156,7 +159,7 @@ const SwipeButton = ({
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Animated.Text children={text} />
+            <Animated.Text children={text} style={btnTextStyle}/>
           )}
         </Animated.View>
         <Animated.Text
@@ -170,14 +173,14 @@ const SwipeButton = ({
 
 const styles = StyleSheet.create({
   colorWave: {
-    borderRadius: 5,
+    borderRadius: 12,
     height: BUTTON_HEIGHT,
     left: 0,
     position: 'absolute',
   },
   swipeCont: {
     alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 12,
     display: 'flex',
     flexDirection: 'row',
     height: BUTTON_HEIGHT,
@@ -192,8 +195,8 @@ const styles = StyleSheet.create({
   },
   swipeable: {
     alignItems: 'center',
-    borderRadius: 5,
-    elevation: 20,
+    borderRadius: 12,
+    elevation: 5,
     height: SWIPEABLE_DIMENSIONS,
     justifyContent: 'center',
     left: BUTTON_PADDING,
