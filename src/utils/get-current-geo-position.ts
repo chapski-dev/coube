@@ -16,8 +16,7 @@ export const getHighAccuracyPosition = async (
 ): Promise<Point> => {
   const defaultOptions = {
     enableHighAccuracy: true,
-    maximumAge: 0,
-    timeout: 15000,
+    timeout: 30000,
     ...options,
   };
 
