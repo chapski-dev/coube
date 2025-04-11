@@ -34,7 +34,6 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
         setDisabled(true);
         await wait(300);
         setLoading(true);
-        // await wait(1000);
         if (action === 'login' && route.params.phone) {
           await onSignin({
             otp: text,
@@ -42,13 +41,13 @@ const OtpVerifyScreen = ({ navigation, route }: ScreenProps<'otp-verify'>) => {
           });
           vibrate(HapticFeedbackTypes.notificationSuccess);
           return;
-        }
-        if (action === 'phone-verify') {
+        } else if (action === 'phone-verify') {
           navigation.replace('settings-profile');
           return;
+        } else {
+          navigation.replace('registration', { step: 'residency' });
+          return;
         }
-        navigation.replace('registration', { step: 'residency' });
-        return;
       }
     } catch (e) {
       handleCatchError(e)
