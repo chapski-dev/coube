@@ -9,10 +9,10 @@ export const onAuthReady = async (status: AppServiceStatus) => {
   if (status === AppServiceStatus.on && !_isReady) {
     _isReady = true
     notifications.refresh()
-    orders.refresh()
+    orders.refresh('all')
   } else if (status === AppServiceStatus.off && _isReady) {
     _isReady = false
     notifications.deleteAll()
-    orders.deleteAll()
+    orders.deleteAll('all')
   }
 }
