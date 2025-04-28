@@ -1,3 +1,41 @@
+# Coube Driver App 🚚
+
+A logistics companion app designed for drivers to manage deliveries efficiently with real-time tracking, route optimization, and seamless communication.
+
+## Features ✨
+
+- **Real-Time Order Tracking** 📍  
+  Monitor active deliveries with live location updates using `react-native-background-geolocation`.
+
+- **Push Notifications** 🔔  
+  Instant updates for new orders, route changes, or urgent alerts via Firebase Messaging and Notifee.
+
+- **Document Management** 📄  
+  Upload and manage delivery proofs (e.g., signatures, photos) with `react-native-image-picker` and WebView integration.
+
+- **Offline Support** 📶  
+  Sync data automatically when back online using background fetch and Async Storage.
+
+- **Multi-Language Support** 🌍  
+  Built-in internationalization with `i18next` for global driver teams.
+
+- **Secure Authentication** 🔒  
+  OTP verification flow via `react-native-otp-entry`.
+
+- **Route Optimization** 🗺️  
+  Integrated mapping (Yamap) and navigation for efficient path planning.
+
+- **Haptic Feedback** 📳  
+  Enhanced UX with tactile responses for critical actions.
+
+## Tech Stack ⚙️
+
+- **Frontend**: React Native (v0.75.4), Zustand (state management)
+- **Navigation**: React Navigation (tabs, stacks, gestures)
+- **APIs**: Axios with retry logic for reliable communication
+- **Styling**: Reanimated, Gesture Handler for smooth animations
+- **Dev Tools**: ESLint, Prettier, Jest, TypeScript
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
