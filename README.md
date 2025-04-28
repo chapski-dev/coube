@@ -1,11 +1,12 @@
 # Coube Driver App 🚚
 
-![6, 9 01_no_alpha](https://github.com/user-attachments/assets/0ed8887b-e89c-498d-8537-84f1688b10b3)
-![Uploadi![6, 9 5_no_alpha](https://github.com/user-attachments/assets/dbbbaf59-a4cf-467d-b9b7-34b1bb9fa3c9)
-![6, 9 4_no_alpha](https://github.com/user-attachments/assets/53baf85a-e37e-4fe3-8190-b5efab6e91c8)
-![6, 9 3_no_alpha](https://github.com/user-attachments/assets/ab02ae23-4631-436b-a76c-8cb0c3c8c396)
-![6, 9 2_no_alpha](https://github.com/user-attachments/assets/d1951787-2ed4-4a3a-aa8f-5519d426fa80)
-ng 6, 9 01_no_alpha.png…]()
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
+  <img src="https://github.com/user-attachments/assets/0ed8887b-e89c-498d-8537-84f1688b10b3" style="height: 300px; width: auto;">
+  <img src="https://github.com/user-attachments/assets/dbbbaf59-a4cf-467d-b9b7-34b1bb9fa3c9" style="height: 300px; width: auto;">
+  <img src="https://github.com/user-attachments/assets/53baf85a-e37e-4fe3-8190-b5efab6e91c8" style="height: 300px; width: auto;">
+  <img src="https://github.com/user-attachments/assets/ab02ae23-4631-436b-a76c-8cb0c3c8c396" style="height: 300px; width: auto;">
+  <img src="https://github.com/user-attachments/assets/d1951787-2ed4-4a3a-aa8f-5519d426fa80" style="height: 300px; width: auto;">
+</div>
 
 A logistics companion app designed for drivers to manage deliveries efficiently with real-time tracking, route optimization, and seamless communication.
 
