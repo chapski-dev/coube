@@ -36,6 +36,7 @@ A logistics companion app designed for drivers to manage deliveries efficiently 
 - **Styling**: Reanimated, Gesture Handler for smooth animations
 - **Dev Tools**: ESLint, Prettier, Jest, TypeScript
 
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
